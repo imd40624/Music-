@@ -433,24 +433,14 @@ async def help(ctx):
     embed = discord.Embed(title=None, description="Help command for yo bot", color=0xff00f6)
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
     embed.add_field(
-        name='music commands', value='t.join\ns.play\ns.pause\ns.resume') 	
-	
-	
-	
-	
-	
+	    name='music commands', value='t.join\nt.play\nt.pause\nt.resume\nt.stop\nt.skip\nt.volume\nt.queue\nt.leave') 	
+    embed.add_field(
+	    name='tool commands', value='t.info\nt.serverinfo\nt.avatar\nt.clear\nt.mute\nt.unmute\nt.ban\nt.kick')
+    embed.add_field(
+	    name='fun commands', value='t.dice\nt.joined\nt.guildicon\nt.guildid\nt.guildcount\nt.get_id\nt.repeat\nt.ping\nt.onlne\nt.offline\nt.invite')   
+
     embed.add_field(name='Command Prefix', value='**t.**', inline=True)
-    embed.add_field(name='join', value='.join', inline=True)
-    embed.add_field(name='play', value='Play a URL or search for a track.', inline=True)
-    embed.add_field(name='queue', value='List the queue.', inline=True)
-    embed.add_field(name='resume', value='Pause and resume.', inline=True)     
     embed.add_field(name='invite', value='Bot invite', inline=True)
-    embed.add_field(name='pause', value='Pause and resume.', inline=True)
-    embed.add_field(name='volume', value='Set the volume, 1% - 150%.', inline=True)
-    embed.add_field(name='skip', value='Skip to the next track.', inline=True)
-    embed.add_field(name='stop', value='Stop playback and clear the queue.', inline=True)
-    embed.add_field(name='leave', value='Disconnect from the voice channel.', inline=True)
-    embed.add_field(name='ping', value='.ping', inline=True)	  
     embed.add_field(name='info', value='Show information about a user.', inline=True)	  
     embed.add_field(name='serverinfo', value='Show server information.', inline=True)	  
     embed.add_field(name='avatar', value='show user avatar', inline=True)  
