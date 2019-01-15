@@ -436,9 +436,8 @@ async def help(ctx):
 	    name='music commands', value='t.join\nt.play\nt.pause\nt.resume\nt.stop\nt.skip\nt.volume\nt.queue\nt.leave') 	
     embed.add_field(
 	    name='tool commands', value='t.info\nt.serverinfo\nt.avatar\nt.clear\nt.mute\nt.unmute\nt.ban\nt.kick')
-    embed.add_field(
-	    name='fun commands', value='t.dice\nt.joined\nt.guildicon\nt.guildid\nt.guildcount\nt.get_id\nt.repeat\nt.ping\nt.onlne\nt.offline\nt.invite')   
-
+	
+    embed.add_field( name='fun commands', value='t.dice\nt.joined\nt.guildicon\nt.guildid\nt.guildcount\nt.get_id\nt.repeat\nt.ping\nt.onlne\nt.offline\nt.invite', inline=True)   
     embed.add_field(name='Command Prefix', value='**t.**', inline=True)
     embed.add_field(name='invite', value='Bot invite', inline=True)
     embed.add_field(name='info', value='Show information about a user.', inline=True)	  
