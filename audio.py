@@ -12,7 +12,7 @@ import requests as rq
 import random
 
 
-bot=commands.Bot(command_prefix='.')
+bot=commands.Bot(command_prefix='t.')
 bot.remove_command('help')
 
 from discord import opus
@@ -64,7 +64,7 @@ async def checking_voice(ctx):
 @bot.event
 async def on_ready():
    bot.loop.create_task(all_false())
-   await bot.change_presence(game=discord.Game(name='Test2'))
+   await bot.change_presence(game=discord.Game(name='Test'))
    print(bot.user.name)
     
 @bot.command(pass_context=True)
@@ -136,19 +136,19 @@ async def queue(con):
 async def pause(ctx):
     id = ctx.message.server.id
     players[id].pause()
-    await bot.say("PAUSE")
+    await bot.say("**PAUSE**")
     
 @bot.command(pass_context=True)
 async def resume(ctx):
     players[ctx.message.server.id].resume()
-    await bot.say("RESUME")
+    await bot.say("**RESUME**")
     
     
 @bot.command(pass_context=True)
 async def volume(ctx, vol:float):
     volu = float(vol)
     players[ctx.message.server.id].volume=volu
-    await bot.say("VOLUME")
+    
 
 @bot.command(pass_context=True)
 async def skip(con): #skipping songs?
@@ -160,7 +160,7 @@ async def skip(con): #skipping songs?
 async def stop(con):
     players[con.message.server.id].stop()
     songs.clear()
-    await bot.say("STOP")
+    await bot.say("**STOP**")
     
     
 @bot.command(pass_context=True)
@@ -171,7 +171,7 @@ async def leave(ctx):
     voice_client=bot.voice_client_in(server)
     await voice_client.disconnect()
     songs.clear()
-    await bot.say("DISCONNECT")
+    await bot.say("**DISCONNECT**")
     
     
     
@@ -430,10 +430,16 @@ async def on_member_join(member):
 
 @bot.command(pass_context=True)
 async def help(ctx):
-    embed = discord.Embed(title=None, description="Help command for yo bot", color=0x00ff00)
+    embed = discord.Embed(title=None, description="Help command for yo bot", color=0xff00f6)
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
-    embed.add_field(name='Command Prefix', value='**.**', inline=True)
-    embed.set_thumbnail(url='https://cdn.discordapp.com/avatars/501659280680681472/5a564024b1095fef0caf7529f79439d4.webp?size=1024')
+    embed.add_field(
+        name='music commands', value='t.join\ns.play\ns.pause\ns.resume') 	
+	
+	
+	
+	
+	
+    embed.add_field(name='Command Prefix', value='**t.**', inline=True)
     embed.add_field(name='join', value='.join', inline=True)
     embed.add_field(name='play', value='Play a URL or search for a track.', inline=True)
     embed.add_field(name='queue', value='List the queue.', inline=True)
@@ -513,16 +519,7 @@ async def fun(con):
 	
 
 
-@bot.event
-async def on_message_delete(message):
-    fmt = '{0.author.name} has deleted the message:\n{0.content}'
-    await bot.send_message(message.channel, fmt.format(message))	
-	
-@bot.event
-async def on_message_edit(before, after):
-    fmt = '**{0.author}** edited their message:\n{1.content}'
-    await bot.send_message(after.channel, fmt.format(after, before))
-	
+
 	
     
 @bot.command(pass_context=True)
