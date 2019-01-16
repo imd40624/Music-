@@ -612,7 +612,7 @@ class Fun:
 @bot.event
 async def on_member_join(member):
     channel = get(member.server.channels, name="welcome")
-    embed = discord.Embed(title='Yo, welcome!', description=welcomemsg_gangsta, colour=0x7ED6DE)
+    embed = discord.Embed(title='Yo, welcome!', description="welcome", colour=0x7ED6DE)
    
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
