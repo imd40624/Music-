@@ -617,9 +617,10 @@ class Fun:
 #on user join event
 @bot.event
 async def on_member_join(member):
- if joinmsgs == True:
-   channelp = discord.Object(id=say_channel)
-   await bot.send_typing(channelp)
+ if joinmsgs == False:
+   
+   channel = get(member.server.channels, name="welcome")
+   await bot.send_typing(welcome)
    welcomemsg = '{0.mention}, welcome to the Chillspot! Be sure to have fun!'.format(member)
    welcomemsg_gangsta = 'Yo {0.mention}, welcome ta tha Chillspot son! Be shizzle ta have fun!'.format(member)
    if today == tom_foolery:
