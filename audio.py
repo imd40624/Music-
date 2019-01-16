@@ -620,7 +620,7 @@ async def on_member_join(member):
  
    
    channel = get(member.server.channels, name="welcome")
-   await bot.send_typing(welcome)
+   await bot.send_typing(channelp)
    welcomemsg = '{0.mention}, welcome to the Chillspot! Be sure to have fun!'.format(member)
    welcomemsg_gangsta = 'Yo {0.mention}, welcome ta tha Chillspot son! Be shizzle ta have fun!'.format(member)
    if today == tom_foolery:
