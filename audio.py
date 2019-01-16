@@ -611,6 +611,39 @@ class Fun:
         else:
             await self.bot.say("That doesn't look like a question.")
 
+	
+	
+	
+	
+	
+
+#on user join event
+@bot.event
+async def on_member_join(member):
+ if joinmsgs == True:
+   channelp = discord.Object(id=say_channel)
+   await bot.send_typing(channelp)
+   welcomemsg = '{0.mention}, welcome to the Chillspot! Be sure to have fun!'.format(member)
+   welcomemsg_gangsta = 'Yo {0.mention}, welcome ta tha Chillspot son! Be shizzle ta have fun!'.format(member)
+   if today == tom_foolery:
+         em = discord.Embed(title='Yo, welcome!', description=welcomemsg_gangsta, colour=0x7ED6DE)
+   else:
+         em = discord.Embed(title='Welcome!', description=welcomemsg, colour=0x7ED6DE)
+   em.set_author(name=member.name, icon_url=member.avatar_url)
+   await bot.send_message(channelp, embed=em)
+   await bot.send_file(channelp, 'welcomebanner.png')
+ if logging == True:
+   channel = discord.Object(id=logging_channel_joins_leaves)
+   welcomemsgdebug = '{0.name} joined the server.'.format(member)
+   msgtime = strftime("%d/%m/%Y [%I:%M:%S %p] (%Z)", localtime())
+   usermsg = "{0} <{1}> | {2}".format(member, member.id, msgtime).replace("'", "")
+   em = discord.Embed(title='Member Joined', description=welcomemsgdebug, colour=0x7ED6DE)
+   em.set_author(name=usermsg, icon_url=member.avatar_url)
+   await bot.send_message(channel, embed=em)
+   logger.debug(welcomemsgdebug)
+   logger3.debug(welcomemsgdebug)
+
+
 
 
 
