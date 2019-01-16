@@ -619,7 +619,7 @@ async def on_member_join(member):
     embed.add_field(name="Joined", value=member.joined_at)
     embed.set_thumbnail(url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
-    await bot.send_file(channel, 'welcomebanner.png')
+    await bot.send_file(channel, 'giphy.gif')
 	
 @bot.event
 async def on_member_remove(member):
