@@ -612,7 +612,7 @@ class Fun:
 @bot.event
 async def on_member_join(member):
     channel = get(member.server.channels, name="welcome")
-    embed = discord.Embed(title='**New Member Join**', description="{0.mention}, welcome to the Chillspot! Be sure to have fun!'.format(member)", colour=0x7ED6DE)
+    embed = discord.Embed(title='**New Member Join**', description="welcome to the Chillspot! Be sure to have fun!🎉🎊", colour=0x7ED6DE)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     embed.add_field(name="Name", value=member.name, inline=True)
     embed.add_field(name="ID", value=member.id, inline=True)
@@ -621,12 +621,14 @@ async def on_member_join(member):
     await bot.send_message(channel, embed=embed)
 	
 	
-	
-	
-	
-	
-
-
+@bot.event
+async def on_member_remove(member):
+    channel = get(member.server.channels, name="welcome")
+    embed = discord.Embed(title='**Member Left**', description="goodbye😞 ", colour=0xff00f6)
+    embed.set_author(name=member.name, icon_url=member.avatar_url)
+    embed.add_field(name="ID", value=member.id, inline=True)
+    embed.set_thumbnail(url=member.avatar_url)
+    await bot.send_message(channel, embed=embed)
 
 
 
