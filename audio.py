@@ -617,7 +617,7 @@ class Fun:
 #on user join event
 @bot.event
 async def on_member_join(member):
- if joinmsgs == False:
+ 
    
    channel = get(member.server.channels, name="welcome")
    await bot.send_typing(welcome)
@@ -630,7 +630,7 @@ async def on_member_join(member):
    em.set_author(name=member.name, icon_url=member.avatar_url)
    await bot.send_message(channelp, embed=em)
    await bot.send_file(channelp, 'welcomebanner.png')
- if logging == True:
+ 
    channel = discord.Object(id=logging_channel_joins_leaves)
    welcomemsgdebug = '{0.name} joined the server.'.format(member)
    msgtime = strftime("%d/%m/%Y [%I:%M:%S %p] (%Z)", localtime())
