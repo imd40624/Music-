@@ -617,9 +617,10 @@ async def on_member_join(member):
     embed.add_field(name="Name", value=member.name, inline=True)
     embed.add_field(name="ID", value=member.id, inline=True)
     embed.add_field(name="Joined", value=member.joined_at)
+    embed.add_field(name="Member Count", value=len(ctx.message.server.members))
     embed.set_thumbnail(url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
-    await bot.send_file(channel, 'giphy.gif')
+    await bot.send_file(channel, '_Sans-Simple-Red.gif')
 	
 @bot.event
 async def on_member_remove(member):
@@ -627,6 +628,7 @@ async def on_member_remove(member):
     embed = discord.Embed(title='**Member Left**', description="goodbye😞 ", colour=0xff00f6)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     embed.add_field(name="ID", value=member.id, inline=True)
+    embed.add_field(name="Members", value=len(ctx.message.server.members))
     embed.set_thumbnail(url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
 
