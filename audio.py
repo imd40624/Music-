@@ -617,7 +617,7 @@ async def on_member_join(member):
     embed.add_field(name="Name", value=member.name, inline=True)
     embed.add_field(name="ID", value=member.id, inline=True)
     embed.add_field(name="Joined", value=member.joined_at)
-    embed.add_field(name="Member Count", value=len(ctx.message.server.members))
+    embed.add_field(name="Member Count", value=len(message.server.members))
     embed.set_thumbnail(url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
     await bot.send_file(channel, '_Sans-Simple-Red.gif')
