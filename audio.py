@@ -645,23 +645,7 @@ async def on_member_remove(member):
     embed.set_thumbnail(url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
 
-@bot.event
-async def on_message_edit(before, after):
-    channel = bot.messages.channel
 
-    lol = get(member.server.channels, name="logs")
-    embed = discord.Embed(title='Edited Message', description="A message by **{0.author}**, was edited", colour=0xff00f6)
-    embed.set_author(name=member.name, icon_url=member.avatar_url)
-    embed.add_field(name="Before Message:", value=bot.messages.before, inline=True)
-    embed.add_field(name="After Message:", value=bot.messages.after, inline=True)
-    await bot.send_message(lol, embed=embed)
-
-@bot.event
-async def on_message_delete(message):
-    channel = get(bot.messages.channels, name="logs")
-    embed = discord.Embed(title='Message delete', description="{0.author.name} has deleted the message:\n{0.content}", colour=0xff00f6)
-    embed.set_author(name=member.name, icon_url=member.avatar_url)
-    await bot.send_message(channel, embed=embed)
         
 	
 	
