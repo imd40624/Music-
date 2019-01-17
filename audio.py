@@ -141,7 +141,7 @@ async def pause(ctx):
 @bot.command(pass_context=True)
 async def resume(ctx):
     players[ctx.message.server.id].resume()
-    await bot.say("**RESUME**")
+    await bot.say("**⏹RESUME**")
     
     
 @bot.command(pass_context=True)
@@ -160,7 +160,7 @@ async def skip(con): #skipping songs?
 async def stop(con):
     players[con.message.server.id].stop()
     songs.clear()
-    await bot.say("**STOP**")
+    await bot.say("**⏹STOP**")
     
     
 @bot.command(pass_context=True)
@@ -171,7 +171,7 @@ async def leave(ctx):
     voice_client=bot.voice_client_in(server)
     await voice_client.disconnect()
     songs.clear()
-    await bot.say("**DISCONNECT**")
+    await bot.say("**❌Successfully disconnected**")
     
     
     
@@ -258,7 +258,6 @@ async def mute(ctx, member: discord.Member):
         role = discord.utils.get(member.server.roles, name='Muted')
         await bot.add_roles(member, role)
         embed=discord.Embed(title="User Muted!", description="**{0}** was muted by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
-	embed.set_thumbnail(url=member.avatar_url)
         await bot.say(embed=embed)
      else:
         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
@@ -295,8 +294,9 @@ async def kick(con,user:discord.Member=None):
 async def ban(ctx, member: discord.Member, days: int = 1):
     if ctx.message.author.server_permissions.administrator:
         await bot.ban(member, days)
-    else:
-        await bot.say("You don't have permission to use this command.")
+    else:  
+        embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
+        await bot.say(embed=embed)
 	
 	
 @bot.command(pass_context=True)
@@ -446,11 +446,8 @@ async def help(ctx):
     embed = discord.Embed(title=None, description="Help command for yo bot", color=0xff00f6)
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
     embed.add_field(
-	    name='music commands', value='t.join\nt.play\nt.pause\nt.resume\nt.stop\nt.skip\nt.volume\nt.queue\nt.leave') 	
-    embed.add_field(
-	    name='tool commands', value='t.info\nt.serverinfo\nt.avatar\nt.clear\nt.mute\nt.unmute\nt.ban\nt.kick')
-	
-    embed.add_field( name='fun commands', value='t.dice\nt.joined\nt.guildicon\nt.guildid\nt.guildcount\nt.get_id\nt.repeat\nt.ping\nt.onlne\nt.offline\nt.invite', inline=True)   
+	    name='music commands', value='**t.join**\n**t.play** Play a URL or search for a track.\n**t.pause** Pause and resume.\n**t.resume** Pause and resume.\n**t.stop** Stop playback and clear the queue\n**t.skip** Skip to the next track.\n**t.volume** Set the volume, 1% - 150%.\n**t.queue** List the queue.\n**t.leave** Disconnect from the voice channel.') 	
+       
     embed.add_field(name='Command Prefix', value='**t.**', inline=True)
     embed.add_field(name='invite', value='Bot invite', inline=True)
     embed.add_field(name='info', value='Show information about a user.', inline=True)	  
