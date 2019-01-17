@@ -64,7 +64,7 @@ async def checking_voice(ctx):
 @bot.event
 async def on_ready():
    bot.loop.create_task(all_false())
-   await bot.change_presence(game=discord.Game(name='Test'))
+   await bot.change_presence(game=discord.Game(name='d?help'))
    print(bot.user.name)
     
 @bot.command(pass_context=True)
@@ -647,7 +647,7 @@ async def on_member_remove(member):
 
 @bot.event
 async def on_message_edit(before, after):
-    channel = edit.message.channel
+    channel = bot.messages.channel
 
     channel = get(member.server.channels, name="logs")
     embed = discord.Embed(title='Edited Message', description="A message by **{0.author}**, was edited", colour=0xff00f6)
