@@ -270,7 +270,7 @@ async def mute(ctx, member: discord.Member):
 @bot.command(pass_context=True)
 async def unmute(ctx, member: discord.Member):
      if ctx.message.author.server_permissions.administrator or ctx.message.author.id == '455500545587675156':
-	role = discord.utils.get(member.server.roles, name="UnMuted")
+	
 	await bot.remove_roles(member, role)
         embed=discord.Embed(title="User Muted!", description="**{0}** was muted by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
         await bot.say(embed=embed)
