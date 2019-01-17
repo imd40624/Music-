@@ -647,11 +647,13 @@ async def on_member_remove(member):
 
 @bot.event
 async def on_message_edit(before, after):
+    channel = edit.message.channel
+
     channel = get(member.server.channels, name="logs")
     embed = discord.Embed(title='Edited Message', description="A message by **{0.author}**, was edited", colour=0xff00f6)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
-    embed.add_field(name="Before Message:", value=bot.message.before, inline=True)
-    embed.add_field(name="After Message:", value=bot.message.after, inline=True)
+    embed.add_field(name="Before Message:", value=bot.messages.before, inline=True)
+    embed.add_field(name="After Message:", value=bot.messages.after, inline=True)
     await bot.send_message(channel, embed=embed)
 
 
