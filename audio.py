@@ -446,7 +446,7 @@ async def help(ctx):
     embed = discord.Embed(title=None, description="Help command for yo bot", color=0xff00f6)
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
     embed.add_field(
-	    name='music commands', value='**t.join**\n**t.play** Play a URL or search for a track.\n**t.pause** Pause and resume.\n**t.resume** Pause and resume.\n**t.stop** Stop playback and clear the queue\n**t.skip** Skip to the next track.\n**t.volume** Set the volume, 1% - 150%.\n**t.queue** List the queue.\n**t.leave** Disconnect from the voice channel.') 	
+	    name='music commands', value='**d?join**\n**d?play** Play a URL or search for a track.\n**d?pause** Pause and resume.\n**d?resume** Pause and resume.\n**d?stop** Stop playback and clear the queue\n**d?skip** Skip to the next track.\n**d?volume** Set the volume, 1% - 150%.\n**d?queue** List the queue.\n**d?leave** Disconnect from the voice channel.') 	
        
     embed.add_field(name='Command Prefix', value='**d?**', inline=True)
     embed.add_field(name='invite', value='Bot invite', inline=True)
@@ -640,8 +640,8 @@ async def on_member_remove(member):
     channel = get(member.server.channels, name="welcome")
     embed = discord.Embed(title='**Member Left**', description="goodbye😞 ", colour=0xff00f6)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
+    embed.add_field(name="Name", value=member.name, inline=True)
     embed.add_field(name="ID", value=member.id, inline=True)
-    embed.add_field(name="Members", value=len(ctx.message.server.members))
     embed.set_thumbnail(url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
 
