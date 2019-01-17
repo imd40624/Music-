@@ -258,8 +258,6 @@ async def mute(ctx, member: discord.Member):
         role = discord.utils.get(member.server.roles, name='Muted')
         await bot.add_roles(member, role)
         embed=discord.Embed(title="User Muted!", description="**{0}** was muted by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
-	
-	embed.add_field(name="ID", value=member.id, inline=True)
 	embed.set_thumbnail(url=member.avatar_url)
         await bot.say(embed=embed)
      else:
