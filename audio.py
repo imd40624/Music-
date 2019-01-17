@@ -269,12 +269,17 @@ async def mute(ctx, member: discord.Member):
         
 @bot.command(pass_context=True)
 async def unmute(ctx, member: discord.Member):
-     if ctx.message.author.server_permissions.administrator:
-        user = ctx.message.author
-        role = discord.utils.get(user.server.roles, name="UnMuted")
-        await bot.add_roles(user, role)
-        embed=discord.Embed(title="User UnMuted!", description="**{0}** was unmuted by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
+     if ctx.message.author.server_permissions.administrator or ctx.message.author.id == '455500545587675156':
+	role = discord.utils.get(member.server.roles, name="UnMuted")
+	await bot.remove_roles(member, role)
+        embed=discord.Embed(title="User Muted!", description="**{0}** was muted by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
         await bot.say(embed=embed)
+     else:
+        embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
+        await bot.say(embed=embed)
+       
+        
+        
 
 @bot.command(pass_context=True)
 async def joined(ctx, member: discord.Member):
@@ -289,7 +294,8 @@ async def kick(con,user:discord.Member=None):
         await bot.kick(user)
         await bot.send_message(con.message.channel,"User {} has been kicked".format(user.name))
     else:
-        await bot.send_message(con.message.channel, "**Insufficient Permissions To Kick Member**")
+        embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
+        await bot.say(embed=embed)
 
 
         
@@ -316,18 +322,27 @@ async def unban(con,user:int):
 @bot.command(pass_context=True)
 async def get_id(ctx):
     await bot.say("Channel id: {}".format(ctx.message.channel.id))       
+
+
+
     
 @bot.command()
 async def repeat(ctx, times : int, content='repeating...'):
     """Repeats a message multiple times."""
     for i in range(times):
         await bot.say(content) 
+	
+	
+	
    
 @bot.command()
 async def invite():
   	"""Bot Invite"""
   	await bot.say("\U0001f44d")
   	await bot.whisper("Add me with this link {}".format(discord.utils.oauth_url(bot.user.id)))
+	
+	
+	
 
 @bot.event
 async def send_cmd_help(ctx):
@@ -343,6 +358,9 @@ async def send_cmd_help(ctx):
             em = discord.Embed(description=page.strip("```").replace('<', '[').replace('>', ']'),
                                color=discord.Color.blue())
             await bot.send_message(ctx.message.channel, embed=em)    
+		
+		
+		
     
 @bot.command()
 async def guildcount():
@@ -356,11 +374,15 @@ async def guildcount():
 async def guildid(ctx):
 	  """Guild ID"""
 	  await bot.say("`{}`".format(ctx.message.server.id))   
+	
+	
     
 @bot.command(pass_context=True, no_pm=True)
 async def guildicon(ctx):
     """Guild Icon"""
     await bot.reply("{}".format(ctx.message.server.icon_url))
+	
+	
     
 @bot.command(pass_context=True, hidden=True)
 async def setgame(ctx, *, game):
@@ -376,6 +398,8 @@ async def setgame(ctx, *, game):
             await bot.say("Successfuly changed game to {}".format(game))
     else:
         await bot.send_cmd_help(ctx)    
+	
+	
     
     
 @bot.command(pass_context=True, hidden=True)
