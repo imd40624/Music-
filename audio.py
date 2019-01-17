@@ -12,7 +12,7 @@ import requests as rq
 import random
 
 
-bot=commands.Bot(command_prefix='t.')
+bot=commands.Bot(command_prefix='d?')
 bot.remove_command('help')
 
 from discord import opus
@@ -136,12 +136,12 @@ async def queue(con):
 async def pause(ctx):
     id = ctx.message.server.id
     players[id].pause()
-    await bot.say("**PAUSE**")
+    await bot.say("**⏸PAUSE**")
     
 @bot.command(pass_context=True)
 async def resume(ctx):
     players[ctx.message.server.id].resume()
-    await bot.say("**⏹RESUME**")
+    await bot.say("**▶RESUME**")
     
     
 @bot.command(pass_context=True)
@@ -448,7 +448,7 @@ async def help(ctx):
     embed.add_field(
 	    name='music commands', value='**t.join**\n**t.play** Play a URL or search for a track.\n**t.pause** Pause and resume.\n**t.resume** Pause and resume.\n**t.stop** Stop playback and clear the queue\n**t.skip** Skip to the next track.\n**t.volume** Set the volume, 1% - 150%.\n**t.queue** List the queue.\n**t.leave** Disconnect from the voice channel.') 	
        
-    embed.add_field(name='Command Prefix', value='**t.**', inline=True)
+    embed.add_field(name='Command Prefix', value='**d?**', inline=True)
     embed.add_field(name='invite', value='Bot invite', inline=True)
     embed.add_field(name='info', value='Show information about a user.', inline=True)	  
     embed.add_field(name='serverinfo', value='Show server information.', inline=True)	  
