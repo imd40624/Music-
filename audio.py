@@ -676,7 +676,7 @@ async def cookie(self,con, user: discord.Member):
 
 
 @bot.command(pass_context=True)
- async def neko(self,con, *, nsfw='None'):
+async def neko(self,con, *, nsfw='None'):
         if nsfw.lower() == 'nsfw':
             session = rq.Session()
             r = session.get(
