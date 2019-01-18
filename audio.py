@@ -630,7 +630,7 @@ async def catfact(self,con):
 
 
 @bot.command(pass_context=True)
-@bot.cooldown(rate=1, per=2, type=commands.BucketType.channel)
+@commands.cooldown(rate=1, per=2, type=commands.BucketType.channel)
 async def randomanime(self,con):
         session = rq.Session()
         """GENERATES A RANDOM ANIME TITLE WITH 10 SECOND COOL DOWN. EX: s.randomanime"""
