@@ -675,7 +675,7 @@ async def cookie(self,con, user: discord.Member):
         await self.bot.send_message(con.message.channel, "{0} you got {2} cookies from {1}".format(user.mention, con.message.author.name, amount))
 
 
- @bot.command(pass_context=True)
+@bot.command(pass_context=True)
  async def neko(self,con, *, nsfw='None'):
         if nsfw.lower() == 'nsfw':
             session = rq.Session()
