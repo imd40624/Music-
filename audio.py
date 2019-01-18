@@ -582,9 +582,7 @@ async def on_member_remove(member):
 
    
 	
-class Fun:
-    def __init__(self,bot):
-        self.bot=bot
+
 
 
 @bot.command(pass_context=True)
@@ -630,7 +628,6 @@ async def catfact(self,con):
 
 
 @bot.command(pass_context=True)
-@commands.cooldown(rate=1, per=2, type=commands.BucketType.channel)
 async def randomanime(self,con):
         session = rq.Session()
         """GENERATES A RANDOM ANIME TITLE WITH 10 SECOND COOL DOWN. EX: s.randomanime"""
@@ -758,23 +755,6 @@ async def dogfact(self,con):
 
 
 
-@bot.command(pass_context=True)
-@commands.cooldown(rate=10, per=1, type=commands.BucketType.channel)
-async def game(self,con, *,msg):
-        """CHANGES THE PLAYING STATUS OF THE BOT. EX: s.game OSU!"""
-        await self.bot.change_presence(game=discord.Game(name=msg))
-
-	
-@bot.command(pass_context=True)
-@commands.cooldown(rate=10, per=1, type=commands.BucketType.channel)
-async def listening(self,con, *,msg):
-        await self.bot.change_presence(game=discord.Game(name=msg,type=2))
-
-
-@bot.command(pass_context=True)
-@commands.cooldown(rate=10, per=1, type=commands.BucketType.channel)
-async def watching(self,con, *,msg):
-        await self.bot.change_presence(game=discord.Game(name=msg,type=3))
 
 
 @bot.command(pass_context=True)
