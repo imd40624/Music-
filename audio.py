@@ -669,8 +669,8 @@ async def cat(self,con):
         await self.bot.send_message(con.message.channel, embed=emb)
 
 
- @bot.command(pass_context=True)
- async def cookie(self,con, user: discord.Member):
+@bot.command(pass_context=True)
+async def cookie(self,con, user: discord.Member):
         amount = random.randint(1, 15)
         await self.bot.send_message(con.message.channel, "{0} you got {2} cookies from {1}".format(user.mention, con.message.author.name, amount))
 
