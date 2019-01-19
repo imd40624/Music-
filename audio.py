@@ -445,8 +445,6 @@ async def on_member_join(member):
 async def help(ctx):
     embed = discord.Embed(title=None, description="Help command for yo bot", color=0xff00f6)
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
-    embed.add_field(
-	    name='music commands', value='**d?join**\n**d?play** Play a URL or search for a track.\n**d?pause** Pause and resume.\n**d?resume** Pause and resume.\n**d?stop** Stop playback and clear the queue\n**d?skip** Skip to the next track.\n**d?volume** Set the volume, 1% - 150%.\n**d?queue** List the queue.\n**d?leave** Disconnect from the voice channel.') 	
        
     embed.add_field(name='Command Prefix', value='**d?**', inline=True)
     embed.add_field(name='invite', value='Bot invite', inline=True)
