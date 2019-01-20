@@ -259,7 +259,7 @@ async def mute(ctx, member: discord.Member):
         await bot.add_roles(member, role)
         embed=discord.Embed(title="User Muted!", description="**{0}** was muted by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
         await bot.say(embed=embed)
-     else:
+    else:
         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
         await bot.say(embed=embed)	
 	
@@ -285,7 +285,7 @@ async def kick(con,user:discord.Member=None):
         await bot.kick(user)
         embed=discord.Embed(title="user kick", description="**{0}** was kicked by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
         await bot.say(embed=embed)
-     else:
+    else:
         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
         await bot.say(embed=embed)
 
@@ -295,19 +295,13 @@ async def kick(con,user:discord.Member=None):
 async def ban(ctx, member: discord.Member, days: int = 1):
     if ctx.message.author.server_permissions.administrator:
         await bot.ban(member, days)
-     else:
+    else:
         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
         await bot.say(embed=embed)	
 	
 	
 	
-@bot.command(aliases=['sban'], pass_context=True)
-async def softban(ctx, member: discord.Member, *, reason=""):
-     if ctx.message.author.server_permissions.administrator:
-        await bot.softban(member, reason)
-     else:
-        embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
-        await bot.say(embed=embed)
+
 	
 	
 	
