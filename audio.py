@@ -312,13 +312,13 @@ async def hackban(self, ctx, user_id: int):
 
 
 @bot.command(pass_context=True)
-async def ban(self, ctx, user, *, reason=""):
+async def ban(ctx, member: discord.Member, *, reason=""):
         """Bans a user (if you have the permission)."""
-        user = get_user(ctx.message, user)
-        if user:
+        member = get_member(ctx.message, member)
+        if member:
             try:
-                await user.ban(reason=reason)
-                return_msg = "Banned user `{}`".format(user.mention)
+                await member.ban(reason=reason)
+                return_msg = "Banned member `{}`".format(user.mention)
                 if reason:
                     return_msg += " for reason `{}`".format(reason)
                 return_msg += "."
