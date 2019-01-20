@@ -314,7 +314,7 @@ async def hackban(self, ctx, user_id: int):
 @bot.command(pass_context=True)
 async def ban(ctx, member: discord.Member, *, reason=""):
         """Bans a user (if you have the permission)."""
-        member = get_member(ctx.message, member)
+        member = get_user(ctx.message, member)
         if member:
             try:
                 await member.ban(reason=reason)
