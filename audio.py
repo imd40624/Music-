@@ -283,7 +283,8 @@ async def joined(ctx, member: discord.Member):
 async def kick(con,user:discord.Member=None):
     if con.message.author.server_permissions.kick_members == True or con.message.author.server_permissions.administrator == True:
         await bot.kick(user)
-        await bot.send_message(con.message.channel,"User {} has been kicked".format(user.name))
+        embed=discord.Embed(title="user kick", description="**{0}** was kicked by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
+        await bot.say(embed=embed)
     else:
         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
         await bot.say(embed=embed)
@@ -297,6 +298,23 @@ async def ban(ctx, member: discord.Member, days: int = 1):
     else:
         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
         await bot.say(embed=embed)	
+	
+	
+	
+@bot.command(aliases=['sban'], pass_context=True)
+async def softban(ctx, member: discord.Member, *, reason=""):
+     if ctx.message.author.server_permissions.administrator:
+        await bot.softban(member, reason)
+    else:
+        embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
+        await bot.say(embed=embed)
+	
+	
+	
+	
+	
+	
+	
 	
 @bot.command(pass_context=True)
 async def unban(con,user:int):
@@ -557,7 +575,7 @@ async def dice( con, min1=1, max1=6):
 async def on_member_join(member):
     channel = get(member.server.channels, name="welcome")
     await bot.send_file(channel, '_Sans-Simple-Red.gif')
-    embed = discord.Embed(title='**New Member Join**', description="Welcome to the Chillspot! Be sure to have fun!🎉🎊", colour=0x7ED6DE)
+    embed = discord.Embed(title='**New Member Join**', description="Welcome,{}to the Chillspot! Be sure to have fun!🎉🎊".format(member.mention), colour=0x7ED6DE)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     embed.add_field(name="Name", value=member.name, inline=True)
     embed.add_field(name="ID", value=member.id, inline=True)
