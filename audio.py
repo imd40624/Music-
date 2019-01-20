@@ -290,13 +290,61 @@ async def kick(con,user:discord.Member=None):
 
 
         
+# TODO: Add reason with ban
+@bot.command(aliases=['hban'], pass_context=True)     
+async def hackban(self, ctx, user_id: int):
+        """Bans a user outside of the server."""
+        author = ctx.message.author
+        guild = author.guild
+
+        user = guild.get_member(user_id)
+        if user is not None:
+            return await ctx.invoke(self.ban, user=user)
+
+        try:
+            await self.bot.http.ban(user_id, guild.id, 0)
+            await ctx.message.edit(content=self.bot.bot_prefix + 'Banned user: %s' % user_id)
+        except discord.NotFound:
+            await ctx.message.edit(content=self.bot.bot_prefix + 'Could not find user. '
+                               'Invalid user ID was provided.')
+        except discord.errors.Forbidden:
+            await ctx.message.edit(content=self.bot.bot_prefix + 'Could not ban user. Not enough permissions.')
+
+
 @bot.command(pass_context=True)
-async def ban(ctx, member: discord.Member, days: int = 1):
-    if ctx.message.author.server_permissions.administrator:
-        await bot.ban(member, days)
-    else:  
-        embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
-        await bot.say(embed=embed)
+async def ban(self, ctx, user, *, reason=""):
+        """Bans a user (if you have the permission)."""
+        user = get_user(ctx.message, user)
+        if user:
+            try:
+                await user.ban(reason=reason)
+                return_msg = "Banned user `{}`".format(user.mention)
+                if reason:
+                    return_msg += " for reason `{}`".format(reason)
+                return_msg += "."
+                await ctx.message.edit(content=self.bot.bot_prefix + return_msg)
+            except discord.Forbidden:
+                await ctx.message.edit(content=self.bot.bot_prefix + 'Could not ban user. Not enough permissions.')
+        else:
+            return await ctx.message.edit(content=self.bot.bot_prefix + 'Could not find user.')
+
+@bot.command(aliases=['sban'], pass_context=True)
+async def softban(self, ctx, user, *, reason=""):
+        """Bans and unbans a user (if you have the permission)."""
+        user = get_user(ctx.message, user)
+        if user:
+            try:
+                await user.ban(reason=reason)
+                await ctx.guild.unban(user)
+                return_msg = "Banned and unbanned user `{}`".format(user.mention)
+                if reason:
+                    return_msg += " for reason `{}`".format(reason)
+                return_msg += "."
+                await ctx.message.edit(content=self.bot.bot_prefix + return_msg)
+            except discord.Forbidden:
+                await ctx.message.edit(content=self.bot.bot_prefix + 'Could not softban user. Not enough permissions.')
+        else:
+            return await ctx.message.edit(content=self.bot.bot_prefix + 'Could not find user.')
 	
 	
 @bot.command(pass_context=True)
