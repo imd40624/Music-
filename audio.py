@@ -283,8 +283,7 @@ async def joined(ctx, member: discord.Member):
 async def kick(con,user:discord.Member=None):
     if con.message.author.server_permissions.kick_members == True or con.message.author.server_permissions.administrator == True:
         await bot.kick(user)
-        embed=discord.Embed(title="user kick", description="**{0}** was kicked by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
-        await bot.say(embed=embed)
+        await bot.send_message(con.message.channel,"User {} has been kicked👢".format(user.name))
     else:
         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
         await bot.say(embed=embed)
@@ -569,7 +568,7 @@ async def dice( con, min1=1, max1=6):
 async def on_member_join(member):
     channel = get(member.server.channels, name="welcome")
     await bot.send_file(channel, '_Sans-Simple-Red.gif')
-    embed = discord.Embed(title='**New Member Join**', description="Welcome,{}to the Chillspot! Be sure to have fun!🎉🎊".format(member.mention), colour=0x7ED6DE)
+    embed = discord.Embed(title='**New Member Join**', description="Welcome,{} to {} Be sure to have fun!🎉🎊".format(member.mention, ctx.message.server.name), colour=0x7ED6DE)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     embed.add_field(name="Name", value=member.name, inline=True)
     embed.add_field(name="ID", value=member.id, inline=True)
@@ -581,7 +580,7 @@ async def on_member_join(member):
 @bot.event
 async def on_member_remove(member):
     channel = get(member.server.channels, name="welcome")
-    embed = discord.Embed(title='**Member Left**', description="goodbye😞 ", colour=0xff00f6)
+    embed = discord.Embed(title='**Member Left**', description="goodbye😞,{}".format(member.mention), colour=0xff00f6)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     embed.add_field(name="Name", value=member.name, inline=True)
     embed.add_field(name="ID", value=member.id, inline=True)
