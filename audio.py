@@ -810,8 +810,7 @@ async def deletelinks_off(ctx):
 async def on_message_delete(message):
   if message.author == bot.user:
     return
-  
-  if logging == True:
+ 
     member = message.author
     channel = discord.Object(user.server.channels, name="logs")
     deletmsgdebug = '[{0.content}]'.format(message)
