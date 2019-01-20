@@ -813,7 +813,7 @@ async def on_message_delete(message):
   
   if logging == True:
     member = message.author
-    channel = get(member.server.channels, name="welcome"))
+    channel = discord.Object(user.server.channels, name="logs")
     deletmsgdebug = '[{0.content}]'.format(message)
     msgtime = strftime("%d/%m/%Y [%I:%M:%S %p] (%Z)", localtime())
     usermsg = "{0} <{1}> ({2}) | {3}".format(member, member.id, message.channel.name, msgtime).replace("'", "")
