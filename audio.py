@@ -2,6 +2,7 @@ import discord
 import asyncio
 import youtube_dl
 import os
+import logging
 import typing
 import json
 from discord.ext import commands
@@ -810,7 +811,8 @@ async def deletelinks_off(ctx):
 async def on_message_delete(message):
   if message.author == bot.user:
     return
- 
+
+  if logging == True:
     member = message.author
     channel = discord.Object(user.server.channels, name="logs")
     deletmsgdebug = '[{0.content}]'.format(message)
