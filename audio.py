@@ -811,8 +811,9 @@ async def deletelinks_off(ctx):
 async def on_message_delete(message):
     channel = get(message.server.channels, name="logs")
     fmt = '{0.author.name} has deleted the message:\n{0.content}'
+    usermsg = "{0} <{1}> ({2}) | {3}".format(member, member.id, message.channel.name).replace("'", "")
     embed = discord.Embed(title='message deleted', description=fmt.format(message), colour=0xff00f6)
-    embed.set_author(name=author.name, icon_url=member.avatar_url)
+    embed.set_author(name=usermsg, icon_url=member.avatar_url)
 
     await bot.send_message(channel, embed=embed)
 	
