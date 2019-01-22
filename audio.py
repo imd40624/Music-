@@ -817,7 +817,23 @@ async def on_message_delete(message):
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
 	
-	
+@bot.event
+async def on_message_edit(before, after):
+    await message_event_func(after)
+  
+    if before.content == after.content:
+    return
+    if before.author == bot.user:
+    return
+         
+    member = before.author
+    channel = get(message.server.channels, name="logs")
+    leavemsgdebug = '[{0.content}] -> [{1.content}]'.format(before, after)
+    msgtime = strftime("%d/%m/%Y [%I:%M:%S %p] (%Z)", localtime())
+    usermsg = "{0} <{1}> ({2}) | {3}".format(member, member.id, before.channel.name, msgtime).replace("'", "")
+    embed = discord.Embed(title='Message Edited', description=leavemsgdebug, colour=0xF46900)
+    embed.set_author(name=usermsg, icon_url=member.avatar_url)
+    await bot.send_message(channel, embed=em)
 	
 	
 	
