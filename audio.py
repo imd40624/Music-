@@ -809,7 +809,6 @@ async def deletelinks_off(ctx):
 	
 @bot.event
 async def on_message_delete(message):
-  if message.author == bot.user:
 	
     member = message.author
     channel = get(message.server.channels, name="logs")
