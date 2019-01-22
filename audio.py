@@ -825,7 +825,7 @@ async def on_message_edit(before, after):
     member = before.author
     channel = get(before.server.channels, name="logs")
     leavemsgdebug = '[{0.content}] -> [{1.content}]'.format(before, after)
-    usermsg = "{0} <{1}> ({2}) | {3}".format(member, member.id, before.channel.name).replace("'", "")
+    usermsg = "{0} <{1}> ({2})".format(member, member.id, before.channel.name).replace("'", "")
     embed = discord.Embed(title='Message Edited', description=leavemsgdebug, colour=0xF46900)
     embed.set_author(name=usermsg, icon_url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
