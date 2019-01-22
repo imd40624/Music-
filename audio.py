@@ -9,6 +9,7 @@ from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.ext.commands import has_permissions 
 from discord.utils import get,find
+from time import localtime, strftime
 import requests as rq
 import random
 
@@ -819,12 +820,7 @@ async def on_message_delete(message):
 	
 @bot.event
 async def on_message_edit(before, after):
-    await message_event_func(after)
-  
-    if before.content == after.content:
-      return
-    if before.author == bot.user:
-      return
+    
          
     member = before.author
     channel = get(message.server.channels, name="logs")
