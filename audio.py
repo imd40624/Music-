@@ -65,7 +65,8 @@ async def checking_voice(ctx):
 @bot.event
 async def on_ready():
    bot.loop.create_task(all_false())
-   await bot.change_presence(game=discord.Game(name='d?help'))
+   status = ctx.bot.guilds[0].me.status if len(ctx.bot.guilds) > 0 else discord.Status.online 
+   ctx.bot.change_presence(status=status, activity=discord.Game(name="Test"))
    print(bot.user.name)
     
 @bot.command(pass_context=True)
@@ -813,7 +814,7 @@ async def on_message_delete(message):
     member = message.author
     channel = get(message.server.channels, name="logs")
     fmt = '{0.author.name} has deleted the message:\n{0.content}'
-    usermsg = "{0} <{1}> ({2}) | {3}".format(member, member.id, message.channel.name, msgtime).replace("'", "")
+    usermsg = "{0} <{1}> ({2}) | {3}".format(member, member.id, message.channel.name).replace("'", "")
     embed = discord.Embed(title='message deleted', description=fmt.format(message), colour=0xa84300)
     embed.set_author(name=usermsg, icon_url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
