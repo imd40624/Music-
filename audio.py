@@ -63,10 +63,9 @@ async def checking_voice(ctx):
             pass
 
 @bot.event
-async def on_ready(ctx):
+async def on_ready():
    bot.loop.create_task(all_false())
-   status = ctx.bot.guilds[0].me.status if len(ctx.bot.guilds) > 0 else discord.Status.online 
-   ctx.bot.change_presence(status=status, activity=discord.Game(name="Test"))
+   await bot.change_presence(game=discord.Game(name='d?help'))
    print(bot.user.name)
     
 @bot.command(pass_context=True)
@@ -476,6 +475,7 @@ async def help(ctx):
     embed.add_field(name='dice', value='fun command', inline=True)
     embed.add_field(name='online', value='Members Online.', inline=True)
     embed.add_field(name='offline', value='Members offline.', inline=True)
+    embed.add_field(name='welcomer set', value='if you want to see welcome message then make #welcome channel.', inline=True)
     embed.set_footer(text='Created By: imran',
                 icon_url='https://raw.githubusercontent.com/CharmingMother/Kurusaki/master/img/Dong%20Cheng.png')
     await bot.say(embed=embed)
