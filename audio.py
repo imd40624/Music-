@@ -199,7 +199,7 @@ async def info(ctx, user: discord.Member):
 @bot.command(pass_context=True)
 async def serverinfo(ctx):
     embed = discord.Embed(title="{}'s info".format(ctx.message.server.name), description="Here's what I could find.", color=0x00ff00)
-    embed.set_author(name="Team Ghost")
+    embed.set_author(name=server.name, icon_url=server.avatar_url)
     embed.add_field(name="Created at", value=ctx.message.server.created_at, inline=True)
     embed.add_field(name="Owner", value=ctx.message.server.owner, inline=True)
     embed.add_field(name="Name", value=ctx.message.server.name, inline=True)
@@ -814,7 +814,7 @@ async def on_message_delete(message):
     member = message.author
     channel = get(message.server.channels, name="logs")
     fmt = '{0.author.name} has deleted the message:\n{0.content}'
-    embed = discord.Embed(title='message deleted', description=fmt.format(message), colour=0xa84300)
+    embed = discord.Embed(title='Message Deleted', description=fmt.format(message), colour=0xa84300)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
 	
