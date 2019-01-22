@@ -405,7 +405,7 @@ async def setgame(ctx, *, game):
 	
     
     
-@bot.command(pass_context=True, hidden=True)
+@bot.command(pass_context=True)
 async def setname(ctx, *, name):
     if ctx.message.author.id not in owner:
         return
@@ -454,7 +454,7 @@ async def on_member_join(member):
 
 @bot.command(pass_context=True)
 async def help(ctx):
-    embed = discord.Embed(title=None, description="Help command for yo bot", color=0xff00f6)
+    embed = discord.Embed(title=None, description="Help command for devil", color=0xff00f6)
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
        
     embed.add_field(name='Command Prefix', value='**d?**', inline=True)
@@ -813,7 +813,6 @@ async def on_message_delete(message):
     member = message.author
     channel = get(message.server.channels, name="logs")
     fmt = '{0.author.name} has deleted the message:\n{0.content}'
-    msgtime = strftime("%d/%m/%Y [%I:%M:%S %p] (%Z)", localtime())
     usermsg = "{0} <{1}> ({2}) | {3}".format(member, member.id, message.channel.name, msgtime).replace("'", "")
     embed = discord.Embed(title='message deleted', description=fmt.format(message), colour=0xa84300)
     embed.set_author(name=usermsg, icon_url=member.avatar_url)
