@@ -823,7 +823,7 @@ async def on_message_edit(before, after):
     
          
     member = before.author
-    channel = get(message.server.channels, name="logs")
+    channel = get(before.server.channels, name="logs")
     leavemsgdebug = '[{0.content}] -> [{1.content}]'.format(before, after)
     msgtime = strftime("%d/%m/%Y [%I:%M:%S %p] (%Z)", localtime())
     usermsg = "{0} <{1}> ({2}) | {3}".format(member, member.id, before.channel.name, msgtime).replace("'", "")
