@@ -822,9 +822,9 @@ async def on_message_edit(before, after):
     await message_event_func(after)
   
     if before.content == after.content:
-    return
+      return
     if before.author == bot.user:
-    return
+      return
          
     member = before.author
     channel = get(message.server.channels, name="logs")
