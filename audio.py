@@ -265,7 +265,13 @@ async def mute(ctx, member: discord.Member):
         await bot.say(embed=embed)	
 	
 	
-	
+@bot.command(pass_context=True)
+async def botinfo(ctx):
+	embed=discord.Embed(title="Bot name", description="Devil", color=0xFFFF00)
+	embed.add_field(name="Creator", value="Imran")
+	embed.add_field(name="Invite link", value="[Click Here!](https://discordapp.com/api/oauth2/authorize?client_id=501659280680681472&permissions=2146958839&scope=bot)")
+	embed.add_field(name="Prefix", value="d?")
+	await bot.say(embed=embed)
 	
         
 
@@ -280,27 +286,91 @@ async def joined(ctx, member: discord.Member):
 
 
 
-@bot.command(pass_context=True)
-async def kick(con,user:discord.Member=None):
-    if con.message.author.server_permissions.kick_members == True or con.message.author.server_permissions.administrator == True:
-        await bot.kick(user)
-        await bot.send_message(con.message.channel,"User {} has been kicked👢".format(user.name))
-    else:
-        embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
-        await bot.say(embed=embed)
+@bot.command(name="kick", pass_context=True)
+@commands.has_permissions(kick_members=True)
+async def _kick(ctx, user: discord.Member = None, *, arg = None):
+	if user is None:
+		await bot.say("please provide a member")
+		return False
+	if arg is None:
+		await bot.say("please provide a reason to {}".format(user.name))
+		return False
+	if user.server_permissions.kick_members:
+		return False
+	reason = arg
+	author = ctx.message.author
+	await bot.kick(user)
+	embed = discord.Embed(title="Kick", description=" ", color=0x00ff00)
+	embed.add_field(name="User: ", value="<@{}>".format(user.id), inline=False)
+	embed.add_field(name="Moderator: ", value="{}".format(author.mention), inline=False)
+	embed.add_field(name="Reason: ", value="{}\n".format(arg), inline=False)
+	await bot.say(embed=embed)
+	
+
+@_kick.error
+async def kick_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, You don't have requirement permission to use this command `kick_members`.".format(ctx.message.author.mention)
+		await bot.send_message(ctx.message.channel, text)
 
 
         
-@bot.command(pass_context=True)
-async def ban(ctx, member: discord.Member, days: int = 1):
-    if ctx.message.author.server_permissions.administrator:
-        await bot.ban(member, days)
-    else:
-        embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
-        await bot.say(embed=embed)	
+@bot.command(name="ban", pass_context=True)
+@commands.has_permissions(ban_members=True)
+async def _ban(ctx, user: discord.Member = None, *, arg = None):
+	if user is None:
+		await bot.say("please provide a member")
+		return False
+	if arg is None:
+		await bot.say("please provide a reason to {}".format(user.name))
+		return False
+	if user.server_permissions.ban_members:
+		return False
+	reason = arg
+	author = ctx.message.author
+	await bot.ban(user)
+	embed = discord.Embed(title="Ban", description=" ", color=0xFF0000)
+	embed.add_field(name="User: ", value="<@{}>".format(user.id), inline=False)
+	embed.add_field(name="Moderator: ", value="{}".format(author.mention), inline=False)
+	embed.add_field(name="Reason: ", value="{}\n".format(arg), inline=False)
+	await bot.say(embed=embed)
+	
+
+@_ban.error
+async def ban_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, You don't have requirement permission to use this command `ban_members`.".format(ctx.message.author.mention)
+		await bot.send_message(ctx.message.channel, text)	
 	
 	
+@bot.command(name="warn", pass_context=True)
+@commands.has_permissions(kick_members=True)
+async def _warn(ctx, user: discord.Member = None, *, arg = None):
+	if user is None:
+		await bot.say("please provide a member")
+		return False
+	if arg is None:
+		await bot.say("please provide a reason to {}".format(user.name))
+		return False
+	if user.server_permissions.kick_members:
+		return False
+	reason = arg
+	author = ctx.message.author
+	server = ctx.message.server
+	embed = discord.Embed(title="Warn", description=" ", color=0x00ff00)
+	embed.add_field(name="User: ", value="<@{}>".format(user.id), inline=False)
+	embed.add_field(name="Moderator: ", value="{}".format(author.mention), inline=False)
+	embed.add_field(name="Reason: ", value="{}\n".format(arg), inline=False)
+	await bot.say(embed=embed)
+	await bot.send_message(user, "You have been warned for: {}".format(reason))
+	await bot.send_message(user, "from: {} server".format(server))
 	
+
+@_warn.error
+async def warn_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, You don't have requirement permission to use this command `kick_members`.".format(ctx.message.author.mention)
+		await bot.send_message(ctx.message.channel, text)	
 
 	
 	
@@ -591,35 +661,8 @@ async def catfact(self,con):
                 await self.bot.send_message(con.message.channel, "**Something went wrong while sending the fact\nPlease try again later**")
 
 
-@bot.command(pass_context=True)
-async def randomanime(self,con):
-        session = rq.Session()
-        """GENERATES A RANDOM ANIME TITLE WITH 10 SECOND COOL DOWN. EX: s.randomanime"""
-        r = rq.get('https://tv-v2.api-fetch.website/random/anime').json()
-        title = r['title']
-        mal_id = r['mal_id']
-        genres = r['genres']
-        url2 = 'https://api.jikan.moe/anime/{}/stats/'.format(mal_id)
-        r2 = session.get(url2).text
-        r2j = json.loads(r2)
-        summary = r2j['synopsis']
-        await self.bot.send_message(con.message.channel, "**Title**: {}\n**Genres**: {}\n**Synopsis**: {}".format(title, genres, summary))
 
 
-@bot.command(pass_context=True)
-async def randommovie(self,con):
-        session = rq.Session()
-        """GENERATES A RANDOM MOVIE TITLE. EX: s.randommovie"""
-        movie = session.get('https://tv-v2.api-fetch.website/random/movie')
-        if movie.status_code == 200:
-            rest = movie.text
-            rq_json = json.loads(rest)
-            title = rq_json['title']
-            summary = rq_json['synopsis']
-            runtime = rq_json['runtime']
-            genres = rq_json['genres']
-            gen = " ".join(genres[1:])
-            await self.bot.send_message(con.message.channel, "**Title**: {}\n**Genres**: {}\n**Length*: {} Minutes\n**Synopsis**: {}".format(title, gen, runtime, summary))
 
 
 @bot.command(pass_context=True)
