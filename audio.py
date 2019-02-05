@@ -795,12 +795,7 @@ async def setup(ctx):
 
     await bot.create_role(author.server, name="Friend of Owner")
     await bot.create_role(author.server, name="Verified")
-    everyone_perms = discord.PermissionOverwrite(send_messages=False, read_messages=True
-    everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
-    user_perms = discord.PermissionOverwrite(read_messages=True)
-    user = discord.ChannelPermissions(target=server.default_role, overwrite=user_perms)
-    private_perms = discord.PermissionOverwrite(read_messages=False)
-    private = discord.ChannelPermissions(target=server.default_role, overwrite=private_perms)    
+        
     await bot.create_channel(server, '🎉welcome🎉',everyone)
     await bot.create_channel(server, '🎯rules🎯',everyone)
     await bot.create_channel(server, '🎥featured-content🎥',everyone)
