@@ -481,49 +481,7 @@ async def help(ctx):
     await bot.say(embed=embed)
     
 
-async def fun(con):
-    msg = discord.Embed(title=None, description='**Fun commands for Kurusai**')
-    msg.add_field(name='Name', value='s.dice <min> <max>\n\
-    s.game <name>\n\
-    s.watching <name>\n\
-    s.listening <name>\n\
-    s.catfact\n\
-    s.dogfact\n\
-    s.bunnyfact\n\
-    s.pifact\n\
-    s.randomanime\n\
-    s.randommovie\n\
-    s.randomshow\n\
-    s.cat\n\
-    s.cookie <@user>\n\
-    s.neko or s.neko nsfw\n\
-    s.dog\n\
-    s.bunny\n\
-    s.tts <message>\n\
-    s.say <message>\n\
-    s.worldchat\n\
-    s.timer <time>', inline=True)
-    msg.add_field(name='Command Usage', value='Role random number from <min> <max>\n\
-    Changes game playing status of bot\n\
-    Changes watching status of bot\n\
-    Changes Listening status of bot\n\
-    Get random cat fact\n\
-    Get a random dog fact\n\
-    Get a random bunny fact\n\
-    Get a random pi(3.14) fact\n\
-    Get random anime\n\
-    Get random movie\n\
-    Get random show\n\
-    Get a picture of random cat\n\
-    Give random amount of cookie to mentioned user\n\
-    Random Neko girl picture\n\
-    Random bunny picture\n\
-    Get random dog picture\n\
-    Use text to speech on bot\n\
-    Make the bot say what you want\n\
-    Creates a text channel that connects to other servers\n\
-    Creates a countdown timer', inline=True)
-    await bot.send_message(con.message.channel, embed=msg)
+
 	
 	
 
@@ -819,10 +777,92 @@ async def on_message_delete(message):
     await bot.send_message(channel, embed=embed)
 	
 
+@bot.command(pass_context = True)
+@commands.has_permissions(administrator=True)
+async def setup(ctx):
+    author = ctx.message.author
+    server = ctx.message.server
+    mod_perms = discord.Permissions(manage_messages=True, kick_members=True, manage_nicknames =True, mute_members=True)
+    admin_perms = discord.Permissions(ADMINISTRATOR=True)
+
+    
+    await bot.create_role(author.server, name="Owner", permissions=admin_perms)
+    await bot.create_role(author.server, name="Admin", permissions=admin_perms)
+    await bot.create_role(author.server, name="Senior Moderator", permissions=mod_perms)
+    await bot.create_role(author.server, name="G.O.H")
+    await bot.create_role(author.server, name="Moderator", permissions=mod_perms)
+    await bot.create_role(author.server, name="Muted")
+
+    await bot.create_role(author.server, name="Friend of Owner")
+    await bot.create_role(author.server, name="Verified")
+    everyone_perms = discord.PermissionOverwrite(send_messages=False, read_messages=True
+    everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
+    user_perms = discord.PermissionOverwrite(read_messages=True)
+    user = discord.ChannelPermissions(target=server.default_role, overwrite=user_perms)
+    private_perms = discord.PermissionOverwrite(read_messages=False)
+    private = discord.ChannelPermissions(target=server.default_role, overwrite=private_perms)    
+    await bot.create_channel(server, '🎉welcome🎉',everyone)
+    await bot.create_channel(server, '🎯rules🎯',everyone)
+    await bot.create_channel(server, '🎥featured-content🎥',everyone)
+    await bot.create_channel(server, '📢announcements📢',everyone)
+    await bot.create_channel(server, '📢vote_polls📢',everyone)
+    await bot.create_channel(server, 'private_chat',private)
+    await bot.create_channel(server, '🎮general_chat🎮',user)
+    await bot.create_channel(server, '🎮general_media🎮',user)
+    await bot.create_channel(server, '👍bots_zone👍',user)
+    await bot.create_channel(server, '🎥youtube_links🎥',user)
+    await bot.create_channel(server, '🎥giveaway_links🎥',user)
+    await bot.create_channel(server, '🎥other_links🎥',user)
+    await bot.create_channel(server, '🔥Music Zone🔥', type=discord.ChannelType.voice)
+    await bot.create_channel(server, '🔥music_command🔥s',user)
+    await bot.create_channel(server, '🔥Chill Zone🔥', type=discord.ChannelType.voice)
+    print(f"{ctx.message.author.name} from {ctx.message.server} used d?setup command")
+
+    
+def user_is_me(ctx):
+	return ctx.message.author.id == "455500545587675156"
 	
 	
-	
-	
+@bot.command(pass_context=True)
+async def coinflip(ctx):
+    user = ctx.message.author
+    side = random.randint(0, 1)
+    server = ctx.message.server
+    join = discord.Embed(title="devil ", description=" ", color=0x008790)
+    if side == 0:
+        join.add_field(name="the coin landed on:", value="Heads!", inline=False)
+        join.set_footer(text='Requested by: ' + user.name)
+        await bot.send_message(ctx.message.channel, embed=join)
+    if side == 1:
+        join.add_field(name="the coin landed on:", value="Tails!", inline=False)
+        join.set_footer(text='Requested by: ' + user.name)
+        await bot.send_message(ctx.message.channel, embed=join)
+        
+        embed = discord.Embed(title=f"User: {ctx.message.author.name} have used coinflip command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+
+        await bot.send_message(channel, embed=embed)
+						 
+						 
+@bot.command(name="say", pass_context=True)
+@commands.has_permissions(administrator=True)
+async def _say(ctx, *, msg = None):
+    await bot.delete_message(ctx.message)
+
+    if not msg: await bot.say("Please specify a message to send")
+    else: await bot.say(msg)
+    return
+    
+    embed = discord.Embed(title=f"User: {ctx.message.author.name} have used say command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+    await bot.send_message(channel, embed=embed)
+
+    
+@_say.error
+async def say_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, you do not have a administrator permission to use this command.".format(ctx.message.author.mention)
+		await bot.send_message(ctx.message.channel, text)					 
+						 
+						 
 	
 	
 @bot.command(pass_context=True)
