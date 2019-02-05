@@ -253,17 +253,63 @@ async def clear(ctx, number):
 
 
 	
-@bot.command(pass_context = True)
-async def mute(ctx, member: discord.Member):
-     if ctx.message.author.server_permissions.administrator or ctx.message.author.id == '455500545587675156':
-        role = discord.utils.get(member.server.roles, name='Muted')
-        await bot.add_roles(member, role)
-        embed=discord.Embed(title="User Muted!", description="**{0}** was muted by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
-        await bot.say(embed=embed)
-     else:
-        embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
-        await bot.say(embed=embed)	
+@bot.command(name="mute", pass_context=True)
+@commands.has_permissions(kick_members=True, administrator=True)
+async def _mute(ctx, user: discord.Member = None, *, arg = None):
+	if user is None:
+		await bot.say("please provide a member")
+		return False
+	if arg is None:
+		await bot.say("please provide a reason to {}".format(user.name))
+		return False
+	if user.server_permissions.kick_members:
+		return False
+	reason = arg
+	author = ctx.message.author
+	role = discord.utils.get(ctx.message.server.roles, name="Muted")
+	await bot.add_roles(user, role)
+	embed = discord.Embed(title="Mute", description=" ", color=0xFFA500)
+	embed.add_field(name="User: ", value="<@{}>".format(user.id), inline=False)
+	embed.add_field(name="Moderator: ", value="{}".format(author.mention), inline=False)
+	embed.add_field(name="Reason: ", value="{}\n".format(arg), inline=False)
+	await bot.say(embed=embed)
 	
+
+@_mute.error
+async def mute_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, You don't have requirement permission to use this command `kick_members`.".format(ctx.message.author.mention)
+		await bot.send_message(ctx.message.channel, text)	
+
+@bot.command(name="unmute", pass_context=True)
+@commands.has_permissions(kick_members=True, administrator=True)
+async def _unmute(ctx, user: discord.Member = None, *, arg = None):
+	if user is None:
+		await bot.say("please provide a member")
+		return False
+	if arg is None:
+		await bot.say("please provide a reason to {}".format(user.name))
+		return False
+	if user.server_permissions.kick_members:
+		return False
+	reason = arg
+	author = ctx.message.author
+	role = discord.utils.get(ctx.message.server.roles, name="Muted")
+	await bot.remove_roles(user, role)
+	embed = discord.Embed(title="Unmute", description=" ", color=0x00ff00)
+	embed.add_field(name="User: ", value="<@{}>".format(user.id), inline=False)
+	embed.add_field(name="Moderator: ", value="{}".format(author.mention), inline=False)
+	embed.add_field(name="Reason: ", value="{}\n".format(arg), inline=False)
+	await bot.say(embed=embed)
+	
+
+@_unmute.error
+async def unmute_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, You don't have requirement permission to use this command `kick_members`.".format(ctx.message.author.mention)
+		await bot.send_message(ctx.message.channel, text)		
+		
+		
 	
 @bot.command(pass_context=True)
 async def botinfo(ctx):
@@ -381,6 +427,7 @@ async def warn_error(error, ctx):
 	
 	
 @bot.command(pass_context=True)
+@commands.has_permissions(kick_members=True, ban_members=True, administrator=True)
 async def unban(con,user:int):
     try:
         who=await bot.get_user_info(user)
@@ -526,32 +573,44 @@ async def on_member_join(member):
 async def help(ctx):
     embed = discord.Embed(title=None, description="Help command for devil", color=0xff00f6)
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
-       
+    embed.add_field(name="bot info", value="d?botinfo")   
     embed.add_field(name='Command Prefix', value='**d?**', inline=True)
+    embed.add_field(name="moderations", value="d?moderations - to get list of moderations")
     embed.add_field(name='invite', value='Bot invite', inline=True)
     embed.add_field(name='info', value='Show information about a user.', inline=True)	  
     embed.add_field(name='serverinfo', value='Show server information.', inline=True)	  
     embed.add_field(name='avatar', value='show user avatar', inline=True)  
     embed.add_field(name='clear', value='clear chats', inline=True)	 
-    embed.add_field(name='mute', value='Mute users.', inline=True)
-    embed.add_field(name='unmute', value='unmete user.', inline=True)
     embed.add_field(name='get_id', value='.get_id', inline=True)
     embed.add_field(name='guildcount', value='Bot Guild Count', inline=True)
     embed.add_field(name='guildid', value='Guild ID', inline=True)
     embed.add_field(name='guildicon', value='Guild Icon', inline=True)  
     embed.add_field(name='joined', value='Says when a member joined.', inline=True)
-    embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)	
-    embed.add_field(name='ban', value='Ban a user from this server.', inline=True)
+    embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)
+    embed.add_field(name="say", value="d!say [Text] - Make the bot say something - don't abuse this.")
+    embed.add_field(name="d!coinflip", value="50 50 chance of getting tails and heads")
     embed.add_field(name='dice', value='fun command', inline=True)
     embed.add_field(name='online', value='Members Online.', inline=True)
     embed.add_field(name='offline', value='Members offline.', inline=True)
     embed.add_field(name='welcomer set', value='if you want to see welcome message then make #welcome channel.', inline=True)
+    embed.set_thumbnail(url=server.icon_url)
+    embed.set_footer(text="Requested by: " + author.name)
     embed.set_footer(text='Created By: imran',
                 icon_url='https://raw.githubusercontent.com/CharmingMother/Kurusaki/master/img/Dong%20Cheng.png')
     await bot.say(embed=embed)
     
 
-
+@bot.command(pass_context=True)
+async def moderations(ctx):
+	embed = discord.Embed(title="ban", description="d!ban @user [your reason here]", color=0xFFFF)
+	embed.add_field(name="kick", value="d!kick @user [your reason here]")
+	embed.add_field(name="warn", value="d!warn @user [your reason here]")
+	embed.add_field(name="mute", value="d!mute @user [your reason here]")
+	embed.add_field(name="unmute", value="d!unmute @user [your reason here]")
+	embed.add_field(name="unban", value="d!unban user.id | for example d!unban 277983178914922497")
+	await bot.say(embed=embed)
+	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+	await bot.send_message(channel, embed=embed)
 	
 	
 
