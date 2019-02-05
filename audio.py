@@ -224,8 +224,7 @@ async def avatar(ctx, member: discord.Member):
     await bot.reply("{}".format(member.avatar_url))
 
 @bot.command()
-async def stats(ctx):
-	author = ctx.message.author
+async def stats():
 	servers = list(bot.servers)
 	current_time = time.time()
 	difference = int(round(current_time - start_time))
