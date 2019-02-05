@@ -561,11 +561,7 @@ async def dog(self,con):
         await self.bot.send_message(con.message.channel, embed=emb)
 
 
-@bot.command(pass_context=True)
-async def say(self,con, *, msg):
-        message = await self.bot.send_message(con.message.channel, "{}".format(msg))
-        await asyncio.sleep(120)
-        await self.bot.delete_message(message)
+
 
 
 @bot.command(pass_context=True)
