@@ -223,7 +223,19 @@ async def avatar(ctx, member: discord.Member):
     """User Avatar"""
     await bot.reply("{}".format(member.avatar_url))
 
-  
+@bot.command()
+async def stats(ctx):
+	author = ctx.message.author
+	servers = list(bot.servers)
+	current_time = time.time()
+	difference = int(round(current_time - start_time))
+	text = str(datetime.timedelta(seconds=difference))
+	embed = discord.Embed(title="Servers:", description=f"{str(len(servers))}", color=0xFFFF)
+	embed.add_field(name="Users:", value=f"{str(len(set(bot.get_all_members())))}")
+	embed.add_field(name="Uptime:", value=f"{text}")
+	embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/501659280680681472/6587c3847aafd25f631eaa556a779368.webp?size=1024")
+        embed.set_footer(text="Requested by: " + author.name)
+	await bot.say(embed=embed) 
 
 
   
@@ -583,8 +595,6 @@ async def help(ctx):
     embed.add_field(name='welcomer set', value='if you want to see welcome message then make #welcome channel.', inline=True)
     embed.set_thumbnail(url=server.icon_url)
     embed.set_footer(text="Requested by: " + author.name)
-    embed.set_footer(text='Created By: imran',
-                icon_url='https://raw.githubusercontent.com/CharmingMother/Kurusaki/master/img/Dong%20Cheng.png')
     await bot.say(embed=embed)
     
 
