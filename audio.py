@@ -571,6 +571,8 @@ async def on_member_join(member):
 
 @bot.command(pass_context=True)
 async def help(ctx):
+    server = ctx.message.server
+    author = ctx.message.author
     embed = discord.Embed(title=None, description="Help command for devil", color=0xff00f6)
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
     embed.add_field(name="bot info", value="d?botinfo")   
