@@ -234,7 +234,6 @@ async def stats(ctx):
 	embed.add_field(name="Users:", value=f"{str(len(set(bot.get_all_members())))}")
 	embed.add_field(name="Uptime:", value=f"{text}")
 	embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/501659280680681472/6587c3847aafd25f631eaa556a779368.webp?size=1024")
-        embed.set_footer(text="Requested by: " + author.name)
 	await bot.say(embed=embed) 
 
 
