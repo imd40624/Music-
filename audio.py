@@ -14,6 +14,8 @@ from time import localtime, strftime
 import requests as rq
 import random
 
+start_time = time.time()
+
 
 bot=commands.Bot(command_prefix='d?')
 bot.remove_command('help')
@@ -592,12 +594,12 @@ async def help(ctx):
     embed.add_field(name='guildicon', value='Guild Icon', inline=True)  
     embed.add_field(name='joined', value='Says when a member joined.', inline=True)
     embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)
-    embed.add_field(name="say", value="d!say [Text] - Make the bot say something - don't abuse this.")
+    embed.add_field(name="say", value="d?say [Text] - Make the bot say something - don't abuse this.")
     embed.add_field(name="d!coinflip", value="50 50 chance of getting tails and heads")
     embed.add_field(name='dice', value='fun command', inline=True)
     embed.add_field(name='online', value='Members Online.', inline=True)
     embed.add_field(name='offline', value='Members offline.', inline=True)
-    embed.add_field(name="d!membercount", value="to see how many members are in the server")
+    embed.add_field(name="d?membercount", value="to see how many members are in the server")
     embed.add_field(name='welcomer set', value='if you want to see welcome message then make #welcome channel.', inline=True)
     embed.set_thumbnail(url=server.icon_url)
     embed.set_footer(text="Requested by: " + author.name)
