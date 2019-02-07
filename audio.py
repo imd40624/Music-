@@ -316,7 +316,13 @@ async def botinfo(ctx):
 	await bot.say(embed=embed)
 	
         
-
+@bot.command(pass_context = True)
+@commands.has_permissions(administrator=True) 
+async def bans(ctx):
+    x = await bot.get_bans(ctx.message.server)
+    x = '\n'.join([y.name for y in x])
+    embed = discord.Embed(title = "Ban list", description = x, color = 0xFFFFF)
+    return await bot.say(embed = embed)
        
         
         
