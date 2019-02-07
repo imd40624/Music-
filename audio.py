@@ -5,6 +5,7 @@ import os
 import logging
 import typing
 import json
+import discord, datetime, time
 from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.ext.commands import has_permissions 
@@ -596,6 +597,7 @@ async def help(ctx):
     embed.add_field(name='dice', value='fun command', inline=True)
     embed.add_field(name='online', value='Members Online.', inline=True)
     embed.add_field(name='offline', value='Members offline.', inline=True)
+    embed.add_field(name="d!membercount", value="to see how many members are in the server")
     embed.add_field(name='welcomer set', value='if you want to see welcome message then make #welcome channel.', inline=True)
     embed.set_thumbnail(url=server.icon_url)
     embed.set_footer(text="Requested by: " + author.name)
@@ -604,12 +606,12 @@ async def help(ctx):
 
 @bot.command(pass_context=True)
 async def moderations(ctx):
-	embed = discord.Embed(title="ban", description="d!ban @user [your reason here]", color=0xFFFF)
-	embed.add_field(name="kick", value="d!kick @user [your reason here]")
-	embed.add_field(name="warn", value="d!warn @user [your reason here]")
-	embed.add_field(name="mute", value="d!mute @user [your reason here]")
-	embed.add_field(name="unmute", value="d!unmute @user [your reason here]")
-	embed.add_field(name="unban", value="d!unban user.id | for example d!unban 277983178914922497")
+	embed = discord.Embed(title="ban", description="d?ban @user [your reason here]", color=0xFFFF)
+	embed.add_field(name="kick", value="d?kick @user [your reason here]")
+	embed.add_field(name="warn", value="d?warn @user [your reason here]")
+	embed.add_field(name="mute", value="d?mute @user [your reason here]")
+	embed.add_field(name="unmute", value="d?unmute @user [your reason here]")
+	embed.add_field(name="unban", value="d?unban user.id | for example d!unban 277983178914922497")
 	await bot.say(embed=embed)
 	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
 	await bot.send_message(channel, embed=embed)
@@ -956,7 +958,19 @@ async def say_error(error, ctx):
 	if isinstance(error, discord.ext.commands.errors.CheckFailure):
 		text = "Sorry {}, you do not have a administrator permission to use this command.".format(ctx.message.author.mention)
 		await bot.send_message(ctx.message.channel, text)					 
-						 
+
+@bot.command(pass_context=True, no_pm=True)
+async def membercount(ctx):
+	members = set(ctx.message.server.members)
+	bots = filter(lambda m: m.bot, members)
+	bots = set(bots)
+	users = members - bots
+	await bot.send_message(ctx.message.channel, embed=discord.Embed(title="Membercount", description="{} there is {} users and {} bots with a total of {} members in this server.".format(ctx.message.author.mention, len(users), len(bots), len(ctx.message.server.members)), colour=0X008CFF))
+	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used membercount command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+	await bot.send_message(channel, embed=embed)		
+		
+		
+		
 						 
 	
 	
