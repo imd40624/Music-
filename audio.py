@@ -972,6 +972,28 @@ async def membercount(ctx):
 	await bot.send_message(channel, embed=embed)		
 		
 		
+
+@bot.command(pass_context=True)
+async def slap(ctx, user: discord.Member = None):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    gifs = ["http://rs20.pbsrc.com/albums/b217/strangething/flurry-of-blows.gif?w=280&h=210&fit=crop", "https://media.giphy.com/media/LB1kIoSRFTC2Q/giphy.gif", "https://i.imgur.com/4MQkDKm.gif"]
+    if user == None:
+        await bot.say(f"{ctx.message.author.mention} ```Proper usage is\n\n>slap <mention a user>```")
+    else:
+        embed = discord.Embed(title=f"{ctx.message.author.name} Just slapped the shit out of {user.name}!", color = discord.Color((r << 16) + (g << 8) + b))
+        embed.set_image(url=random.choice(gifs))
+        await bot.say(embed=embed)	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 						 
 	
