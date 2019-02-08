@@ -584,6 +584,7 @@ async def help(ctx):
     embed.add_field(name="bot info", value="d?botinfo")   
     embed.add_field(name='Command Prefix', value='**d?**', inline=True)
     embed.add_field(name="moderations", value="d?moderations - to get list of moderations")
+    embed.add_field(name="fun commands", value="d?help_fun - to get list of fun commands")
     embed.add_field(name='invite', value='Bot invite', inline=True)
     embed.add_field(name='info', value='Show information about a user.', inline=True)	  
     embed.add_field(name='serverinfo', value='Show server information.', inline=True)	  
@@ -596,8 +597,6 @@ async def help(ctx):
     embed.add_field(name='joined', value='Says when a member joined.', inline=True)
     embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)
     embed.add_field(name="say", value="d?say [Text] - Make the bot say something - don't abuse this.")
-    embed.add_field(name="d!coinflip", value="50 50 chance of getting tails and heads")
-    embed.add_field(name='dice', value='fun command', inline=True)
     embed.add_field(name='online', value='Members Online.', inline=True)
     embed.add_field(name='offline', value='Members offline.', inline=True)
     embed.add_field(name="d?membercount", value="to see how many members are in the server")
@@ -606,6 +605,23 @@ async def help(ctx):
     embed.set_footer(text="Requested by: " + author.name)
     await bot.say(embed=embed)
     
+@bot.command(pass_context=True)
+async def help_fun(ctx):
+	embed = discord.Embed(title="joke", description="d?joke", color=0xFFFF)
+	embed.add_field(name="kiss", value="d?kiss @user")
+	embed.add_field(name="hug", value="d?hug @user")
+	embed.add_field(name="slap", value="d?slap @user")
+	embed.add_field(name="thuglife", value="d?thuglife")
+	embed.add_field(name="burned", value="d?burned")
+	embed.add_field(name="d?coinflip", value="50 50 chance of getting tails and heads")
+	embed.add_field(name="dice", value="d?dice [fun command]")
+        embed.add_field(name="savage", value="d?savage [fun command]")	
+	await bot.say(embed=embed)
+	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+	await bot.send_message(channel, embed=embed)
+
+
+
 
 @bot.command(pass_context=True)
 async def moderations(ctx):
