@@ -1000,7 +1000,7 @@ async def kiss(ctx, user: discord.Member):
 
 
 
-@client.command(pass_context=True)
+@bot.command(pass_context=True)
 async def hug(ctx, user: discord.Member):
     r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
     if user.id == ctx.message.author.id:
