@@ -2,6 +2,7 @@ import discord
 import asyncio
 import youtube_dl
 import os
+import colorsys
 import logging
 import typing
 import json
