@@ -615,7 +615,7 @@ async def help_fun(ctx):
 	embed.add_field(name="burned", value="d?burned")
 	embed.add_field(name="d?coinflip", value="50 50 chance of getting tails and heads")
 	embed.add_field(name="dice", value="d?dice [fun command]")
-        embed.add_field(name="savage", value="d?savage [fun command]")	
+        embed.add_field(name="savage", value="d?savage [fun command]")
 	await bot.say(embed=embed)
 	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
 	await bot.send_message(channel, embed=embed)
