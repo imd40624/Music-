@@ -987,7 +987,29 @@ async def slap(ctx, user: discord.Member = None):
 		
 		
 		
-		
+@bot.command(pass_context=True)
+async def kiss(ctx, user: discord.Member):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    randomurl = ["https://media3.giphy.com/media/G3va31oEEnIkM/giphy.gif", "https://i.imgur.com/eisk88U.gif", "https://media1.tenor.com/images/e4fcb11bc3f6585ecc70276cc325aa1c/tenor.gif?itemid=7386341", "http://25.media.tumblr.com/6a0377e5cab1c8695f8f115b756187a8/tumblr_msbc5kC6uD1s9g6xgo1_500.gif"]
+    if user.id == ctx.message.author.id:
+        await bot.say("Goodluck kissing yourself {}".format(ctx.message.author.mention))
+    else:
+        embed = discord.Embed(title=f"{user.name} You just got a kiss from {ctx.message.author.name}", color = discord.Color((r << 16) + (g << 8) + b))
+        embed.set_image(url=random.choice(randomurl))
+        await bot.say(embed=embed)
+
+
+
+@client.command(pass_context=True)
+async def hug(ctx, user: discord.Member):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    if user.id == ctx.message.author.id:
+        await bot.say("{} Wanted to hug himself/herself , good luck on that you will look like an idiot trying to do it".format(user.mention))
+    else:
+        randomurl = ["http://gifimage.net/wp-content/uploads/2017/09/anime-hug-gif-5.gif", "https://media1.tenor.com/images/595f89fa0ea06a5e3d7ddd00e920a5bb/tenor.gif?itemid=7919037", "https://media.giphy.com/media/NvkwNVuHdLRSw/giphy.gif"]
+        embed = discord.Embed(title=f"{user.name} You just got a hug from {ctx.message.author.name}", color = discord.Color((r << 16) + (g << 8) + b))
+        embed.set_image(url=random.choice(randomurl))
+        await bot.say(embed=embed)	
 		
 		
 		
