@@ -590,6 +590,17 @@ async def help(ctx):
     embed.add_field(name="General Commands", value="d?help_general - to get list of fun commands")
     embed.add_field(name="Admin Commands", value="d?help_admin - to get list of fun commands")
     embed.add_field(name='welcomer set', value='if you want to see welcome message then make #welcome channel.', inline=True)
+    embed.add_field(name='joined', value='Says when a member joined.', inline=True)		
+    embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)
+    embed.add_field(name='online', value='Members Online.', inline=True)
+    embed.add_field(name='offline', value='Members offline.', inline=True)
+    embed.add_field(name='membercount', value='to see how many members are in the server.')
+    embed.add_field(name='invite', value='Bot invite', inline=True)		
+    embed.add_field(name='info', value='Show information about a user. [d?info @user]', inline=True)
+    embed.add_field(name='serverinfo', value='Show server information.', inline=True)
+    embed.add_field(name='avatar', value='show user avatar [d?avatar @user]', inline=True)  
+    embed.add_field(name='meme', value='d?meme get a rendom meme.')
+    embed.add_field(name='Movie', value='d?movie [eg-d?movie the one]')
     embed.add_field(name=None, value="**More commands being added soon!**")
     embed.set_thumbnail(url=server.icon_url)
     embed.set_footer(text="Requested by: " + author.name)
@@ -616,28 +627,8 @@ async def help_fun(ctx):
 	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used fun command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
 	await bot.send_message(channel, embed=embed)
 
-@bot.command(pass_context=True)
-async def help_general(ctx):
-        author = ctx.message.author
-        embed = discord.Embed(title=None, description='General Commands....', color=0xFFFF)
+
 	
-        embed.add_field(name='joined', value='Says when a member joined.', inline=True)		
-        embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)
-        embed.add_field(name='online', value='Members Online.', inline=True)
-        embed.add_field(name='offline', value='Members offline.', inline=True)
-        embed.add_field(name='membercount', value='to see how many members are in the server.')
-	embed.add_field(name='invite', value='Bot invite', inline=True)		
-        embed.add_field(name='info', value='Show information about a user. [d?info @user]', inline=True)	  
-        embed.add_field(name='serverinfo', value='Show server information.', inline=True)
-	embed.add_field(name='avatar', value='show user avatar [d?avatar @user]', inline=True)  
-	embed.add_field(name='meme', value='d?meme get a rendom meme.')
-        embed.add_field(name='Movie', value='d?movie [eg-d?movie the one]')
-        embed.add_field(name=None, value="**More commands being added soon!**")
-	
-	 embed.set_footer(text="Requested by: " + author.name)
-         await bot.say(embed=embed)
-         embed = discord.Embed(title=f"User: {ctx.message.author.name} have used general command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
-	 await bot.send_message(channel, embed=embed)
 	
 @bot.command(pass_context=True)
 async def help_admin(ctx):
