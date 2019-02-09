@@ -620,9 +620,6 @@ async def help_fun(ctx):
 async def help_general(ctx):
 	author = ctx.message.author
 	embed = discord.Embed(title=None, description='General Commands....', color=0xFFFF)
-        embed.add_field(name='guildcount', value='Bot Guild Count', inline=True)
-        embed.add_field(name='guildid', value='Guild ID', inline=True)
-        embed.add_field(name='guildicon', value='Guild Icon', inline=True)  
         embed.add_field(name='joined', value='Says when a member joined.', inline=True)
         embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)
         embed.add_field(name='online', value='Members Online.', inline=True)
