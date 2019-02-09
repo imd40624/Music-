@@ -635,7 +635,6 @@ async def help_admin(ctx):
 	author = ctx.message.author
 	embed = discord.Embed(title=None, description="Admin Commands....", color=0xFFFF)
 	embed.add_field(name="say", value="d?say [Text] - Make the bot say something - don't abuse this.")
-        embed.add_field(name="dm", value="d?dm [@user Text..] - Make the bot say something")                     
         embed.add_field(name="announce", value="d?announce [#Channel Text] - Make the bot say something - don't abuse this.")
 	embed.add_field(name=None, value="**More commands being added soon!**")
         embed.set_footer(text="Requested by: " + author.name)
