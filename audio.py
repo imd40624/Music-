@@ -626,7 +626,7 @@ async def help_general(ctx):
         embed.add_field(name='online', value='Members Online.', inline=True)
         embed.add_field(name='offline', value='Members offline.', inline=True)
         embed.add_field(name='membercount', value='to see how many members are in the server.')
-	embed.add_field(name='invite', value='Bot invite', inline=True)
+	embed.add_field(name='invite', value='Bot invite', inline=True)		
         embed.add_field(name='info', value='Show information about a user. [d?info @user]', inline=True)	  
         embed.add_field(name='serverinfo', value='Show server information.', inline=True)
 	embed.add_field(name='avatar', value='show user avatar [d?avatar @user]', inline=True)  
