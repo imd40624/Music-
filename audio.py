@@ -1079,7 +1079,38 @@ async def meme(ctx):
             embed.timestamp = datetime.datetime.utcnow()
             await bot.say(embed=embed)
 						 
-	
+
+@bot.command(pass_context = True)
+async def dm(ctx, user: discord.Member, *, msg: str):
+   if user is None or msg is None:
+       await bot.say('Invalid args. Use this command like: ``mv!dm @user message``')
+   if ctx.message.author.server_permissions.kick_members == False:
+       await bot.say('**You do not have permission to use this command**')
+       return
+   else:
+       await bot.send_message(user, msg)
+       await bot.delete_message(ctx.message)          
+       await bot.say("Success! Your DM has made it! :white_check_mark: ")		
+		
+		
+@bot.command(pass_context = True)
+async def flipcoin(ctx):
+    choices = ['Heads', 'Tails', 'Coin self-destructed']
+    color = discord.Color(value=0x00ff00)
+    embed=discord.Embed(color=color, title='Flipped a coin!')
+    embed.description = random.choice(choices)
+    await bot.send_typing(ctx.message.channel)
+    await bot.say(embed=embed)	
+		
+@bot.command(pass_context = True)
+async def rolldice(ctx):
+    choices = ['1', '2', '3', '4', '5', '6']
+    color = discord.Color(value=0x00ff00)
+    em = discord.Embed(color=color, title='Rolled! (1 6-sided die)', description=random.choice(choices))
+    await bot.send_typing(ctx.message.channel)
+    await bot.say(embed=em)	
+		
+		
 	
 @bot.command(pass_context=True)
 async def embed(ctx):
