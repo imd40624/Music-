@@ -1076,7 +1076,7 @@ async def meme(ctx):
             embed.set_image(url=data[0]["data"]["children"][0]["data"]["url"])
             embed.set_footer(text=f'Requested by: {ctx.message.author.display_name}', icon_url=f'{ctx.message.author.avatar_url}')
             embed.timestamp = datetime.datetime.utcnow()
-            await bot.say(embed=embed	
+            await bot.say(embed=embed)
 						 
 	
 	
