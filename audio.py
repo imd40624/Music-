@@ -587,8 +587,8 @@ async def help(ctx):
     embed.add_field(name='Command Prefix', value='**d?**', inline=True)
     embed.add_field(name="Moderations Commands", value="d?help_moderations - to get list of moderations")
     embed.add_field(name="Fun Commands", value="d?help_fun - to get list of fun commands")
-    embed.add_field(name="General Commands", value="d?help_general - to get list of fun commands")
-    embed.add_field(name="Admin Commands", value="d?help_admin - to get list of fun commands")
+    embed.add_field(name="say", value="d?say [Text] - Make the bot say something - don't abuse this.")
+    embed.add_field(name="announce", value="d?announce [#Channel Text] - Make the bot say something - don't abuse this.")   
     embed.add_field(name='welcomer set', value='if you want to see welcome message then make #welcome channel.', inline=True)
     embed.add_field(name='joined', value='Says when a member joined.', inline=True)		
     embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)
@@ -630,17 +630,7 @@ async def help_fun(ctx):
 
 	
 	
-@bot.command(pass_context=True)
-async def help_admin(ctx):
-	author = ctx.message.author
-	embed = discord.Embed(title=None, description="Admin Commands....", color=0xFFFF)
-	embed.add_field(name="say", value="d?say [Text] - Make the bot say something - don't abuse this.")
-        embed.add_field(name="announce", value="d?announce [#Channel Text] - Make the bot say something - don't abuse this.")
-	embed.add_field(name=None, value="**More commands being added soon!**")
-        embed.set_footer(text="Requested by: " + author.name)
-        await bot.say(embed=embed)
-	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used Admin command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
-	await bot.send_message(channel, embed=embed)
+
 
 	
 	
