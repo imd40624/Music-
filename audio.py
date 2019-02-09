@@ -585,31 +585,20 @@ async def help(ctx):
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
     embed.add_field(name="bot info", value="d?botinfo")   
     embed.add_field(name='Command Prefix', value='**d?**', inline=True)
-    embed.add_field(name="moderations", value="d?moderations - to get list of moderations")
-    embed.add_field(name="fun commands", value="d?help_fun - to get list of fun commands")
-    embed.add_field(name='invite', value='Bot invite', inline=True)
-    embed.add_field(name='info', value='Show information about a user.', inline=True)	  
-    embed.add_field(name='serverinfo', value='Show server information.', inline=True)	  
-    embed.add_field(name='avatar', value='show user avatar', inline=True)  
-    embed.add_field(name='clear', value='clear chats', inline=True)	 
-    embed.add_field(name='get_id', value='.get_id', inline=True)
-    embed.add_field(name='guildcount', value='Bot Guild Count', inline=True)
-    embed.add_field(name='guildid', value='Guild ID', inline=True)
-    embed.add_field(name='guildicon', value='Guild Icon', inline=True)  
-    embed.add_field(name='joined', value='Says when a member joined.', inline=True)
-    embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)
-    embed.add_field(name="say", value="d?say [Text] - Make the bot say something - don't abuse this.")
-    embed.add_field(name='online', value='Members Online.', inline=True)
-    embed.add_field(name='offline', value='Members offline.', inline=True)
-    embed.add_field(name="d?membercount", value="to see how many members are in the server")
+    embed.add_field(name="Moderations Commands", value="d?help_moderations - to get list of moderations")
+    embed.add_field(name="Fun Commands", value="d?help_fun - to get list of fun commands")
+    embed.add_field(name="General Commands", value="d?help_general - to get list of fun commands")
+    embed.add_field(name="Admin Commands", value="d?help_admin - to get list of fun commands")
     embed.add_field(name='welcomer set', value='if you want to see welcome message then make #welcome channel.', inline=True)
+    embed.add_field(name=None, value="**More commands being added soon!**")
     embed.set_thumbnail(url=server.icon_url)
     embed.set_footer(text="Requested by: " + author.name)
     await bot.say(embed=embed)
     
 @bot.command(pass_context=True)
 async def help_fun(ctx):
-	embed = discord.Embed(title="joke", description="d?joke", color=0xFFFF)
+	author = ctx.message.author
+	embed = discord.Embed(title=None, description="Fun Commands...", color=0xFFFF)
 	embed.add_field(name="kiss", value="d?kiss @user")
 	embed.add_field(name="hug", value="d?hug @user")
 	embed.add_field(name="slap", value="d?slap @user")
@@ -617,21 +606,70 @@ async def help_fun(ctx):
 	embed.add_field(name="burned", value="d?burned")
 	embed.add_field(name="d?coinflip", value="50 50 chance of getting tails and heads")
 	embed.add_field(name="dice", value="d?dice [fun command]")
+	embed.add_field(name="rolldice", value="d?rolldice [fun command]")
+	embed.add_field(name="filpcoin", value="d?flipcoin [50 50 chance]")
+	embed.add_field(name="meme", value="d?meme")
+	embed.add_field(name="Movie", value="d?movie [eg-d?movie the one]")
+	embed.add_field(name=None, value="**More commands being added soon!**")
+	embed.set_footer(text="Requested by: " + author.name)
 	await bot.say(embed=embed)
-	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used fun command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
 	await bot.send_message(channel, embed=embed)
 
-
-
-
 @bot.command(pass_context=True)
-async def moderations(ctx):
-	embed = discord.Embed(title="ban", description="d?ban @user [your reason here]", color=0xFFFF)
+async def help_general(ctx):
+	author = ctx.message.author
+	embed = discord.Embed(title=None, description='General Commands....', color=0xFFFF)
+        embed.add_field(name='get_id', value='.get_id', inline=True)
+        embed.add_field(name='guildcount', value='Bot Guild Count', inline=True)
+        embed.add_field(name='guildid', value='Guild ID', inline=True)
+        embed.add_field(name='guildicon', value='Guild Icon', inline=True)  
+        embed.add_field(name='joined', value='Says when a member joined.', inline=True)
+        embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)
+        embed.add_field(name='online', value='Members Online.', inline=True)
+        embed.add_field(name='offline', value='Members offline.', inline=True)
+        embed.add_field(name='membercount', value='to see how many members are in the server.')
+	embed.add_field(name='invite', value='Bot invite', inline=True)
+        embed.add_field(name='info', value='Show information about a user. [d?info @user]', inline=True)	  
+        embed.add_field(name='serverinfo', value='Show server information.', inline=True)
+	embed.add_field(name='avatar', value='show user avatar [d?avatar @user]', inline=True)  
+	embed.add_field(name='meme', value="d?meme get a rendom meme.")
+	embed.add_field(name="Movie", value="d?movie [eg-d?movie the one]")
+	embed.add_field(name=None, value="**More commands being added soon!**")
+	embed.set_footer(text="Requested by: " + author.name)
+        await bot.say(embed=embed)
+	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used general command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+	await bot.send_message(channel, embed=embed)
+	
+@bot.command(pass_context=True)
+async def help_admin(ctx):
+	author = ctx.message.author
+	embed = discord.Embed(title=None, description="Admin Commands....", color=0xFFFF)
+	embed.add_field(name="say", value="d?say [Text] - Make the bot say something - don't abuse this.")
+        embed.add_field(name="dm", value="d?dm [@user Text..] - Make the bot say something")
+        embed.add_field(name="announce", value="d?announce [#Channel Text] - Make the bot say something - don't abuse this.")
+	embed.add_field(name=None, value="**More commands being added soon!**")
+        embed.set_footer(text="Requested by: " + author.name)
+        await bot.say(embed=embed)
+	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used Admin command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+	await bot.send_message(channel, embed=embed)
+
+	
+	
+	
+	
+@bot.command(pass_context=True)
+async def help_moderations(ctx):
+	author = ctx.message.author
+	embed = discord.Embed(title=None, description="Moderation Commands....", color=0xFFFF)
 	embed.add_field(name="kick", value="d?kick @user [your reason here]")
 	embed.add_field(name="warn", value="d?warn @user [your reason here]")
 	embed.add_field(name="mute", value="d?mute @user [your reason here]")
 	embed.add_field(name="unmute", value="d?unmute @user [your reason here]")
+	embed.add_field(name="ban", value="d?ban @user [your reason here]")
 	embed.add_field(name="unban", value="d?unban user.id | for example d!unban 277983178914922497")
+	embed.add_field(name=None, value="**More commands being added soon!**")
+	embed.set_footer(text="Requested by: " + author.name)
 	await bot.say(embed=embed)
 	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
 	await bot.send_message(channel, embed=embed)
@@ -1084,7 +1122,7 @@ async def meme(ctx):
 @bot.command(pass_context = True)
 async def dm(ctx, user: discord.Member, *, msg: str):
    if user is None or msg is None:
-       await bot.say('Invalid args. Use this command like: ``mv!dm @user message``')
+       await bot.say('Invalid args. Use this command like: ``d?dm @user message``')
    if ctx.message.author.server_permissions.kick_members == False:
        await bot.say('**You do not have permission to use this command**')
        return
@@ -1116,7 +1154,7 @@ async def movie(ctx, *, name:str=None):
         r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
         await bot.send_typing(ctx.message.channel)
         if name is None:
-                embed=discord.Embed(description = "Please specify a movie, *eg. mv!movie Inception*", color = discord.Color((r << 16) + (g << 8) + b))
+                embed=discord.Embed(description = "Please specify a movie, *eg. d?movie Inception*", color = discord.Color((r << 16) + (g << 8) + b))
                 x = await bot.say(embed=embed)
                 await asyncio.sleep(5)
                 return await bot.delete_message(x)
@@ -1141,7 +1179,21 @@ async def movie(ctx, *, name:str=None):
             embed.set_footer(text = "Information from the OMDB API")
             await bot.say(embed=embed)
 
-
+@bot.command(pass_context = True)
+async def announce(ctx, channel: discord.Channel=None, *, msg: str=None):
+    member = ctx.message.author
+    if channel is None or msg is None:
+        await bot.say('Invalid args. Use this command like ``d?announce #channel text here``')
+        return
+    else:
+        if member.server_permissions.administrator == False:
+            await bot.say('**You do not have permission to use this command**')
+            return
+        else:
+            r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+            embed=discord.Embed(title="Announcement", description="{}".format(msg), color = discord.Color((r << 16) + (g << 8) + b))
+            await bot.send_message(channel, embed=embed)
+            await bot.delete_message(ctx.message)
 
 
 
