@@ -620,7 +620,7 @@ async def help_fun(ctx):
 async def help_general(ctx):
 	author = ctx.message.author
 	embed = discord.Embed(title=None, description='General Commands....', color=0xFFFF)
-        embed.add_field(name='get_id', value='.get_id', inline=True)
+        embed.add_field(name='get_id', value='get_id', inline=True)
         embed.add_field(name='guildcount', value='Bot Guild Count', inline=True)
         embed.add_field(name='guildid', value='Guild ID', inline=True)
         embed.add_field(name='guildicon', value='Guild Icon', inline=True)  
