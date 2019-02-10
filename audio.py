@@ -772,13 +772,6 @@ async def catfact(self,con):
 
 
 
-@bot.command(pass_context=True)
-async def cat(self,con):
-        r = rq.Session().get('http://aws.random.cat/meow').json()
-        emb = discord.Embed(title='Cat')
-        emb.set_image(url=r['file'])
-        await self.bot.send_message(con.message.channel, embed=emb)
-
 
 @bot.command(pass_context=True)
 async def cookie(self,con, user: discord.Member):
