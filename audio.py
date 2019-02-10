@@ -1304,7 +1304,83 @@ async def setuplog(ctx):
       everyone_perms = discord.PermissionOverwrite(send_messages=False, read_messages=True)
       everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
       await bot.create_channel(server, 'logs',everyone)	
+
+@bot.command(pass_context = True)
+async def wow(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:WOW:515854429485006848>')
+	
+@bot.command(pass_context = True)
+async def dank(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:OnThaCoco:515853700682743809>')
+
+@bot.command(pass_context = True)
+async def santa(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:santa:517232271678504970>')
+	
+@bot.command(pass_context = True)
+async def hi(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:hi:517232279148429313>')
+	
+@bot.command(pass_context = True)
+async def lol(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:lol:517232283670020096>')
+	
+@bot.command(pass_context = True)
+async def love(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:love:517232300912672774>')
+	
+@bot.command(pass_context = True)
+async def mad(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:mad:517232301176913951>')
+	
+@bot.command(pass_context = True)
+async def alien(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:alien:517232332663422986>')
+
+@bot.command(pass_context = True)
+async def fearfromme(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:shiroeglassespush:516174320532193289>')
+	   	
+@bot.command(pass_context = True)
+async def angry(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:angear:516174316950388772>')
+	
+@bot.command(pass_context = True)
+async def surprised(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:eyebigger:516174315058626560>')
 		
+@bot.command(pass_context = True)
+async def cat(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:agooglecat:516174312294842389>')
+		
+@bot.command(pass_context = True)
+async def thinking1(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:thinking:516183328613990400>')
+	
+@bot.command(pass_context = True)
+async def thinking2(ctx):
+    await bot.delete_message(ctx.message)
+    await bot.say('<a:thinking2:516183323127709699>')
+
+
+
+
+
+
+
 		
 	
 @bot.command(pass_context=True)
