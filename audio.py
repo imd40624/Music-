@@ -69,6 +69,24 @@ async def checking_voice(ctx):
         except:
             pass
 
+
+async def status_task():
+    while True:
+        await bot.change_presence(game=discord.Game(name='d?help', type=2))
+        await asyncio.sleep(5)
+        await bot.change_presence(game=discord.Game(name=str(len(set(bot.get_all_members())))+' users', type=3))
+        await asyncio.sleep(5)
+        await bot.change_presence(game=discord.Game(name=str(len(bot.servers))+' servers', type=3))
+        await asyncio.sleep(5)
+        await bot.change_presence(game=discord.Game(name='music'))
+        await asyncio.sleep(5)
+        await bot.change_presence(game=discord.Game(name='I need some upvotes to grow ;('))
+        await asyncio.sleep(5)
+
+
+
+
+
 @bot.event
 async def on_ready():
    bot.loop.create_task(all_false())
@@ -587,6 +605,8 @@ async def help(ctx):
     embed.add_field(name='Command Prefix', value='**d?**', inline=True)
     embed.add_field(name="Moderations Commands", value="d?help_moderations - to get list of moderations")
     embed.add_field(name="Fun Commands", value="d?help_fun - to get list of fun commands")
+    embed.add_field(name="General Commands", value="d?help_general - to get list of general commands")
+
     embed.add_field(name="say", value="d?say [Text] - Make the bot say something - don't abuse this.")
     embed.add_field(name="announce", value="d?announce [#Channel Text] - Make the bot say something - don't abuse this.")   
     embed.add_field(name='welcomer set', value='if you want to see welcome message then make #welcome channel.', inline=True)
