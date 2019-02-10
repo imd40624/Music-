@@ -1245,7 +1245,7 @@ def get_xp(user_id: int):
 async def on_message_edit(before, after):
     if before.content == after.content:
       return
-    if before.author == client.user:
+    if before.author == bot.user:
       return
     else:
       user = before.author
