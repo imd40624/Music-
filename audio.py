@@ -634,7 +634,7 @@ async def help_general(ctx):
 	r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
 	embed = discord.Embed(title=None, description="General Commands...", color=0xFFFF)	
 	embed.add_field(
-              name='Help', value="**__d?joke__**\n\n**__d?kiss @user__**\n\n**__d?hug @user__**\n\n**__d?slap @user__**\n\n**__d?guildcount__**\n\n**__d?burned__**\n\n**__d?savage__**\n\n**__d?thuglife__**\n\n**__d?guildicon__**\n\n**__d?info @user__**\n\n**__d?serverinfo Show server information__**\n\n**__d?meme__**\n\n**__d?rolldice__**\n\n**__d?flipcoin__**\n\n**__d?guess__**\n\n**__d?movie <movie name>__**", color = discord.Color((r << 16) + (g << 8) + b))
+              name='Help', value="**__d?joke__**\n\n**__d?kiss @user__**\n\n**__d?hug @user__**\n\n**__d?slap @user__**\n\n**__d?guildcount__**\n\n**__d?burned__**\n\n**__d?savage__**\n\n**__d?thuglife__**\n\n**__d?guildicon__**\n\n**__d?info @user__**\n\n**__d?serverinfo Show server information__**\n\n**__d?meme__**\n\n**__d?rolldice__**\n\n**__d?flipcoin__**\n\n**__d?guess__**\n\n**__d?movie <movie name>__**")
 	await bot.say(embed=embed)
 	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used fun command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
 	await bot.send_message(channel, embed=embed)
@@ -1278,7 +1278,18 @@ async def on_message_edit(before, after):
             embed.add_field(name = 'Channel:',value ='{}'.format(before.channel.name),inline = False)
             await bot.send_message(channel, embed=embed)		
 		
-		
+@bot.command(pass_context = True)
+async def setupwelcomer(ctx):
+    if ctx.message.author.bot:
+      return
+    if ctx.message.author.server_permissions.administrator == False:
+      await bot.say('**You do not have permission to use this command**')
+      return
+    else:
+      server = ctx.message.server
+      everyone_perms = discord.PermissionOverwrite(send_messages=False, read_messages=True)
+      everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
+      await bot.create_channel(server, 'welcome',everyone)	
 		
 		
 		
