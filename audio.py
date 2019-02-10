@@ -90,7 +90,6 @@ async def status_task():
 @bot.event
 async def on_ready():
    bot.loop.create_task(all_false())
-   await bot.change_presence(game=discord.Game(name='d?help'))
    print(bot.user.name)
     
 @bot.command(pass_context=True)
