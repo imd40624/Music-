@@ -921,7 +921,7 @@ async def on_message_delete(message):
           embed.add_field(name = 'User: **{0}**'.format(user.name),value ='UserID: **{}**'.format(user.id),inline = False)
           embed.add_field(name = 'Message:',value ='{}'.format(message.content),inline = False)
           embed.add_field(name = 'Channel:',value ='{}'.format(message.channel.name),inline = False)
-          await client.send_message(logchannel,  embed=embed)
+          await bot.send_message(logchannel,  embed=embed)
 	
 
 @bot.command(pass_context = True)
