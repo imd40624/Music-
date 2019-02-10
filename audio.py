@@ -1240,44 +1240,26 @@ def get_xp(user_id: int):
     else:
         return 0
 	
-@bot.event
-async def on_reaction_add(reaction, user):
-    if reaction.emoji == "🇻":
-        role = discord.utils.get(reaction.message.server.roles, name="Verified")
-        await bot.add_roles(user, role)
-        await bot.send_message(user, f'Added Verified role in {reaction.message.server}')
-	
-@bot.event
-async def on_reaction_remove(reaction, user):
-    if reaction.emoji == "🇻":
-        role = discord.utils.get(user.server.roles, name="Verified")
-        await bot.remove_roles(user, role)
-        await bot.send_message(user, f'Removed Verified role in {reaction.message.server}')
-        
-@bot.command(pass_context = True)
-@commands.has_permissions(administrator=True)
-async def setreactionverify(ctx):
-    author = ctx.message.author
-    server = ctx.message.server
-    everyone_perms = discord.PermissionOverwrite(send_messages=False,read_messages=True)
-    everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
-    await bot.create_channel(server, '★verify-for-chatting★',everyone)
-    for channel in author.server.channels:
-        if channel.name == '★verify-for-chatting★':
-            react_message = await client.send_message(channel, 'React with <a:happy:516183323052212236> to Verify | This verification system is to prevent our server from those who join and try to spam from self bots')
-            reaction = 'a:happy:516183323052212236'
-            await bot.add_reaction(react_message, reaction)
-  
-@bot.command(pass_context=True)
-async def remind(ctx, time=None, *,remind=None):
-    time =int(time)
-    time = time * 60
-    output = time/60
-    await bot.say("I will remind {} after {} minutes for {}".format(ctx.message.author.name, output, remind))
-    await asyncio.sleep(time)
-    await bot.say("Reminder: {} by {}".format(remind, ctx.message.author.mention))
-    await bot.send_message(ctx.message.author, "Reminder: {}".format(remind))		
 		
+@bot.event
+async def on_message_edit(before, after):
+    if before.content == after.content:
+      return
+    if before.author == client.user:
+      return
+    else:
+      user = before.author
+      member = after.author
+      for channel in user.server.channels:
+        if channel.name == 'logs':
+            r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+            embed = discord.Embed(color = discord.Color((r << 16) + (g << 8) + b))
+            embed.set_author(name='Message edited')
+            embed.add_field(name = 'User: **{0}**'.format(user.name),value ='UserID: **{}**'.format(user.id),inline = False)
+            embed.add_field(name = 'Before:',value ='{}'.format(before.content),inline = False)
+            embed.add_field(name = 'After:',value ='{}'.format(after.content),inline = False)
+            embed.add_field(name = 'Channel:',value ='{}'.format(before.channel.name),inline = False)
+            await bot.send_message(channel, embed=embed)		
 		
 		
 		
