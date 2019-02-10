@@ -221,23 +221,35 @@ async def info(ctx, user: discord.Member):
     embed.set_thumbnail(url=user.avatar_url)
     await bot.say(embed=embed)
 
-@bot.command(pass_context=True)
+@bot.command(pass_context=True)  
+@commands.has_permissions(kick_members=True)     
 async def serverinfo(ctx):
-    embed = discord.Embed(title="{}'s info".format(ctx.message.server.name), description="Here's what I could find.", color=0x00ff00)    
-    embed.add_field(name="Created at", value=ctx.message.server.created_at, inline=True)
-    embed.add_field(name="Owner", value=ctx.message.server.owner, inline=True)
-    embed.add_field(name="Name", value=ctx.message.server.name, inline=True)
-    embed.add_field(name="ID", value=ctx.message.server.id, inline=True)
-
-    
-    embed.add_field(name="AFK channel", value=ctx.message.server.afk_channel, inline=True)
-    embed.add_field(name="Verification", value=ctx.message.server.verification_level, inline=True)
-    embed.add_field(name="Region", value=ctx.message.server.region, inline=True)
-    embed.add_field(name="Roles", value=len(ctx.message.server.roles), inline=True)
-    embed.add_field(name="Members", value=len(ctx.message.server.members))
-
-    embed.set_thumbnail(url=ctx.message.server.icon_url)
-    await bot.say(embed=embed)    
+    server = ctx.message.server
+    roles = [x.name for x in server.role_hierarchy]
+    role_length = len(roles)
+    if role_length > 50: #Just in case there are too many roles...
+        roles = roles[:50]
+        roles.append('>>>> Displaying[50/%s] Roles'%len(roles))
+    roles = ', '.join(roles);
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    online = len([m.status for m in server.members if m.status == discord.Status.online or m.status == discord.Status.idle])
+    embed = discord.Embed(name="{} Server information".format(server.name), color = discord.Color((r << 16) + (g << 8) + b))
+    embed.set_thumbnail(url = server.icon_url)
+    embed.add_field(name="Server name", value=server.name, inline=True)
+    embed.add_field(name="Owner", value=server.owner.mention)
+    embed.add_field(name="Server ID", value=server.id, inline=True)
+    embed.add_field(name="Roles", value=len(server.roles), inline=True)
+    embed.add_field(name="Members", value=len(server.members), inline=True)
+    embed.add_field(name="Online", value=f"**{online}/{len(server.members)}**")
+    embed.add_field(name="Created at", value=server.created_at.strftime("%d %b %Y %H:%M"))
+    embed.add_field(name="Emojis", value=f"{len(server.emojis)}/100")
+    embed.add_field(name="Server Region", value=str(server.region).title())
+    embed.add_field(name="Total Channels", value=len(server.channels))
+    embed.add_field(name="AFK Channel", value=str(server.afk_channel))
+    embed.add_field(name="AFK Timeout", value=server.afk_timeout)
+    embed.add_field(name="Verification Level", value=server.verification_level)
+    embed.add_field(name="Roles {}".format(role_length), value = roles)
+    await bot.send_message(ctx.message.channel, embed=embed)   
       
 
 
@@ -609,7 +621,7 @@ async def help(ctx):
 
     embed.add_field(name="say", value="d?say [Text] - Make the bot say something - don't abuse this.")
     embed.add_field(name="announce", value="d?announce [#Channel Text] - Make the bot say something - don't abuse this.")   
-    embed.add_field(name='welcomer set', value='if you want to see welcome message then make #welcome channel.', inline=True)
+    embed.add_field(name='welcomer set', value='d?setupwelcomer', inline=True)
     embed.add_field(name='joined', value='Says when a member joined.', inline=True)		
     embed.add_field(name='repeat', value=' Repeats a message multiple times.', inline=True)
     embed.add_field(name='online', value='Members Online.', inline=True)
@@ -641,7 +653,13 @@ async def help_fun(ctx):
 	embed.add_field(name="filpcoin", value="d?flipcoin [50 50 chance]")
 	embed.add_field(name="meme", value="d?meme")
 	embed.add_field(name="Movie", value="d?movie [eg-d?movie the one]")
+	embed.add_field(name="Guess", value="d?guess [1-10]")
+	embed.add_field(name="Virgin", value="d?virgin @user")
+	embed.add_field(name="Gender", value="d?gender @user")
+	embed.add_field(name="Damn", value="d?damn")
+	embed.add_field(name="happybirthday", value="d?happybirthday @user")
 	embed.add_field(name=None, value="**More commands being added soon!**")
+	
 	embed.set_footer(text="Requested by: " + author.name)
 	await bot.say(embed=embed)
 	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used fun command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
@@ -674,6 +692,12 @@ async def help_moderations(ctx):
 	embed.add_field(name="unmute", value="d?unmute @user [your reason here]")
 	embed.add_field(name="ban", value="d?ban @user [your reason here]")
 	embed.add_field(name="unban", value="d?unban user.id | for example d!unban 277983178914922497")
+	embed.add_field(name="Set Welcomer", value="d?setupwelcomer [It will add a welcome channel.]")
+	embed.add_field(name="Set Logs", value="d?setuplog [It will add a logs channel.]")
+	embed.add_field(name="Dm", value="d?dm @user <text>")
+	embed.add_field(name="Say", value="d?say <text>")
+	embed.add_field(name="Announce", value="d?announce #channel <text>")
+	
 	embed.add_field(name=None, value="**More commands being added soon!**")
 	embed.set_footer(text="Requested by: " + author.name)
 	await bot.say(embed=embed)
@@ -1318,83 +1342,64 @@ async def setuplog(ctx):
       everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
       await bot.create_channel(server, 'logs',everyone)	
 
-@bot.command(pass_context = True)
-async def wow(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:WOW:515854429485006848>')
-	
-@bot.command(pass_context = True)
-async def dank(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:OnThaCoco:515853700682743809>')
 
-@bot.command(pass_context = True)
-async def santa(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:santa:517232271678504970>')
-	
-@bot.command(pass_context = True)
-async def hi(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:hi:517232279148429313>')
-	
-@bot.command(pass_context = True)
-async def lol(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:lol:517232283670020096>')
-	
-@bot.command(pass_context = True)
-async def love(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:love:517232300912672774>')
-	
-@bot.command(pass_context = True)
-async def mad(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:mad:517232301176913951>')
-	
-@bot.command(pass_context = True)
-async def alien(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:alien:517232332663422986>')
-
-@bot.command(pass_context = True)
-async def fearfromme(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:shiroeglassespush:516174320532193289>')
-	   	
-@bot.command(pass_context = True)
-async def angry(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:angear:516174316950388772>')
-	
-@bot.command(pass_context = True)
-async def surprised(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:eyebigger:516174315058626560>')
-		
-@bot.command(pass_context = True)
-async def cat(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:agooglecat:516174312294842389>')
-		
-@bot.command(pass_context = True)
-async def thinking1(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:thinking:516183328613990400>')
-	
-@bot.command(pass_context = True)
-async def thinking2(ctx):
-    await bot.delete_message(ctx.message)
-    await bot.say('<a:thinking2:516183323127709699>')
+@bot.command(pass_context=True)
+async def gender(ctx, user: discord.Member):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    random.seed(user.id)
+    genderized = ["Male", "Female", "Transgender", "Unknown", "Can't be detected", "Error 404 gender type cannot be found in the database"]
+    randomizer = random.choice(genderized)
+    if user == ctx.message.author:
+        embed = discord.Embed(title="You should know your own gender", color = discord.Color((r << 16) + (g << 8) + b))
+        await bot.say(embed=embed)
+    else:
+        embed = discord.Embed(color=0xfff47d)
+        embed.add_field(name=f"{user.name}'s gender check results", value=f"{randomizer}")
+        await bot.say(embed=embed)   
 
 
+@bot.command(pass_context=True)
+async def virgin(ctx, user: discord.Member):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    random.seed(user.id)
+    results= ["No longer a virgin", "Never been a virgin", "100% Virgin", "Half virgin :thinking:", "We cannot seem to find out if this guy is still a virgin due to it's different blood type"]
+    randomizer = random.choice(results)
+    if user == ctx.message.author:
+        embed = discord.Embed(title="Go ask yourself if you are still a virgin", color = discord.Color((r << 16) + (g << 8) + b))
+        await bot.say(embed=embed)
+    else:
+        embed = discord.Embed(color=0x7dfff2)
+        embed.add_field(name=f"{user.name}'s virginity check results", value=f"{randomizer}")
+        await bot.say(embed=embed)
 
 
+@bot.command(pass_context=True)
+async def damn(ctx):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    embed = discord.Embed(title="DAMNNNNNNNN!!", color = discord.Color((r << 16) + (g << 8) + b))
+    embed.set_image(url="http://i.imgur.com/OKMogWM.gif")
+    await bot.say(embed=embed)
+    await bot.delete_message(ctx.message)
+
+@bot.command(pass_context=True)
+async def guess(ctx, number):
+    try:
+        arg = random.randint(1, 10)
+    except ValueError:
+        await bot.say("Invalid number")
+    else:
+        await bot.say('The correct answer is ' + str(arg))
 
 
+@bot.command(pass_context = True)
+async def happybirthday(ctx, *, msg = None):
+    if not msg: await client.say("Please specify a user to wish")
+    if '@here' in msg or '@everyone' in msg:
+      return
+    await bot.say('Happy birthday ' + msg + ' \nhttps://asset.holidaycardsapp.com/assets/card/b_day399-22d0564f899cecd0375ba593a891e1b9.png')
+    return
 
-		
+
 	
 @bot.command(pass_context=True)
 async def embed(ctx):
