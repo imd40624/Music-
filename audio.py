@@ -634,7 +634,6 @@ async def help_general(ctx):
 	embed = discord.Embed(title=None, description="General Commands...", color=0xFFFF)	
 	embed.add_field(
               name='Help', value="**__d?joke__**\n\n**__d?kiss @user__**\n\n**__d?hug @user__**\n\n**__d?slap @user__**\n\n**__d?guildcount__**\n\n**__d?burned__**\n\n**__d?savage__**\n\n**__d?thuglife__**\n\n**__d?guildicon__**\n\n**__d?info @user__**\n\n**__d?serverinfo Show server information__**\n\n**__d?meme__**\n\n**__d?rolldice__**\n\n**__d?flipcoin__**\n\n**__d?guess__**\n\n**__d?movie <movie name>__**", color = discord.Color((r << 16) + (g << 8) + b))
-        embed.set_footer(text="Requested by: " + author.name)		
 	await bot.say(embed=embed)
 	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used fun command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
 	await bot.send_message(channel, embed=embed)
