@@ -1291,7 +1291,19 @@ async def setupwelcomer(ctx):
       everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
       await bot.create_channel(server, 'welcome',everyone)	
 		
-		
+@bot.command(pass_context = True)
+async def setuplog(ctx):
+    if ctx.message.author.bot:
+      return
+    if ctx.message.author.server_permissions.administrator == False:
+      await bot.say('**You do not have permission to use this command**')
+      return
+    else:
+      author = ctx.message.author
+      server = ctx.message.server
+      everyone_perms = discord.PermissionOverwrite(send_messages=False, read_messages=True)
+      everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
+      await bot.create_channel(server, 'logs',everyone)	
 		
 		
 	
