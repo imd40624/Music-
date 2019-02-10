@@ -906,13 +906,22 @@ async def deletelinks_off(ctx):
 	
 @bot.event
 async def on_message_delete(message):
-	
-    member = message.author
-    channel = get(message.server.channels, name="logs")
-    fmt = '{0.author.name} has deleted the message:\n{0.content}'
-    embed = discord.Embed(title='Message Deleted', description=fmt.format(message), colour=0xa84300)
-    embed.set_author(name=member.name, icon_url=member.avatar_url)
-    await bot.send_message(channel, embed=embed)
+    if not message.author.bot:
+      channelname = 'logs'
+      logchannel=None
+      for channel in message.server.channels:
+        if channel.name == channelname:
+          user = message.author
+      for channel in message.author.server.channels:
+        if channel.name == '╰☆☆-multiverse-log-☆☆╮':
+          logchannel = channel
+          r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+          embed = discord.Embed(color = discord.Color((r << 16) + (g << 8) + b))
+          embed.set_author(name='Message deleted')
+          embed.add_field(name = 'User: **{0}**'.format(user.name),value ='UserID: **{}**'.format(user.id),inline = False)
+          embed.add_field(name = 'Message:',value ='{}'.format(message.content),inline = False)
+          embed.add_field(name = 'Channel:',value ='{}'.format(message.channel.name),inline = False)
+          await client.send_message(logchannel,  embed=embed)
 	
 
 @bot.command(pass_context = True)
