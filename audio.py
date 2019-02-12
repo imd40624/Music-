@@ -1415,7 +1415,14 @@ async def on_member_join(member):
 async def on_message(message):
     with open("con.json", "r") as f:
         users = json.load(f)
-
+	
+        if message.content.startswith('d?lb')
+	  high_score_list = sorted(users, key=lambda x : users[x].get('xp', 0), reverse=True)
+          message = ''
+          for number, user in enumerate(high_score_list):
+              message += '{0}. {1} with {2}xp\n'.format(number + 1, user, users[user].get('xp', 0))
+              await bot.send_message(message.channel, msg)
+		
         if message.author.bot:
             return
         else:
@@ -1446,12 +1453,7 @@ async def level_up(users, user, channel):
         await bot.send_message(channel, f":tada: Congrats {user.mention}, you levelled up to level {lvl_end}!")
         users[user.id]["level"] = lvl_end
             
-    if message.content.startswith('d?lb')
-	high_score_list = sorted(users, key=lambda x : users[x].get('xp', 0), reverse=True)
-        message = ''
-        for number, user in enumerate(high_score_list):
-            message += '{0}. {1} with {2}xp\n'.format(number + 1, user, users[user].get('xp', 0))
-            await bot.send_message(message.channel, msg)
+   
 
 
 
