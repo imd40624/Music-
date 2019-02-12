@@ -1417,7 +1417,7 @@ async def on_message(message):
         users = json.load(f)
 	
         if message.content.startswith('d?lb'):
-		high_score_list = sorted(users, key=lambda x : users[x].get('xp', 0), reverse=True)
+		high_score_list = sorted(users, key=lambda x : users[x].get('xp', 0), reverse=True)		
 		message = ''
 		for number, user in enumerate(high_score_list):
                 message += '{0}. {1} with {2}xp\n'.format(number + 1, user, users[user].get('xp', 0))
