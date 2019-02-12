@@ -1445,8 +1445,13 @@ async def level_up(users, user, channel):
     if lvl_start < lvl_end:
         await bot.send_message(channel, f":tada: Congrats {user.mention}, you levelled up to level {lvl_end}!")
         users[user.id]["level"] = lvl_end
-    
-
+            
+    if message.content.startswith('!lb')
+	high_score_list = sorted(users, key=lambda x : users[x].get('xp', 0), reverse=True)
+        message = ''
+        for number, user in enumerate(high_score_list):
+            message += '{0}. {1} with {2}xp\n'.format(number + 1, user, users[user].get('xp', 0))
+            await bot.send_message(message.channel, msg)
 
 
 
