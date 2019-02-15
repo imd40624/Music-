@@ -689,7 +689,7 @@ async def help_general(ctx):
 	r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
 	embed = discord.Embed(title=None, description="General Commands...", color=0xFFFF)	
 	embed.add_field(
-              name='Help', value="**__d?joke__**\n\n**__d?kiss @user__**\n\n**__d?hug @user__**\n\n**__d?slap @user__**\n\n**__d?guildcount__**\n\n**__d?burned__**\n\n**__d?savage__**\n\n**__d?thuglife__**\n\n**__d?guildicon__**\n\n**__d?info @user__**\n\n**__d?serverinfo Show server information__**\n\n**__d?meme__**\n\n**__d?rolldice__**\n\n**__d?flipcoin__**\n\n**__d?guess__**\n\n**__d?movie <movie name>__**")
+              name='Help', value="**__d?joke__**\n\n**__d?kiss @user__**\n\n**__d?hug @user__**\n\n**__d?slap @user__**\n\n**__d?guildcount__**\n\n**__d?burned__**\n\n**__d?savage__**\n\n**__d?thuglife__**\n\n**__d?guildicon__**\n\n**__d?info @user__**\n\n**__d?serverinfo Show server information__**\n\n**__d?meme__**\n\n**__d?rolldice__**\n\n**__d?flipcoin__**\n\n**__d?guess__**\n\n**__d?movie <movie name>__**\n\n**__d?online [online members]__**\n\n**__d?offline <offline members>__**")
 	await bot.say(embed=embed)
 	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used fun command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
 	await bot.send_message(channel, embed=embed)
@@ -714,7 +714,7 @@ async def help_moderations(ctx):
 	embed.add_field(name="Dm", value="d?dm @user <text>")
 	embed.add_field(name="Say", value="d?say <text>")
 	embed.add_field(name="Announce", value="d?announce #channel <text>")
-	
+	embed.add_field(name="Set Prefix", value="d?prefix prefix [eq-d?prefix !]")
 	embed.add_field(name=None, value="**More commands being added soon!**")
 	embed.set_footer(text="Requested by: " + author.name)
 	await bot.say(embed=embed)
@@ -792,12 +792,7 @@ async def on_member_remove(member):
 
 
 
-@bot.command(pass_context=True)
-async def dog(self,con):
-        r = rq.Session().get('https://random.dog/woof.json').json()
-        emb = discord.Embed(title='Dog')
-        emb.set_image(url=r['url'])
-        await self.bot.send_message(con.message.channel, embed=emb)
+
 
 
 
@@ -813,21 +808,6 @@ async def randomshow(self,con):
         year = r_json['year']
         img = r_json['images']['poster']
         await self.bot.send_message(con.message.channel, "**Name**: {}\n**Year**: {}\n**Poster**: {}".format(name, year, img))
-
-
-@bot.command(pass_context=True)
-async def catfact(self,con):
-        session = rq.Session()
-        fact_id = random.randint(0, 127)
-        r = session.get(
-            'https://jsonblob.com/api/d02645c2-151b-11e9-8960-c9ff29aada09')
-        if r.status_code != 200:
-            await self.bot.send_message(con.message.channel, "**Something went wrong please try again later**")
-        if r.status_code == 200:
-            try:
-                await self.bot.send_message(con.message.channel, "**{}**\n**Fact ID** `{}`".format(r.json()['animals']['cats'][fact_id], fact_id))
-            except:
-                await self.bot.send_message(con.message.channel, "**Something went wrong while sending the fact\nPlease try again later**")
 
 
 
@@ -1250,67 +1230,7 @@ async def announce(ctx, channel: discord.Channel=None, *, msg: str=None):
 
 		
 		
-@bot.event
-async def on_message(message):
-    user_add_xp(message.author.id, 2)
-    await bot.process_commands(message)
-    if message.content.lower().startswith('d?rank'):
-        if message.content.lower().endswith('d?rank'):
-            r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
-            level=int(get_xp(message.author.id)/100)
-            msgs=int(get_xp(message.author.id)/2)
-            embed = discord.Embed(color = discord.Color((r << 16) + (g << 8) + b))
-            embed.set_author(name='Daily Universal Rank')
-            embed.set_thumbnail(url = message.author.avatar_url)
-            embed.add_field(name = '**__XP__**'.format(message.author),value ='``{}``'.format(get_xp(message.author.id)),inline = False)
-            embed.add_field(name = '**__Level__**'.format(message.author),value ='``{}``'.format(level),inline = False)
-            embed.add_field(name = '**__Messages__**'.format(message.author),value ='``{}`` Messages'.format(msgs),inline = False)
-            embed.add_field(name='Note:',value='Our bot reset all ranks everyday so it shows only daily rank')
-            await bot.send_message(message.channel, embed=embed)
-        else:
-            member = message.mentions[0]
-            r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
-            level=int(get_xp(member.id)/100)
-            msgs=int(get_xp(member.id)/2)
-            embed = discord.Embed(color = discord.Color((r << 16) + (g << 8) + b))
-            embed.set_author(name='Daily Universal Rank')
-            embed.set_thumbnail(url = member.avatar_url)
-            embed.add_field(name = '**__XP__**'.format(member),value ='``{}``'.format(get_xp(member.id)),inline = False)
-            embed.add_field(name = '**__Level__**'.format(member),value ='``{}``'.format(level),inline = False)
-            embed.add_field(name = '**__Messages__**'.format(member),value ='``{}`` Messages'.format(msgs),inline = False)
-            embed.add_field(name='Note:',value='Our bot reset all ranks everyday so it shows only daily rank')
-            await bot.send_message(message.channel, embed=embed)
 
-     
-def user_add_xp(user_id: int, xp: int):
-    if os.path.isfile("users.json"):
-        try:
-            with open('users.json', 'r') as fp:
-                users = json.load(fp)
-            users[user_id]['xp'] += xp
-            with open('users.json', 'w') as fp:
-                json.dump(users, fp, sort_keys=True, indent=4)
-        except KeyError:
-            with open('users.json', 'r') as fp:
-                users = json.load(fp)
-            users[user_id] = {}
-            users[user_id]['xp'] = xp
-            with open('users.json', 'w') as fp:
-                json.dump(users, fp, sort_keys=True, indent=4)
-    else:
-        users = {user_id: {}}
-        users[user_id]['xp'] = xp
-        with open('users.json', 'w') as fp:
-            json.dump(users, fp, sort_keys=True, indent=4)
-
-
-def get_xp(user_id: int):
-    if os.path.isfile('users.json'):
-        with open('users.json', 'r') as fp:
-            users = json.load(fp)
-        return users[user_id]['xp']
-    else:
-        return 0
 	
 		
 @bot.event
@@ -1419,15 +1339,6 @@ async def happybirthday(ctx, *, msg = None):
 
 
 
-@bot.event
-async def on_member_join(member):
-    with open("con.json", "r") as f:
-        users = json.load(f)
-
-        await update_data(users, member)
-
-        with open("con.json", "w") as f:
-            json.dump(users, f)
 
 @bot.event
 async def on_message(message):
