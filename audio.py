@@ -31,6 +31,7 @@ def prefix(bot, message):
 bot = commands.Bot(command_prefix=prefix)
 
 @bot.command(name="prefix", pass_context=True)
+@commands.has_permissions(administrator=True)
 async def _prefix(ctx, new_prefix):
     # Do any validations you want to do
     prefixes[ctx.message.server.id] = new_prefix
@@ -38,6 +39,12 @@ async def _prefix(ctx, new_prefix):
         json.dump(prefixes, f)
 
 
+@_prefix.error
+async def prefix_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, you do not have a administrator permission to use this command.".format(ctx.message.author.mention)
+		await bot.send_message(ctx.message.channel, text)	
+	
 bot.remove_command('help')
 
 from discord import opus
