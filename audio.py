@@ -20,7 +20,24 @@ import random
 start_time = time.time()
 
 
-bot=commands.Bot(command_prefix='d?')
+with open("prefixes.json") as f:
+    prefixes = json.load(f)
+default_prefix = "d?"
+
+def prefix(bot, message):
+    id = message.server.id
+    return prefixes.get(id, default_prefix)
+
+bot = commands.Bot(command_prefix=prefix)
+
+@bot.command(name="prefix", pass_context=True)
+async def _prefix(ctx, new_prefix):
+    # Do any validations you want to do
+    prefixes[ctx.message.server.id] = new_prefix
+    with open("prefixes.json", "w") as f:
+        json.dump(prefixes, f)
+
+
 bot.remove_command('help')
 
 from discord import opus
