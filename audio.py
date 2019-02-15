@@ -770,6 +770,7 @@ async def on_member_join(member):
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     embed.add_field(name="Name", value=member.name, inline=True)
     embed.add_field(name="ID", value=member.id, inline=True)
+    embed.add_field(name='__Join position__', value='{}'.format(str(member.server.member_count)), inline=True)
     embed.add_field(name="Joined", value=member.joined_at)
     embed.set_thumbnail(url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
