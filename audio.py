@@ -236,6 +236,7 @@ async def ping(ctx):
 	
 	
 @bot.command(pass_context=True)
+@commands.has_permissions(administrator=True)
 async def servers(ctx):
   servers = list(bot.servers)
   await bot.say(f"Connected on {str(len(servers))} servers:")
