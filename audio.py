@@ -116,7 +116,11 @@ async def on_ready():
    bot.loop.create_task(status_task())
    print(bot.user.name)
 	
-    
+   print('Servers connected to:')
+    for server in bot.servers:
+        print(server.name)
+
+	
 @bot.command(pass_context=True)
 async def join(ctx):
     channel = ctx.message.author.voice.voice_channel
@@ -229,6 +233,14 @@ async def leave(ctx):
 async def ping(ctx):
     await bot.say(":ping_pong: ping!! xSSS")
     print ("user has pinged")
+	
+	
+@bot.command()
+async def servers():
+  servers = list(bot.servers)
+  await bot.say(f"Connected on {str(len(servers))} servers:")
+  await bot.say('\n'.join(server.name for server in servers))
+
 
 @bot.command(pass_context=True)
 async def info(ctx, user: discord.Member):
