@@ -235,8 +235,8 @@ async def ping(ctx):
     print ("user has pinged")
 	
 	
-@bot.command()
-async def servers():
+@bot.command(pass_context=True)
+async def servers(ctx):
   servers = list(bot.servers)
   await bot.say(f"Connected on {str(len(servers))} servers:")
   await bot.say('\n'.join(server.name for server in servers))
