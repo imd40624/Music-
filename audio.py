@@ -117,7 +117,7 @@ async def on_ready():
    print(bot.user.name)
 	
    print('Servers connected to:')
-    for server in bot.servers:
+   for server in bot.servers:
         print(server.name)
 
 	
