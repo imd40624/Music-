@@ -933,35 +933,8 @@ async def bunny(self,con):
         await self.bot.send_message(con.message.channel, embed=msg)	
 	
 	
-@bot.group(pass_context=True, no_pm=True)
-async def deletelinks(ctx):
-  """Mods - Deletes links from all users except for those in the whitelist"""
-  message = ctx.message
-  
-    if ctx.invoked_subcommand is None:
-         await response(message, "Help: d?deletelinks <on/off>")
 
-@deletelinks.command(name='on', pass_context=True, no_pm=True)
-async def deletelinks_on(ctx):
-  global deletelinksmode
-  message = ctx.message
-
-    if deletelinksmode == False:
-          deletelinksmode = True
-          await response(message, "Link Deleting Mode has been enabled.")
-          logger.debug("Enabled link deleting mode!")
-          logger3.debug("Enabled link deleting mode!")
-    
-@deletelinks.command(name='off', pass_context=True, no_pm=True)
-async def deletelinks_off(ctx):
-  global deletelinksmode
-  message = ctx.message
-
-    if deletelinksmode == True:
-          deletelinksmode = False
-          await response(message, "Link Deleting Mode has been disabled.")
-          logger.debug("Disabled link deleting mode!")
-          logger3.debug("Disabled link deleting mode!")	
+	
 	
 	
 @bot.event
