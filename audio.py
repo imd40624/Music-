@@ -938,7 +938,6 @@ async def deletelinks(ctx):
   """Mods - Deletes links from all users except for those in the whitelist"""
   message = ctx.message
   
-  if user_admin_role(message):
     if ctx.invoked_subcommand is None:
          await response(message, "Help: d?deletelinks <on/off>")
 
@@ -947,7 +946,6 @@ async def deletelinks_on(ctx):
   global deletelinksmode
   message = ctx.message
 
-  if user_admin_role(message):
     if deletelinksmode == False:
           deletelinksmode = True
           await response(message, "Link Deleting Mode has been enabled.")
@@ -959,7 +957,6 @@ async def deletelinks_off(ctx):
   global deletelinksmode
   message = ctx.message
 
-  if user_admin_role(message):
     if deletelinksmode == True:
           deletelinksmode = False
           await response(message, "Link Deleting Mode has been disabled.")
