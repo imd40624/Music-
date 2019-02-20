@@ -9,8 +9,6 @@ import json
 import aiohttp
 import requests
 import discord, datetime, time
-import weather
-from weather import Weather, Unit
 from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.ext.commands import has_permissions 
@@ -1404,18 +1402,7 @@ async def level_up(users, user, channel):
 		
 		
 
-@bot.command(pass_context=True)
-async def weather(ctx, index: int):
-    weather = Weather(unit=Unit.CELSIUS)
-    location = weather.lookup_by_location('toronto')
-    forecasts = location.forecast
-
-    embed = (discord.Embed(title="-=-__THE WEATHER__-=-", color=0x15dbc7))
-    embed.add_field(name="Clouds", value=forecasts[index].text, inline=False) 
-    embed.add_field(name="Date", value=forecasts[index].date, inline=False)
-    embed.add_field(name="High", value=forecasts[index].high, inline=False)
-    embed.add_field(name="Low", value=forecasts[index].low, inline=False)
-    await bot.say(embed=embed)	
+	
 		
 
 
