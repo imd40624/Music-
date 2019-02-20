@@ -9,6 +9,8 @@ import json
 import aiohttp
 import requests
 import discord, datetime, time
+import weather
+from weather import Weather, Unit
 from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.ext.commands import has_permissions 
@@ -1284,7 +1286,10 @@ async def setupwelcomer(ctx):
       server = ctx.message.server
       everyone_perms = discord.PermissionOverwrite(send_messages=False, read_messages=True)
       everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
-      await bot.create_channel(server, 'welcome',everyone)	
+      await bot.create_channel(server, 'welcome',everyone)
+      await bot.say(':white_check_mark:**Success setup**')
+	
+	
 		
 @bot.command(pass_context = True)
 async def setuplog(ctx):
@@ -1299,7 +1304,7 @@ async def setuplog(ctx):
       everyone_perms = discord.PermissionOverwrite(send_messages=False, read_messages=True)
       everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
       await bot.create_channel(server, 'logs',everyone)	
-
+      await bot.say(':white_check_mark:**Success setup**')
 
 @bot.command(pass_context=True)
 async def gender(ctx, user: discord.Member):
@@ -1395,7 +1400,23 @@ async def level_up(users, user, channel):
         await bot.send_message(channel, f":tada: Congrats {user.mention}, you levelled up to level {lvl_end}!")
         users[user.id]["level"] = lvl_end
             
-   
+		
+		
+		
+
+@bot.command(pass_context=True)
+async def weather(ctx, index: int):
+    weather = Weather(unit=Unit.CELSIUS)
+    location = weather.lookup_by_location('toronto')
+    forecasts = location.forecast
+
+    embed = (discord.Embed(title="-=-__THE WEATHER__-=-", color=0x15dbc7))
+    embed.add_field(name="Clouds", value=forecasts[index].text, inline=False) 
+    embed.add_field(name="Date", value=forecasts[index].date, inline=False)
+    embed.add_field(name="High", value=forecasts[index].high, inline=False)
+    embed.add_field(name="Low", value=forecasts[index].low, inline=False)
+    await bot.say(embed=embed)	
+		
 
 
 
