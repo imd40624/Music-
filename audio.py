@@ -723,7 +723,7 @@ async def help_general(ctx):
 async def help_moderations(ctx):
 	author = ctx.message.author
 	embed = discord.Embed(title=None, description="Moderation Commands....", color=0xFFFF)
-        embed.add_field(name = 'd?kick(Kick members Permission Required) ',value ='Use it like ``d?kick @user`` to kick any user',inline = False)
+	
         embed.add_field(name = 'd?warn(Kick members Permission Required)',value ='Use it like ``d?warn @user <violation type>`` to warn any user',inline = False)    
         embed.add_field(name = 'd?mute(Mute members Permission Required)',value ='Use it like ``d?mute @user <time>`` to mute any user',inline = False)
         embed.add_field(name = 'd?unmute(Mute members Permission Required)',value ='Use it like ``d?unmute @user`` to unmute anyone',inline = False)
