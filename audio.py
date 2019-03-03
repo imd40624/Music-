@@ -1372,15 +1372,6 @@ async def mal(ctx):
 
 	
 	
-@bot.command(pass_context=True)
-async def randomshow(ctx):
-    url = 'https://tv-v2.api-fetch.website/random/show'
-    r = rq.get(url).text
-    r_json = json.loads(r)
-    name = r_json['title']
-    year = r_json['year']
-    img = r_json['images']['poster']
-    await bot.say("**Name**: {}\n**Year**: {}\n**Poster**: {}".format(name, year, img))	
 
 		
 
