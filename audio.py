@@ -1352,9 +1352,21 @@ async def level_up(users, user, channel):
     if lvl_start < lvl_end:
         await bot.send_message(channel, f":tada: Congrats {user.mention}, you levelled up to level {lvl_end}!")
         users[user.id]["level"] = lvl_end
-            
+            	
+
+	
 		
-		
+
+	
+@bot.command(pass_context=True)
+async def embed(ctx):
+    embed = discord.Embed(title="test", description="my name imran", color=0x00ff00)
+    embed.set_footer(text="this is a footer")
+    embed.set_author(name="Team Ghost")
+    embed.add_field(name="This is a field", value="no it isn't", inline=True)
+    await bot.say(embed=embed)
+   
+
 @bot.command(pass_context=True)
 async def mal(ctx):
         session = rq.Session()
@@ -1400,24 +1412,7 @@ async def mal(ctx):
         embed.add_field(name="Premiered", value=premiered)
         embed.set_thumbnail(url=anime_picture)
         await bot.say(embed=embed)
-        await bot.say("**Summary**: {}".format(summary)		
-
-	
-		
-
-
-
-	
-@bot.command(pass_context=True)
-async def embed(ctx):
-    embed = discord.Embed(title="test", description="my name imran", color=0x00ff00)
-    embed.set_footer(text="this is a footer")
-    embed.set_author(name="Team Ghost")
-    embed.add_field(name="This is a field", value="no it isn't", inline=True)
-    await bot.say(embed=embed)
-   
-
-
+        await bot.say("**Summary**: {}".format(summary)
 
 
    
