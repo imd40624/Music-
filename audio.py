@@ -8,12 +8,14 @@ import typing
 import json
 import aiohttp
 import requests
+import translate
 import discord, datetime, time
 from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.ext.commands import has_permissions 
 from discord.utils import get,find
 from time import localtime, strftime
+from translate import Translator
 import requests as rq
 import random
 
@@ -682,6 +684,12 @@ async def help_fun(ctx):
 	embed.add_field(name = "Gender", value="Use it like ``d?gender @user``",inline = False)
 	embed.add_field(name = "Damn", value="Use it like ``d?damn``",inline = False)
 	embed.add_field(name = "happybirthday", value="Use it like ``d?happybirthday @user``",inline = False)
+	embed.add_field(name = "Mal", value="Use it like ``d?mal <any anime name>``",inline = False)
+	embed.add_field(name = "Randomshow", value="Use it like ``d?randomshow``",inline = False)
+	embed.add_field(name = "IMG", value="Use it like ``d?img <any animel name>``",inline = False)
+	embed.add_field(name = "Dog", value="Use it like ``d?dog``",inline = False)
+	embed.add_field(name = "Translate", value="Use it like ``d?trans en->hi cat <translate any word>``",inline = False)
+	embed.add_field(name = "Eightball", value="Use it like ``d?eigthball <your question>``",inline = False)
 	embed.add_field(name = 'Note:', value="**More commands being added soon!**",inline = False)
 	
 	embed.set_footer(text="Requested by: " + author.name)
@@ -817,21 +825,6 @@ async def on_member_remove(member):
 
 
 
-@bot.command(pass_context=True)
-async def randomshow(self,con):
-        session = rq.Session()
-        url = 'https://tv-v2.api-fetch.website/random/show'
-        r = session.get(url).text
-        r_json = json.loads(r)
-        name = r_json['title']
-        year = r_json['year']
-        img = r_json['images']['poster']
-        await self.bot.send_message(con.message.channel, "**Name**: {}\n**Year**: {}\n**Poster**: {}".format(name, year, img))
-
-
-
-
-
 
 
 @bot.command(pass_context=True)
@@ -841,7 +834,7 @@ async def cookie(self,con, user: discord.Member):
 
 
 @bot.command(pass_context=True)
-async def neko(self,con, *, nsfw='None'):
+async def neko(ctx, *, nsfw='None'):
         if nsfw.lower() == 'nsfw':
             session = rq.Session()
             r = session.get(
@@ -1328,6 +1321,158 @@ async def happybirthday(ctx, *, msg = None):
       return
     await bot.say('Happy birthday ' + msg + ' \nhttps://asset.holidaycardsapp.com/assets/card/b_day399-22d0564f899cecd0375ba593a891e1b9.png')
     return
+
+
+@bot.command(pass_context=True)
+async def mal(ctx):
+        session = rq.Session()
+        """SEARCH FOR ANIME USING MyAnimeList. EX: s.mal Mushishi"""
+        query = ctx.message.content[5:]
+        url = 'https://api.jikan.moe/search/anime/{}/'.format(query)
+        rq_url = session.get(url).text
+        rq_json = json.loads(rq_url)
+        anime_id = rq_json['result'][0]['mal_id']
+        url2 = 'https://api.jikan.moe/anime/{}/stats/'.format(anime_id)
+        rq_url2 = session.get(url2).text
+        rq_json2 = json.loads(rq_url2)
+        summary = rq_json2['synopsis']
+        title_jp = rq_json2['title_japanese']
+        title_en = rq_json2['title_english']
+        anime_type = rq_json2['type']
+        status = rq_json2['status']
+        aired_from = rq_json2['aired']['from']
+        members = rq_json2['members']
+        popularity = rq_json2['popularity']
+        rank = rq_json2['rank']
+        duration = rq_json2['duration']
+        rating = rq_json2['rating']
+        premiered = rq_json2['premiered']
+        favorites = rq_json2['favorites']
+        scored_by = rq_json2['scored_by']
+        score = rq_json2['score']
+        #anime formatting output
+        anime_picture = rq_json2['image_url']
+        embed = discord.Embed(title="Title: {}".format(
+            query), description=title_en+":"+title_jp, color=0xDEADBF)
+        embed.add_field(name="Type", value=anime_type)
+        embed.add_field(name="Status", value=status)
+        embed.add_field(name="Members", value=members)
+        embed.add_field(name="Popularity", value=popularity)
+        embed.add_field(name="Rank", value=rank)
+        embed.add_field(name="Favorites", value=favorites)
+        embed.add_field(name="Score", value=score)
+        embed.add_field(name="Scored By", value=scored_by)
+        embed.add_field(name="Aired From", value=aired_from)
+        embed.add_field(name="Rating", value=rating)
+        embed.add_field(name="Duration", value=duration)
+        embed.add_field(name="Premiered", value=premiered)
+        embed.set_thumbnail(url=anime_picture)
+        await bot.say(embed=embed)
+        await bot.say("**Summary**: {}".format(summary)	
+
+	
+	
+
+@bot.command(pass_context=True)
+async def randomshow(ctx):
+    url = 'https://tv-v2.api-fetch.website/random/show'
+    r = rq.get(url).text
+    r_json = json.loads(r)
+    name = r_json['title']
+    year = r_json['year']
+    img = r_json['images']['poster']
+    await bot.say("**Name**: {}\n**Year**: {}\n**Poster**: {}".format(name, year, img))	
+
+		
+
+@bot.command(pass_context=True)
+async def img(ctx):
+    """FAILED IMAGE GENERATOR BY KEYWORDS s.img dog"""
+    img_api = '142cd7a6-ce58-4647-a81d-8b82f9668b75'
+    
+    query = ctx.message.content[5:]
+    url = 'http://version1.api.memegenerator.net//Generators_Search?q={}&apiKey={}'.format(
+        query, img_api)
+    rq_link = rq.get(url).text
+    rq_json = json.loads(rq_link)
+    await bot.say(rq_json['result'][0]['imageUrl'])
+
+
+@bot.command(pass_context=True, aliases=['imranLoL'])
+async def dog(ctx):
+        """(d) random dog picture"""
+        print("★DOG★")
+        isVideo = True
+        while isVideo:
+            async with aiohttp.ClientSession() as cs:
+                async with cs.get('https://random.dog/woof.json') as r:
+                    res = await r.json()
+                    res = res['url']
+                    cs.close()
+            if res.endswith('.mp4'):
+                pass
+            else:
+                isVideo = False
+        em = discord.Embed()
+        await bot.say(embed=em.set_image(url=res))
+
+@bot.command(pass_context=True)
+async def trans(ctx, *args):
+    """Ex: '!trans en->de example' OR '!trans de Beispiel'"""
+    if "bugs" in args[0]:
+        await client.say("Wraith... bugs is not a language.")
+        return
+
+    if len(args[0]) == 2:
+        arr = [args[0], "en"]
+    else: arr = '{}'.format(args[0]).split('->')
+    t = Translator(from_lang=arr[0],to_lang=arr[1])
+    await bot.say('
+' + t.translate(" ".join(args[1:])) + '
+')
+
+
+@bot.command(pass_context = True)
+async def eightball():
+        '''Answer a question with a response'''
+
+        responses = [
+            'It is certain',
+            'It is decidedly so',
+            'Without a doubt',
+            'Yes definitely',
+            'You may rely on it',
+            'As I see it, yes',
+            'Most likely',
+            'Outlook good',
+            'Yes',
+            'Signs point to yes',
+            'Reply hazy try again',
+            'Ask again later',
+            'Better not tell you now',
+            'Cannot predict now',
+            'Concentrate and ask again',
+            'Do not count on it',
+            'My reply is no',
+            'My sources say no',
+            'Outlook not so good',
+            'Very doubtful'
+        ]
+
+        random_number = random.randint(0, 19)
+        if random_number >= 0 and random_number <= 9:
+            embed = discord.Embed(color=0x60E87B)
+        elif random_number >= 10 and random_number <= 14:
+            embed = discord.Embed(color=0xECE357)
+        else:
+            embed = discord.Embed(color=0xD55050)
+
+        header = 'Magic/Eight ball says...'
+        text = responses[random_number]
+
+        embed.add_field(name=header, value=text, inline=True)
+        await bot.say(embed=embed)
+
 
 
 
