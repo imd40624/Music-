@@ -1353,7 +1353,31 @@ async def level_up(users, user, channel):
         await bot.send_message(channel, f":tada: Congrats {user.mention}, you levelled up to level {lvl_end}!")
         users[user.id]["level"] = lvl_end
             	
+		
+		
+@bot.command(pass_context=True)
+async def randomshow(ctx):
+    url = 'https://tv-v2.api-fetch.website/random/show'
+    r = rq.get(url).text
+    r_json = json.loads(r)
+    name = r_json['title']
+    year = r_json['year']
+    img = r_json['images']['poster']
+    await bot.say("**Name**: {}\n**Year**: {}\n**Poster**: {}".format(name, year, img))	
+	
+		
 
+@bot.command(pass_context=True)
+async def img(ctx):
+    """FAILED IMAGE GENERATOR BY KEYWORDS s.img dog"""
+    img_api = '142cd7a6-ce58-4647-a81d-8b82f9668b75'
+
+    query = ctx.message.content[5:]
+    url = 'http://version1.api.memegenerator.net//Generators_Search?q={}&apiKey={}'.format(
+        query, img_api)
+    rq_link = rq.get(url).text
+    rq_json = json.loads(rq_link)
+    await bot.say(rq_json['result'][0]['imageUrl'])
 	
 		
 
@@ -1365,66 +1389,6 @@ async def embed(ctx):
     embed.set_author(name="Team Ghost")
     embed.add_field(name="This is a field", value="no it isn't", inline=True)
     await bot.say(embed=embed)
-   
-
-@bot.command(pass_context=True)
-async def mal(ctx):
-        session = rq.Session()
-        """SEARCH FOR ANIME USING MyAnimeList. EX: s.mal Mushishi"""
-        query = ctx.message.content[5:]
-        url = 'https://api.jikan.moe/search/anime/{}/'.format(query)
-        rq_url = session.get(url).text
-        rq_json = json.loads(rq_url)
-        anime_id = rq_json['result'][0]['mal_id']
-        url2 = 'https://api.jikan.moe/anime/{}/stats/'.format(anime_id)
-        rq_url2 = session.get(url2).text
-        rq_json2 = json.loads(rq_url2)
-        summary = rq_json2['synopsis']
-        title_jp = rq_json2['title_japanese']
-        title_en = rq_json2['title_english']
-        anime_type = rq_json2['type']
-        status = rq_json2['status']
-        aired_from = rq_json2['aired']['from']
-        members = rq_json2['members']
-        popularity = rq_json2['popularity']
-        rank = rq_json2['rank']
-        duration = rq_json2['duration']
-        rating = rq_json2['rating']
-        premiered = rq_json2['premiered']
-        favorites = rq_json2['favorites']
-        scored_by = rq_json2['scored_by']
-        score = rq_json2['score']
-        #anime formatting output
-        anime_picture = rq_json2['image_url']
-        embed = discord.Embed(title="Title: {}".format(
-            query), description=title_en+":"+title_jp, color=0xDEADBF)
-        embed.add_field(name="Type", value=anime_type)
-        embed.add_field(name="Status", value=status)
-        embed.add_field(name="Members", value=members)
-        embed.add_field(name="Popularity", value=popularity)
-        embed.add_field(name="Rank", value=rank)
-        embed.add_field(name="Favorites", value=favorites)
-        embed.add_field(name="Score", value=score)
-        embed.add_field(name="Scored By", value=scored_by)
-        embed.add_field(name="Aired From", value=aired_from)
-        embed.add_field(name="Rating", value=rating)
-        embed.add_field(name="Duration", value=duration)
-        embed.add_field(name="Premiered", value=premiered)
-        embed.set_thumbnail(url=anime_picture)
-        await bot.say(embed=embed)
-        await bot.say("**Summary**: {}".format(summary)
-
-
-   
-  
-
-
-   
-   
-   
-    
-
-
   
 
 
