@@ -1372,7 +1372,6 @@ async def mal(ctx):
 
 	
 	
-
 @bot.command(pass_context=True)
 async def randomshow(ctx):
     url = 'https://tv-v2.api-fetch.website/random/show'
