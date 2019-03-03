@@ -685,11 +685,6 @@ async def help_fun(ctx):
 	embed.add_field(name = "Damn", value="Use it like ``d?damn``",inline = False)
 	embed.add_field(name = "happybirthday", value="Use it like ``d?happybirthday @user``",inline = False)
 	embed.add_field(name = "Mal", value="Use it like ``d?mal <any anime name>``",inline = False)
-	embed.add_field(name = "Randomshow", value="Use it like ``d?randomshow``",inline = False)
-	embed.add_field(name = "IMG", value="Use it like ``d?img <any animel name>``",inline = False)
-	embed.add_field(name = "Dog", value="Use it like ``d?dog``",inline = False)
-	embed.add_field(name = "Translate", value="Use it like ``d?trans en->hi cat <translate any word>``",inline = False)
-	embed.add_field(name = "Eightball", value="Use it like ``d?eigthball <your question>``",inline = False)
 	embed.add_field(name = 'Note:', value="**More commands being added soon!**",inline = False)
 	
 	embed.set_footer(text="Requested by: " + author.name)
@@ -1368,101 +1363,7 @@ async def mal(ctx):
         embed.add_field(name="Premiered", value=premiered)
         embed.set_thumbnail(url=anime_picture)
         await bot.say(embed=embed)
-        await bot.say("**Summary**: {}".format(summary)	
-
-	
-	
-
-		
-
-@bot.command(pass_context=True)
-async def img(ctx):
-    """FAILED IMAGE GENERATOR BY KEYWORDS s.img dog"""
-    img_api = '142cd7a6-ce58-4647-a81d-8b82f9668b75'
-    
-    query = ctx.message.content[5:]
-    url = 'http://version1.api.memegenerator.net//Generators_Search?q={}&apiKey={}'.format(
-        query, img_api)
-    rq_link = rq.get(url).text
-    rq_json = json.loads(rq_link)
-    await bot.say(rq_json['result'][0]['imageUrl'])
-
-
-@bot.command(pass_context=True, aliases=['imranLoL'])
-async def dog(ctx):
-        """(d) random dog picture"""
-        print("★DOG★")
-        isVideo = True
-        while isVideo:
-            async with aiohttp.ClientSession() as cs:
-                async with cs.get('https://random.dog/woof.json') as r:
-                    res = await r.json()
-                    res = res['url']
-                    cs.close()
-            if res.endswith('.mp4'):
-                pass
-            else:
-                isVideo = False
-        em = discord.Embed()
-        await bot.say(embed=em.set_image(url=res))
-
-@bot.command(pass_context=True)
-async def trans(ctx, *args):
-    """Ex: '!trans en->de example' OR '!trans de Beispiel'"""
-    if "bugs" in args[0]:
-        await client.say("Wraith... bugs is not a language.")
-        return
-
-    if len(args[0]) == 2:
-        arr = [args[0], "en"]
-    else: arr = '{}'.format(args[0]).split('->')
-    t = Translator(from_lang=arr[0],to_lang=arr[1])
-    await bot.say('
-' + t.translate(" ".join(args[1:])) + '
-')
-
-
-@bot.command(pass_context = True)
-async def eightball():
-        '''Answer a question with a response'''
-
-        responses = [
-            'It is certain',
-            'It is decidedly so',
-            'Without a doubt',
-            'Yes definitely',
-            'You may rely on it',
-            'As I see it, yes',
-            'Most likely',
-            'Outlook good',
-            'Yes',
-            'Signs point to yes',
-            'Reply hazy try again',
-            'Ask again later',
-            'Better not tell you now',
-            'Cannot predict now',
-            'Concentrate and ask again',
-            'Do not count on it',
-            'My reply is no',
-            'My sources say no',
-            'Outlook not so good',
-            'Very doubtful'
-        ]
-
-        random_number = random.randint(0, 19)
-        if random_number >= 0 and random_number <= 9:
-            embed = discord.Embed(color=0x60E87B)
-        elif random_number >= 10 and random_number <= 14:
-            embed = discord.Embed(color=0xECE357)
-        else:
-            embed = discord.Embed(color=0xD55050)
-
-        header = 'Magic/Eight ball says...'
-        text = responses[random_number]
-
-        embed.add_field(name=header, value=text, inline=True)
-        await bot.say(embed=embed)
-
+        await bot.say("**Summary**: {}".format(summary)
 
 
 
