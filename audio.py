@@ -777,7 +777,7 @@ async def dice( con, min1=1, max1=6):
 
 	
 @bot.event
-async def on_member_join(member):
+async def on_member_join(member, ctx):
     server = ctx.message.server
     channel = get(member.server.channels, name="welcome")
     await bot.send_file(channel, '_Sans-Simple-Red.gif')
