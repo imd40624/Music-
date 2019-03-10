@@ -7,6 +7,7 @@ import logging
 import typing
 import json
 import aiohttp
+import translate 
 import requests
 import discord, datetime, time
 from discord.ext import commands
@@ -14,6 +15,7 @@ from discord.ext.commands import Bot
 from discord.ext.commands import has_permissions 
 from discord.utils import get,find
 from time import localtime, strftime
+from translate import Translator
 import requests as rq
 import random
 
@@ -675,8 +677,10 @@ async def help_fun(ctx):
 	embed.add_field(name = "Damn", value="Use it like ``d?damn``",inline = False)
 	embed.add_field(name = "happybirthday", value="Use it like ``d?happybirthday @user``",inline = False)
 	embed.add_field(name = "Randomshow", value="Use it like ``d?randomshow``",inline = False)
+	embed.add_field(name = "Tweet", value="Use it like ``d?tweet @user <text>``",inline = False)
+	embed.add_field(name = "Dog", value="Use it like ``d?dog``",inline = False)
 	embed.add_field(name = 'Note:', value="**More commands being added soon!**",inline = False)
-	
+
 	embed.set_footer(text="Requested by: " + author.name)
 	await bot.say(embed=embed)
 	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used fun command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
@@ -776,9 +780,10 @@ async def dice( con, min1=1, max1=6):
 	
 @bot.event
 async def on_member_join(member):
+    server = ctx.message.server
     channel = get(member.server.channels, name="welcome")
     await bot.send_file(channel, '_Sans-Simple-Red.gif')
-    embed = discord.Embed(title='New Member Join', description="Welcome,{} to the Chillspot! Be sure to have fun!🎉🎊".format(member.mention), colour=0x7ED6DE)
+    embed = discord.Embed(title='New Member Join', description="Welcome,{} to the {}! Be sure to have fun!:tada::confetti_ball:".format(member.mention, server.name), colour=0x7ED6DE)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     embed.add_field(name="Name", value=member.name, inline=True)
     embed.add_field(name="ID", value=member.id, inline=True)
