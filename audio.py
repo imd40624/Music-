@@ -7,7 +7,6 @@ import logging
 import typing
 import json
 import aiohttp
-import translate 
 import requests
 import discord, datetime, time
 from discord.ext import commands
@@ -15,7 +14,6 @@ from discord.ext.commands import Bot
 from discord.ext.commands import has_permissions 
 from discord.utils import get,find
 from time import localtime, strftime
-from translate import Translator
 import requests as rq
 import random
 
