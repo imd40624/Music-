@@ -777,11 +777,10 @@ async def dice( con, min1=1, max1=6):
 
 	
 @bot.event
-async def on_member_join(ctx, member):
-    server = ctx.message.server
+async def on_member_join(member):
     channel = get(member.server.channels, name="welcome")
     await bot.send_file(channel, '_Sans-Simple-Red.gif')
-    embed = discord.Embed(title='New Member Join', description="Welcome,{} to the {}! Be sure to have fun!:tada::confetti_ball:".format(member.mention, server.name), colour=0x7ED6DE)
+    embed = discord.Embed(title='New Member Join', description="Welcome,{} to the {member.server.name}! Be sure to have fun!:tada::confetti_ball:".format(member.mention), colour=0x7ED6DE)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     embed.add_field(name="Name", value=member.name, inline=True)
     embed.add_field(name="ID", value=member.id, inline=True)
