@@ -1378,9 +1378,51 @@ async def img(ctx):
     rq_json = json.loads(rq_link)
     await bot.say(rq_json['result'][0]['imageUrl'])
 	
-		
+@bot.command(pass_context=True)
+async def tweet(ctx, usernamename:str, *, txt:str):
+    url = f"https://nekobot.xyz/api/imagegen?type=tweet&username={usernamename}&text={txt}"
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(url) as r:
+            res = await r.json()
+            r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+            embed = discord.Embed(color = discord.Color((r << 16) + (g << 8) + b))
+            embed.set_image(url=res['message'])
+            embed.title = "{} twitted: {}".format(usernamename, txt)
+            await bot.say(embed=embed)	
 
-	
+@bot.command(pass_context=True)
+async def trans(ctx, *args):
+    """Ex: '!trans en->de example' OR '!trans de Beispiel'"""
+    if "bugs" in args[0]:
+        await client.say("Wraith... bugs is not a language.")
+        return
+
+    if len(args[0]) == 2:
+        arr = [args[0], "en"]
+    else: arr = '{}'.format(args[0]).split('->')
+    t = Translator(from_lang=arr[0],to_lang=arr[1])
+    await bot.say('```' + t.translate(" ".join(args[1:])) + '```')
+
+		
+@bot.command(pass_context=True, aliases=['DeepakLoL'])
+async def dog(ctx):
+        """(d) random dog picture"""
+        print("★DOG★")
+        isVideo = True
+        while isVideo:
+            async with aiohttp.ClientSession() as cs:
+                async with cs.get('https://random.dog/woof.json') as r:
+                    res = await r.json()
+                    res = res['url']
+                    cs.close()
+            if res.endswith('.mp4'):
+                pass
+            else:
+                isVideo = False
+        em = discord.Embed()
+        await bot.say(embed=em.set_image(url=res))	
+		
+		
 @bot.command(pass_context=True)
 async def embed(ctx):
     embed = discord.Embed(title="test", description="my name imran", color=0x00ff00)
