@@ -649,14 +649,14 @@ async def help(ctx):
     server = ctx.message.server
     author = ctx.message.author
     embed = discord.Embed(title=None, description="Help command for devil", color=0xff00f6)
-    embed.set_image(url = 'https://vignette.wikia.nocookie.net/the-modest-mouse/images/0/07/Help_wanted_sign_swing_hg_clr.gif')
+    embed.set_image(url = 'https://cdn.discordapp.com/attachments/554001244331573259/554179122247630878/21.jpg')
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
     embed.add_field(name="bot info", value="d?botinfo")   
-    embed.add_field(name='Command Prefix', value='**d? or customizable**', inline=True)
-    embed.add_field(name="Moderations Commands", value="Use it like ``d?help_moderations`` - to get list of moderations")
-    embed.add_field(name="Fun Commands", value="Use it like ``d?help_fun`` - to get list of fun commands")
-    embed.add_field(name="General Commands", value="Use it like ``d?help_general`` - to get list of general commands")
-
+    embed.add_field(name='Command Prefix', value='**d? or customizable** ``d?prefix set <prefix>``', inline=True)
+    embed.add_field(name="♏Moderations Commands", value="__**Use it like**__ ``d?help_moderations`` __**- to get list of moderations**__")
+    embed.add_field(name="💲Fun Commands", value="__**Use it like**__ ``d?help_fun`` __**- to get list of fun commands**__")
+    embed.add_field(name="💠General Commands", value="__**Use it like**__ ``d?help_general`` __**- to get list of general commands**__")
+    embed.add_field(name="ⓂMusic Commands", value="__**Use it like**__ ``d?help_music`` __**- to get list of music commands**__")
     embed.add_field(name='Note:', value="**More commands being added soon!**")
     embed.set_thumbnail(url=server.icon_url)
     embed.set_footer(text="Requested by: " + author.name)
@@ -682,7 +682,7 @@ async def help_fun(ctx):
 	embed.add_field(name = "Gender", value="Use it like ``d?gender @user``",inline = False)
 	embed.add_field(name = "Damn", value="Use it like ``d?damn``",inline = False)
 	embed.add_field(name = "happybirthday", value="Use it like ``d?happybirthday @user``",inline = False)
-	embed.add_field(name = "Mal", value="Use it like ``d?mal <any anime name>``",inline = False)
+	embed.add_field(name = "Randomshow", value="Use it like ``d?randomshow``",inline = False)
 	embed.add_field(name = 'Note:', value="**More commands being added soon!**",inline = False)
 	
 	embed.set_footer(text="Requested by: " + author.name)
