@@ -615,15 +615,7 @@ async def setname(ctx, *, name):
         
 
 
-newUserMessage = """ # customise this to the message you want to send new users
-You
-can
-put
-your
-multiline
-message
-here!
-"""
+
 
 @bot.event
 async def on_member_join(member):
@@ -649,12 +641,12 @@ async def help(ctx):
     server = ctx.message.server
     author = ctx.message.author
     embed = discord.Embed(title=None, description="Help command for devil", color=0xff00f6)
-    embed.set_image(url = 'https://cdn.discordapp.com/attachments/554001244331573259/554179122247630878/21.jpg')
+    embed.set_image(url = 'https://cdn.discordapp.com/attachments/554001244331573259/554186787757621249/PicsArt_03-10-11.49.39.jpg')
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
     embed.add_field(name="bot info", value="d?botinfo")   
     embed.add_field(name='Command Prefix', value='**d? or customizable** ``d?prefix set <prefix>``', inline=True)
     embed.add_field(name="♏Moderations Commands", value="__**Use it like**__ ``d?help_moderations`` __**- to get list of moderations**__")
-    embed.add_field(name="💲Fun Commands", value="__**Use it like**__ ``d?help_fun`` __**- to get list of fun commands**__")
+    embed.add_field(name="💮Fun Commands", value="__**Use it like**__ ``d?help_fun`` __**- to get list of fun commands**__")
     embed.add_field(name="💠General Commands", value="__**Use it like**__ ``d?help_general`` __**- to get list of general commands**__")
     embed.add_field(name="ⓂMusic Commands", value="__**Use it like**__ ``d?help_music`` __**- to get list of music commands**__")
     embed.add_field(name='Note:', value="**More commands being added soon!**")
