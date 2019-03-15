@@ -1207,7 +1207,7 @@ async def happybirthday(ctx, *, msg = None):
 
 
 @bot.command(pass_context=True)
-async def cat(self, msg):
+async def cat(ctx):
         """
         Function: Send random cat picture
         Command: `d?cat`
