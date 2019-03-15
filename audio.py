@@ -1217,12 +1217,12 @@ async def cat(ctx):
         if r.status_code == 200:
             emb = discord.Embed(title='Cat')
             emb.set_image(url=r.json()['file'])
-            await bot.send(embed=emb)
+            await bot.say(embed=emb)
 
         if r.status_code != 200:
             emb = discord.Embed(title='Error {}'.format(r.status_code))
             emb.set_image(url='https://http.cat/{}'.format(r.status_code))
-            await bot.send(embed=emb)
+            await bot.say(embed=emb)
 
 
 		
