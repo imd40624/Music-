@@ -1297,7 +1297,7 @@ async def dog(ctx):
 	
 	
 @bot.command(hidden=True, enabled=True)
-async def neko(self, msg, nsfw:str=None):
+async def neko(ctx, nsfw:str=None):
         """
         Function: Send random neko picture, adding nsfw will send nsfw ones
         Command: `d?neko`
@@ -1313,9 +1313,9 @@ async def neko(self, msg, nsfw:str=None):
         emb = discord.Embed(title='Neko')
         emb.set_image(
             url='https://nekos.moe/image/{}'.format(img['images'][0]['id']))
-        await msg.send(embed=emb)	
+        await bot.say(embed=emb)	
 	
-@bot.command()
+@bot.command(pass_context=True)
 async def fox(ctx):
         """
         Function: Send random fox picture
@@ -1327,11 +1327,11 @@ async def fox(ctx):
         r = rq.Session().get('https://randomfox.ca/floof/')
         if r.status_code == 200:
             emb.set_image(url=r.json()['image'])
-            await self.bot.say(embed=emb)
+            await bot.say(embed=emb)
         if r.status_code != 200:
             emb = discord.Embed(title="Error {}".format(r.status_code))
             emb.set_image(url='https://http.cat/{}'.format(r.status_code))
-            await bot.send(embed=emb)	
+            await bot.say(embed=emb)	
 	
 		
 		
