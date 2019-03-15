@@ -1296,7 +1296,6 @@ async def dog(ctx):
         await bot.say(embed=em.set_image(url=res))	
 	
 	
-@commands.is_nsfw()
 @bot.command(hidden=True, enabled=True)
 async def neko(self, msg, nsfw:str=None):
         """
