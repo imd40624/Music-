@@ -1217,7 +1217,7 @@ async def cat(ctx):
         if r.status_code == 200:
             emb = discord.Embed(title='Cat')
             emb.set_image(url=r.json()['file'])
-            await msg.send(embed=emb)
+            await bot.send(embed=emb)
 
         if r.status_code != 200:
             emb = discord.Embed(title='Error {}'.format(r.status_code))
@@ -1316,7 +1316,7 @@ async def neko(self, msg, nsfw:str=None):
         await msg.send(embed=emb)	
 	
 @bot.command()
-async def fox(self, msg):
+async def fox(ctx):
         """
         Function: Send random fox picture
         Command: `d?fox`
@@ -1331,7 +1331,7 @@ async def fox(self, msg):
         if r.status_code != 200:
             emb = discord.Embed(title="Error {}".format(r.status_code))
             emb.set_image(url='https://http.cat/{}'.format(r.status_code))
-            await msg.send(embed=emb)	
+            await bot.send(embed=emb)	
 	
 		
 		
