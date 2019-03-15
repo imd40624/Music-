@@ -801,115 +801,11 @@ async def on_member_remove(member):
     await bot.send_message(channel, embed=embed)
 
 
-   
-	
 
 
 
 
 
-
-
-
-
-
-
-@bot.command(pass_context=True)
-async def cookie(self,con, user: discord.Member):
-        amount = random.randint(1, 15)
-        await self.bot.send_message(con.message.channel, "{0} you got {2} cookies from {1}".format(user.mention, con.message.author.name, amount))
-
-
-@bot.command(pass_context=True)
-async def neko(ctx, *, nsfw='None'):
-        if nsfw.lower() == 'nsfw':
-            session = rq.Session()
-            r = session.get(
-                'https://nekos.moe/api/v1/random/image?count=1&nsfw=true').json()
-            id = r['images'][0]['id']
-            msg = discord.Embed(title='Neko')
-            msg.set_image(url='https://nekos.moe/image/{}'.format(id))
-            try:
-                msg.set_footer(text='Artist: {}'.format(r['images'][0]['artist']))
-            except KeyError:
-                pass
-            try:
-                await self.bot.send_message(con.message.channel, embed=msg)
-            except:
-                await self.bot.send_message(con.message.author, embed=msg)
-        elif nsfw == 'None' and 'nsfw' not in nsfw.lower():
-            session = rq.Session()
-            r = session.get(
-                'https://nekos.moe/api/v1/random/image?count=1&nsfw=false').json()
-            id = r['images'][0]['id']
-            msg = discord.Embed(title='Neko')
-            msg.set_image(url='https://nekos.moe/image/{}'.format(id))
-            try:
-                msg.set_footer(text='Artist: {}'.format(r['images'][0]['artist']))
-            except:
-                pass
-            try:
-                await self.bot.send_message(con.message.channel, embed=msg)
-            except:
-                await self.bot.send_message(con.message.author, embed=msg)
-
-		
-@bot.command(pass_context=True)
-async def bunnyfact(self,con):
-        session = rq.Session()
-        fact_id = random.randint(0, 17)
-        r = session.get(
-            'https://jsonblob.com/api/ea1a1a28-151b-11e9-8960-6d585dac6621')
-        if r.status_code != 200:
-            try:
-                await self.bot.send_message(con.message.channel, "Somethign went wrong, please try again later")
-            except:
-                await self.bot.send_message("Something went wrong, please try again later")
-        if r.status_code == 200:
-            try:
-                await self.bot.send_message(con.message.channel, "**{}**\n**Fact ID** `{}`".format(r.json()['animals']['bunny'][fact_id], fact_id))
-            except:
-                await self.bot.send_message("**{}**\n**Fact ID** `{}`".format(r.json()['animals']['bunny'][fact_id], fact_id))
-
-
-@bot.command(pass_context=True)
-async def pifact(self,con):
-        session = rq.Session()
-        fact_id = random.randint(0, 49)
-        r = session.get(
-            'https://jsonblob.com/api/ea1a1a28-151b-11e9-8960-6d585dac6621')
-        if r.status_code != 200:
-            await self.bot.send_message(con.message.channel, "**Something went wrong while trying to get the fact\nPlease try again later**")
-        if r.status_code == 200:
-            try:
-                await self.bot.send_message(con.message.channel, "**{}**\n**Fact ID** `{}`".format(r.json()['math']['pi'][fact_id], fact_id))
-            except:
-                await self.bot.send_message(con.message.channel, "**Something went wrong while trying to send the fact\nPlease try again later**")
-
-
-@bot.command(pass_context=True)
-async def dogfact(self,con):
-        session = rq.Session()
-        fact_id = random.randint(0, 100)
-        r = session.get(
-            'https://jsonblob.com/api/ea1a1a28-151b-11e9-8960-6d585dac6621')
-        if r.status_code != 200:
-            await self.bot.send_message(con.message.channel, "**Somethign went wrong retrieving the fact\nPlease try again later.**")
-        if r.status_code == 200:
-            try:
-                await self.bot.send_message(con.message.channel, "**{}**\n**Fact ID** `{}`".format(r.json()['animals']['dogs'][fact_id], fact_id))
-            except:
-                await self.bot.send_message(con.message.channel, "**Something went wrogn while trying to send the fact\nPlease try again later.**")
-
-
-
-
-
-@bot.command(pass_context=True)
-async def bunny(self,con):
-        msg = discord.Embed(title='Bunny')
-        msg.set_image(url='https://www.kurusaki.com/Rab/{}.jpg'.format(random.randint(1, 89)))
-        await self.bot.send_message(con.message.channel, embed=msg)	
 	
 	
 
@@ -1310,50 +1206,25 @@ async def happybirthday(ctx, *, msg = None):
     return
 
 
+@bot.command(pass_context=True)
+async def cat(self, msg):
+        """
+        Function: Send random cat picture
+        Command: `d?cat`
+        Usage Example: `d?cat`
+        """
+        r = rq.Session().get('http://aws.random.cat/meow')
+        if r.status_code == 200:
+            emb = discord.Embed(title='Cat')
+            emb.set_image(url=r.json()['file'])
+            await msg.send(embed=emb)
+
+        if r.status_code != 200:
+            emb = discord.Embed(title='Error {}'.format(r.status_code))
+            emb.set_image(url='https://http.cat/{}'.format(r.status_code))
+            await msg.send(embed=emb)
 
 
-@bot.event
-async def on_message(message):
-    with open("con.json", "r") as f:
-        users = json.load(f)
-		
-        if message.author.bot:
-            return
-        if message.channel.is_private:
-            return
-        else:
-            await update_data(users, message.author, message.server)
-            number = random.randint(5,10)
-            await add_experience(users, message.author, number, message.server)
-            await level_up(users, message.author, message.channel, message.server)
-
-        with open("con.json", "w") as f:
-            json.dump(users, f)
-    await bot.process_commands(message)
-
-async def update_data(users, user, server):
-    if not user.id + "-" + server.id in users:
-        users[user.id + "-" + server.id] = {}
-        users[user.id + "-" + server.id]["experience"] = 0
-        users[user.id + "-" + server.id]["level"] = 1
-        users[user.id + "-" + server.id]["last_message"] = 0
-
-async def add_experience(users, user, exp, server):
-    if time.time() - users[user.id + "-" + server.id]["last_message"] > 5: 
-        users[user.id + "-" + server.id]["experience"] += exp
-        users[user.id + "-" + server.id]["last_message"] = time.time()
-    else:
-        return
-
-async def level_up(users, user, channel, server):
-    experience = users[user.id + "-" + server.id]["experience"]
-    lvl_start = users[user.id + "-" + server.id]["level"]
-    lvl_end = int(experience ** (1/4))
-
-    if lvl_start < lvl_end:
-        await bot.send_message(channel, f":tada: Congrats {user.mention}, you levelled up to level {lvl_end}!")
-        users[user.id + "-" + server.id]["level"] = lvl_end
-            	
 		
 		
 @bot.command(pass_context=True)
@@ -1406,7 +1277,7 @@ async def trans(ctx, *args):
     await bot.say('```' + t.translate(" ".join(args[1:])) + '```')
 
 		
-@bot.command(pass_context=True, aliases=['DeepakLoL'])
+@bot.command(pass_context=True, aliases=['imranLoL'])
 async def dog(ctx):
         """(d) random dog picture"""
         print("★DOG★")
@@ -1423,6 +1294,46 @@ async def dog(ctx):
                 isVideo = False
         em = discord.Embed()
         await bot.say(embed=em.set_image(url=res))	
+	
+	
+@commands.is_nsfw()
+@bot.command(hidden=True, enabled=True)
+async def neko(self, msg, nsfw:str=None):
+        """
+        Function: Send random neko picture, adding nsfw will send nsfw ones
+        Command: `d?neko`
+        Usage Example: `d?neko` or `d?neko nsfw`
+        """
+        if nsfw.lower() == 'nsfw':
+            nsfw = 'true'
+        else:
+            nsfw = 'false'
+        img = rq.get(
+            'https://nekos.moe/api/v1/random/image?count=1&nsfw={}'.format(nsfw)).json()
+        url = 'https://http.cat/200'
+        emb = discord.Embed(title='Neko')
+        emb.set_image(
+            url='https://nekos.moe/image/{}'.format(img['images'][0]['id']))
+        await msg.send(embed=emb)	
+	
+@bot.command()
+async def fox(self, msg):
+        """
+        Function: Send random fox picture
+        Command: `d?fox`
+        Usage Example: `d?fox`
+        """
+
+        emb = discord.Embed(title=None)
+        r = rq.Session().get('https://randomfox.ca/floof/')
+        if r.status_code == 200:
+            emb.set_image(url=r.json()['image'])
+            await self.bot.say(embed=emb)
+        if r.status_code != 200:
+            emb = discord.Embed(title="Error {}".format(r.status_code))
+            emb.set_image(url='https://http.cat/{}'.format(r.status_code))
+            await msg.send(embed=emb)	
+	
 		
 		
 @bot.command(pass_context=True)
