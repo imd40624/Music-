@@ -1335,32 +1335,7 @@ async def fox(ctx):
             emb.set_image(url='https://http.cat/{}'.format(r.status_code))
             await bot.say(embed=emb)	
 
-@bot.command(pass_context=True)
-async def weather(ctx):
-        """
-        Function: Check the weather of a certain city
-        Command: `s.weather`
-        Usage Example: `s.weather Mars` (Mars as in the city not planet)
-        """
 
-        session = rq.Session()
-        city_state = ctx.message.content[10:]
-        t = u"\u00b0"
-
-        url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid={}'.format(city_state)
-        r = session.get(url)
-        rq_json = r.json()
-        if r.status_code == 200:
-            temp = rq_json['main']['temp']
-            max_temp = rq_json['main']['temp_max']
-            min_temp = rq_json['main']['temp_min']
-            dis = rq_json['weather'][0]['description']
-            wind = rq_json['wind']['speed']
-            await bot.send_message(con.message.channel, "**Temperature** **in** **{}** **is around** {}{}F\n**Minimum Temperature is**: {}{}F\n**Maximum Temperature is**: {}{}F\n**Mainly**: {}\n**Wind speed is around**: {} **MPH**".format(city_state, temp, t, min_temp, t, max_temp, t, dis, wind))
-        if r.status_code != 200:
-            emb = discord.Embed(title='Error {}'.format(r.status_code))
-            emb.set_image(url='https://http.cat/{}'.format(r.status_code))
-            await bot.say(embed=emb)	
 	
 	
 	
