@@ -644,8 +644,6 @@ async def help(ctx):
     embed = discord.Embed(title=None, description="Help command for devil", color=0xff00f6)
     embed.set_image(url = 'https://cdn.discordapp.com/attachments/554001244331573259/554186787757621249/PicsArt_03-10-11.49.39.jpg')
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
-    embed.add_field(name="bot info", value="d?botinfo")   
-    embed.add_field(name='Command Prefix', value='**d? or customizable** ``d?prefix set <prefix>``', inline=True)
     embed.add_field(name="♏Moderations Commands", value="__**Use it like**__ ``d?help_moderations`` __**- to get list of moderations**__")
     embed.add_field(name="💮Fun Commands", value="__**Use it like**__ ``d?help_fun`` __**- to get list of fun commands**__")
     embed.add_field(name="💠General Commands", value="__**Use it like**__ ``d?help_general`` __**- to get list of general commands**__")
@@ -678,6 +676,9 @@ async def help_fun(ctx):
 	embed.add_field(name = "Randomshow", value="Use it like ``d?randomshow``",inline = False)
 	embed.add_field(name = "Tweet", value="Use it like ``d?tweet @user <text>``",inline = False)
 	embed.add_field(name = "Dog", value="Use it like ``d?dog``",inline = False)
+	embed.add_field(name = "cat", value="Use it like ``d?cat``",inline = False)
+	embed.add_field(name = "Fox", value="Use it like ``d?fox``",inline = False)
+
 	embed.add_field(name = 'Note:', value="**More commands being added soon!**",inline = False)
 
 	embed.set_footer(text="Requested by: " + author.name)
@@ -1343,7 +1344,7 @@ async def weather(ctx):
         """
 
         session = rq.Session()
-        city_state = con.message.content[10:]
+        city_state = ctx.message.content[10:]
         t = u"\u00b0"
 
         url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid={}'.format(city_state, owm)
