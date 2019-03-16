@@ -1375,7 +1375,7 @@ async def eightball(ctx):
         text = responses[random_number]
 
         embed.add_field(name=header, value=text, inline=True)
-        await boot.say(embed=embed)	
+        await bot.say(embed=embed)	
 	
 	
 @bot.group(pass_context=True, no_pm=True)
