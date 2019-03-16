@@ -1347,7 +1347,7 @@ async def weather(ctx):
         city_state = ctx.message.content[10:]
         t = u"\u00b0"
 
-        url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid={}'.format(city_state, owm)
+        url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid={}'.format(city_state)
         r = session.get(url)
         rq_json = r.json()
         if r.status_code == 200:
