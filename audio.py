@@ -1296,7 +1296,7 @@ async def dog(ctx):
         await bot.say(embed=em.set_image(url=res))	
 	
 	
-@bot.command(hidden=True, enabled=True)
+@bot.command(pass_context=True, hidden=True, enabled=True)
 async def neko(ctx, nsfw:str=None):
         """
         Function: Send random neko picture, adding nsfw will send nsfw ones
