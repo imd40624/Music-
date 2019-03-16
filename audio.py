@@ -10,7 +10,6 @@ import aiohttp
 import requests
 import string
 import discord, datetime, time
-import systems as sys
 from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.ext.commands import has_permissions 
