@@ -1336,7 +1336,46 @@ async def fox(ctx):
             await bot.say(embed=emb)	
 
 
-	
+@bot.command(pass_context = True)
+async def eightball(ctx):
+        '''Answer a question with a response'''
+
+        responses = [
+            'It is certain',
+            'It is decidedly so',
+            'Without a doubt',
+            'Yes definitely',
+            'You may rely on it',
+            'As I see it, yes',
+            'Most likely',
+            'Outlook good',
+            'Yes',
+            'Signs point to yes',
+            'Reply hazy try again',
+            'Ask again later',
+            'Better not tell you now',
+            'Cannot predict now',
+            'Concentrate and ask again',
+            'Do not count on it',
+            'My reply is no',
+            'My sources say no',
+            'Outlook not so good',
+            'Very doubtful'
+        ]
+
+        random_number = random.randint(0, 19)
+        if random_number >= 0 and random_number <= 9:
+            embed = discord.Embed(color=0x60E87B)
+        elif random_number >= 10 and random_number <= 14:
+            embed = discord.Embed(color=0xECE357)
+        else:
+            embed = discord.Embed(color=0xD55050)
+
+        header = 'Magic/Eight ball says...'
+        text = responses[random_number]
+
+        embed.add_field(name=header, value=text, inline=True)
+        await boot.say(embed=embed)	
 	
 	
 	
