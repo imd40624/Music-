@@ -1377,40 +1377,7 @@ async def eightball(ctx):
         embed.add_field(name=header, value=text, inline=True)
         await bot.say(embed=embed)	
 	
-	
-@bot.group(pass_context=True, no_pm=True)
-async def deletelinks(ctx):
-  """Mods - Deletes links from all users except for those in the whitelist"""
-  message = ctx.message
-  
-  if user_admin_role(message):
-    if ctx.invoked_subcommand is None:
-         await response(message, "Help: d?deletelinks <on/off>")
 
-@deletelinks.command(name='on', pass_context=True, no_pm=True)
-async def deletelinks_on(ctx):
-  global deletelinksmode
-  message = ctx.message
-
-  if user_admin_role(message):
-    if deletelinksmode == False:
-          deletelinksmode = True
-          await response(message, "Link Deleting Mode has been enabled.")
-          logger.debug("Enabled link deleting mode!")
-          logger3.debug("Enabled link deleting mode!")
-    
-@deletelinks.command(name='off', pass_context=True, no_pm=True)
-async def deletelinks_off(ctx):
-  global deletelinksmode
-  message = ctx.message
-
-  if user_admin_role(message):
-    if deletelinksmode == True:
-          deletelinksmode = False
-          await response(message, "Link Deleting Mode has been disabled.")
-          logger.debug("Disabled link deleting mode!")
-          logger3.debug("Disabled link deleting mode!")	
-		
 		
 @bot.command(pass_context=True)
 async def embed(ctx):
