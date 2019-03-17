@@ -1299,7 +1299,7 @@ async def dog(ctx):
 	
 	
 @bot.command(pass_context=True, hidden=True, enabled=True)
-async def neko(ctx, nsfw:str=None):
+async def neko(ctx, nsfw:str="false"):
         """
         Function: Send random neko picture, adding nsfw will send nsfw ones
         Command: `d?neko`
