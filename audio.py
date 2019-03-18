@@ -641,13 +641,13 @@ async def on_member_join(member):
 async def help(ctx):
     server = ctx.message.server
     author = ctx.message.author
-    embed = discord.Embed(title=None, description="Help command for devil", color=0xff00f6)
-    embed.set_image(url = 'https://cdn.discordapp.com/attachments/554001244331573259/554186787757621249/PicsArt_03-10-11.49.39.jpg')
+    embed = discord.Embed(title=None, description="**Help command for devil**", color=0xff00f6)
     embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
     embed.add_field(name="♏Moderations Commands", value="__**Use it like**__ ``d?help_moderations`` __**- to get list of moderations**__")
     embed.add_field(name="💮Fun Commands", value="__**Use it like**__ ``d?help_fun`` __**- to get list of fun commands**__")
     embed.add_field(name="💠General Commands", value="__**Use it like**__ ``d?help_general`` __**- to get list of general commands**__")
     embed.add_field(name="ⓂMusic Commands", value="__**Use it like**__ ``d?help_music`` __**- to get list of music commands**__")
+    embed.add_field(name="💸Economy Commands", value="__**Use it like**__ ``d?help_economy`` __**- to get list of economy commands**__")
     embed.add_field(name='Note:', value="**More commands being added soon!**")
     embed.set_thumbnail(url=server.icon_url)
     embed.set_footer(text="Requested by: " + author.name)
@@ -662,8 +662,6 @@ async def help_fun(ctx):
 	embed.add_field(name = "slap", value="Use it like ``d?slap @user``",inline = False)
 	embed.add_field(name = "thuglife", value="Use it like ``d?thuglife``",inline = False)
 	embed.add_field(name = "burned", value="Use it like ``d?burned``",inline = False)
-	embed.add_field(name = "coinflip", value="Use it like ``d?coinflip`` 50 50 chance of getting tails and heads",inline = False)
-	embed.add_field(name = "dice", value="Use it like ``d?dice [fun command]``",inline = False)
 	embed.add_field(name = "rolldice", value="Use it like ``d?rolldice`` [fun command]",inline = False)
 	embed.add_field(name = "filpcoin", value="Use it like ``d?flipcoin`` [50 50 chance]",inline = False)
 	embed.add_field(name = "meme", value="Use it like ``d?meme``",inline = False)
@@ -678,6 +676,7 @@ async def help_fun(ctx):
 	embed.add_field(name = "Dog", value="Use it like ``d?dog``",inline = False)
 	embed.add_field(name = "cat", value="Use it like ``d?cat``",inline = False)
 	embed.add_field(name = "Fox", value="Use it like ``d?fox``",inline = False)
+	embed.add_field(name = "Eightball", value="Use it like ``d?eigthball <your text>``",inline = False)
 
 	embed.add_field(name = 'Note:', value="**More commands being added soon!**",inline = False)
 
@@ -738,7 +737,16 @@ async def help_moderations(ctx):
    await bot.send_message(channel, embed=embed)
 	
 	
-
+@bot.command(pass_context=True)
+async def help_economy(ctx):
+	author = ctx.message.author
+	embed = discord.Embed(title=None, description="***__Economy Commands..__***", color=0xFFFF)
+	embed.add_field(name = "Daily", value="Use it like ``d?daily``",inline = False)
+	embed.add_field(name = "Leaderboard", value="Use it like ``d?lb``",inline = False)
+	embed.add_field(name = "Balance", value="Use it like ``d?bal``",inline = False)
+	embed.add_field(name = "Work", value="Use it like ``d?work``",inline = False)
+	embed.add_field(name = "Coinflip", value="Use it like ``d?coinflip heads/tails <your amount>``",inline = False)
+	embed.add_field(name = "Dice", value="Use it like ``d?dice <your No between 1-6> <your  amount>``",inline = False)
 
 
 	
@@ -761,18 +769,6 @@ async def offline(con):
             amt += 1
     await bot.send_message(con.message.channel, "**Currently `{}` Members Offline In `{}`**".format(amt,con.message.server.name))
 
-
-
-import random
-@bot.command(pass_context=True)
-async def dice( con, min1=1, max1=6):
-    """GENERATES A RANDOM FROM MIN - MAX
-    MIN DEFAULT = 1
-    MAX DEFAULT = 6
-    MIN1 = THE SMALLEST LIMIT TO GENERATE A RANDOM NUMBER
-    MAX1 = THE LIMIT TO GENERATE A RANDOM NUMBER"""
-    r = random.randint(min1, max1)
-    await bot.send_message(con.message.channel, "**{}**".format(r))
 
 
 
@@ -875,24 +871,7 @@ def user_is_me(ctx):
 	return ctx.message.author.id == "455500545587675156"
 	
 	
-@bot.command(pass_context=True)
-async def coinflip(ctx):
-    user = ctx.message.author
-    side = random.randint(0, 1)
-    server = ctx.message.server
-    join = discord.Embed(title="devil ", description=" ", color=0x008790)
-    if side == 0:
-        join.add_field(name="the coin landed on:", value="Heads!", inline=False)
-        join.set_footer(text='Requested by: ' + user.name)
-        await bot.send_message(ctx.message.channel, embed=join)
-    if side == 1:
-        join.add_field(name="the coin landed on:", value="Tails!", inline=False)
-        join.set_footer(text='Requested by: ' + user.name)
-        await bot.send_message(ctx.message.channel, embed=join)
-        
-        embed = discord.Embed(title=f"User: {ctx.message.author.name} have used coinflip command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
 
-        await bot.send_message(channel, embed=embed)
 						 
 						 
 @bot.command(name="say", pass_context=True)
