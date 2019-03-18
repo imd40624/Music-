@@ -739,19 +739,19 @@ async def help_moderations(ctx):
 	
 @bot.command(pass_context=True)
 async def help_economy(ctx):
-	author = ctx.message.author
-	embed = discord.Embed(title=None, description="***__Economy Commands..__***", color=0xFFFF)
-	embed.add_field(name = "Daily", value="Use it like ``d?daily``",inline = False)
-	embed.add_field(name = "Leaderboard", value="Use it like ``d?lb``",inline = False)
-	embed.add_field(name = "Balance", value="Use it like ``d?bal``",inline = False)
-	embed.add_field(name = "Work", value="Use it like ``d?work``",inline = False)
-	embed.add_field(name = "Coinflip", value="Use it like ``d?coinflip heads/tails <your amount>``",inline = False)
-	embed.add_field(name = "Dice", value="Use it like ``d?dice <your No between 1-6> <your  amount>``",inline = False)
-        embed.add_field(name = 'Note:', value="***More commands being added soon!***")
-        embed.set_footer(text="Requested by: " + author.name)
-        await bot.say(embed=embed)
-        embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
-        await bot.send_message(channel, embed=embed)
+    author = ctx.message.author
+    embed = discord.Embed(title=None, description="***__Economy Commands..__***", color=0xFFFF)
+    embed.add_field(name = "Daily", value="Use it like ``d?daily``",inline = False)
+    embed.add_field(name = "Leaderboard", value="Use it like ``d?lb``",inline = False)
+    embed.add_field(name = "Balance", value="Use it like ``d?bal``",inline = False)
+    embed.add_field(name = "Work", value="Use it like ``d?work``",inline = False)
+    embed.add_field(name = "Coinflip", value="Use it like ``d?coinflip heads/tails <your amount>``",inline = False)
+    embed.add_field(name = "Dice", value="Use it like ``d?dice <your No between 1-6> <your  amount>``",inline = False)
+    embed.add_field(name = 'Note:', value="***More commands being added soon!***")
+    embed.set_footer(text="Requested by: " + author.name)
+    await bot.say(embed=embed)
+    embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+    await bot.send_message(channel, embed=embed)
 
 	
     
