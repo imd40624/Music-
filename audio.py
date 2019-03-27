@@ -735,17 +735,7 @@ async def neko(ctx, nsfw:str="false"):
             url='https://nekos.moe/image/{}'.format(img['images'][0]['id']))
         await bot.say(embed=emb)	
 
-@bot.command(pass_context=True)
-async def img(ctx):
-    """FAILED IMAGE GENERATOR BY KEYWORDS s.img dog"""
-    img_api = '142cd7a6-ce58-4647-a81d-8b82f9668b75'
 
-    query = ctx.message.content[5:]
-    url = 'http://version1.api.memegenerator.net//Generators_Search?q={}&apiKey={}'.format(
-        query, img_api)
-    rq_link = rq.get(url).text
-    rq_json = json.loads(rq_link)
-    await bot.say(rq_json['result'][0]['imageUrl'])
 	
 @bot.command(pass_context=True)
 async def facedesk(ctx):
