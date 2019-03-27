@@ -1315,18 +1315,7 @@ async def tweet(ctx, usernamename:str, *, txt:str):
             embed.title = "{} twitted: {}".format(usernamename, txt)
             await bot.say(embed=embed)	
 
-@bot.command(pass_context=True)
-async def trans(ctx, *args):
-    """Ex: '!trans en->de example' OR '!trans de Beispiel'"""
-    if "bugs" in args[0]:
-        await client.say("Wraith... bugs is not a language.")
-        return
 
-    if len(args[0]) == 2:
-        arr = [args[0], "en"]
-    else: arr = '{}'.format(args[0]).split('->')
-    t = Translator(from_lang=arr[0],to_lang=arr[1])
-    await bot.say('```' + t.translate(" ".join(args[1:])) + '```')
 
 		
 @bot.command(pass_context=True, aliases=['imranLoL'])
