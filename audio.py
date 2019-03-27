@@ -9,6 +9,8 @@ import json
 import aiohttp
 import requests
 import string
+import translate
+from translate import Translator
 import discord, datetime, time
 from discord.ext import commands
 from discord.ext.commands import Bot
@@ -122,112 +124,9 @@ async def on_ready():
         print(server.name)
 
 	
-@bot.command(pass_context=True)
-async def join(ctx):
-    channel = ctx.message.author.voice.voice_channel
-    await bot.join_voice_channel(channel)
-    in_voice.append(ctx.message.server.id)
-    await bot.say("JOIN")
-
-async def player_in(con):  # After function for music
-    try:
-        if len(songs[con.message.server.id]) == 0:  # If there is no queue make it False
-            playing[con.message.server.id] = False
-            bot.loop.create_task(checking_voice(con))
-    except:
-        pass
-    try:
-        if len(songs[con.message.server.id]) != 0:  # If queue is not empty
-            # if audio is not playing and there is a queue
-            songs[con.message.server.id][0].start()  # start it
-            await bot.send_message(con.message.channel, '```Now queueed```')
-            del songs[con.message.server.id][0]  # delete list afterwards
-    except:
-        pass
-
-
-@bot.command(pass_context=True)
-async def play(ctx, *,url):
-
-    opts = {
-        'default_search': 'auto',
-        'quiet': True,
-    }  # youtube_dl options
-
-
-    if ctx.message.server.id not in in_voice: #auto join voice if not joined
-        channel = ctx.message.author.voice.voice_channel
-        await bot.join_voice_channel(channel)
-        in_voice.append(ctx.message.server.id)
-
-    
-
-    if playing[ctx.message.server.id] == True: #IF THERE IS CURRENT AUDIO PLAYING QUEUE IT
-        voice = bot.voice_client_in(ctx.message.server)
-        song = await voice.create_ytdl_player(url, ytdl_options=opts, after=lambda: bot.loop.create_task(player_in(ctx)))
-        songs[ctx.message.server.id]=[] #make a list 
-        songs[ctx.message.server.id].append(song) #add song to queue
-        await bot.say("```Audio {} is queued```".format(song.title))
-
-    if playing[ctx.message.server.id] == False:
-        voice = bot.voice_client_in(ctx.message.server)
-        player = await voice.create_ytdl_player(url, ytdl_options=opts, after=lambda: bot.loop.create_task(player_in(ctx)))
-        players[ctx.message.server.id] = player
-        # play_in.append(player)
-        if players[ctx.message.server.id].is_live == True:
-            await bot.say("Can not play live audio yet.")
-        elif players[ctx.message.server.id].is_live == False:
-            player.start()
-            await bot.say("```Now playing audio```")
-            playing[ctx.message.server.id] = True
 
 
 
-@bot.command(pass_context=True)
-async def queue(con):
-    await bot.say("```There are currently {} audios in queue```".format(len(songs)))
-
-@bot.command(pass_context=True)
-async def pause(ctx):
-    id = ctx.message.server.id
-    players[id].pause()
-    await bot.say("**⏸PAUSE**")
-    
-@bot.command(pass_context=True)
-async def resume(ctx):
-    players[ctx.message.server.id].resume()
-    await bot.say("**▶RESUME**")
-    
-    
-@bot.command(pass_context=True)
-async def volume(ctx, vol:float):
-    volu = float(vol)
-    players[ctx.message.server.id].volume=volu
-    
-
-@bot.command(pass_context=True)
-async def skip(con): #skipping songs?
-    songs[con.message.server.id].skip()
-    songs.skip()
-    
-    
-@bot.command(pass_context=True)
-async def stop(con):
-    players[con.message.server.id].stop()
-    songs.clear()
-    await bot.say("**⏹STOP**")
-    
-    
-@bot.command(pass_context=True)
-async def leave(ctx):
-    pos=in_voice.index(ctx.message.server.id)
-    del in_voice[pos]
-    server=ctx.message.server
-    voice_client=bot.voice_client_in(server)
-    await voice_client.disconnect()
-    songs.clear()
-    await bot.say("**❌Successfully disconnected**")
-    
     
     
 @bot.command(pass_context=True)
@@ -637,124 +536,302 @@ async def on_member_join(member):
 	
 	
 
-@bot.command(pass_context=True)
+#@bot.command(pass_context=True)
+#async def help(ctx):
+    #server = ctx.message.server
+    #embed = discord.Embed(title=None, description="**Help command for devil**", color=0xff00f6)
+    #embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
+    #embed.add_field(name="♏Moderations Commands", value="__**Use it like**__ ``d?help_moderations`` __**- to get list of moderations**__")
+    #embed.add_field(name="💮Fun Commands", value="__**Use it like**__ ``d?help_fun`` __**- to get list of fun commands**__")
+    #embed.add_field(name="💠General Commands", value="__**Use it like**__ ``d?help_general`` __**- to get list of general commands**__")
+    #embed.add_field(name="ⓂMusic Commands", value="__**Use it like**__ ``d?help_music`` __**- to get list of music commands**__")
+    #embed.add_field(name="💸Economy Commands", value="__**Use it like**__ ``d?help_economy`` __**- to get list of economy commands**__")
+    #embed.add_field(name='Note:', value="**More commands being added soon!**")
+    #embed.set_thumbnail(url=server.icon_url)
+    #embed.set_footer(text="Requested by: " + author.name)
+    #await bot.say(embed=embed)
+    
+#@bot.command(pass_context=True)
+#async def help_fun(ctx):
+	#author = ctx.message.author
+	#embed = discord.Embed(title=None, description="***__Fun Commands..__***", color=0xFFFF)
+	#embed.add_field(name = "kiss", value="Use it like ``d?kiss @user``",inline = False)
+	#embed.add_field(name = "hug", value="Use it like ``d?hug @user``",inline = False)
+	#embed.add_field(name = "slap", value="Use it like ``d?slap @user``",inline = False)
+	#embed.add_field(name = "thuglife", value="Use it like ``d?thuglife``",inline = False)
+	#embed.add_field(name = "burned", value="Use it like ``d?burned``",inline = False)
+	#embed.add_field(name = "rolldice", value="Use it like ``d?rolldice`` [fun command]",inline = False)
+	#embed.add_field(name = "filpcoin", value="Use it like ``d?flipcoin`` [50 50 chance]",inline = False)
+	#embed.add_field(name = "meme", value="Use it like ``d?meme``",inline = False)
+	#embed.add_field(name = "Movie", value="Use it like ``d?movie <any movie name>``",inline = False)
+	#embed.add_field(name = "Guess", value="Use it like ``d?guess [1-10]``",inline = False)
+	#embed.add_field(name = "Virgin", value="Use it like ``d?virgin @user``",inline = False)
+	#embed.add_field(name = "Gender", value="Use it like ``d?gender @user``",inline = False)
+	#embed.add_field(name = "Damn", value="Use it like ``d?damn``",inline = False)
+	#embed.add_field(name = "happybirthday", value="Use it like ``d?happybirthday @user``",inline = False)
+	#embed.add_field(name = "Randomshow", value="Use it like ``d?randomshow``",inline = False)
+	#embed.add_field(name = "Tweet", value="Use it like ``d?tweet @user <text>``",inline = False)
+	#embed.add_field(name = "Dog", value="Use it like ``d?dog``",inline = False)
+	#embed.add_field(name = "cat", value="Use it like ``d?cat``",inline = False)
+	#embed.add_field(name = "Fox", value="Use it like ``d?fox``",inline = False)
+	#embed.add_field(name = "Eightball", value="Use it like ``d?eigthball <your text>``",inline = False)
+
+	#embed.add_field(name = 'Note:', value="**More commands being added soon!**",inline = False)
+
+	#embed.set_footer(text="Requested by: " + author.name)
+	#await bot.say(embed=embed)
+	#embed = discord.Embed(title=f"User: {ctx.message.author.name} have used fun command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+	#await bot.send_message(channel, embed=embed)
+
+
+#@bot.command(pass_context=True)
+#async def help_general(ctx):
+   #author = ctx.message.author
+   #embed = discord.Embed(title=None, description="***__General Commands..__***", color=0xFFFF)
+   #embed.add_field(name = 'd?happybirthday @user ',value ='To wish someone happy birthday',inline = False)
+   #embed.add_field(name = 'd?joined @user ', value='Says when a member joined.', inline = False)		
+   #embed.add_field(name = 'd?repeat', value='Use it like ``d?repeat 5``', inline = False)
+   #embed.add_field(name = 'd?online', value='Use it like ``d?online``  Members Online.', inline = False)
+   #embed.add_field(name = 'd?offline', value='Use it like ``d?offline``  Members Offline.', inline = False)
+   #embed.add_field(name = 'd?membercount', value='Use it like ``d?membercount`` to see how many members are in the server.', inline = False)
+   #embed.add_field(name = 'd?invite',value ='Use it to invite our bot to your server',inline = False)
+   #embed.add_field(name = 'd?avatar', value='Use it like ``d?avatar @user`` show user avatar', inline = False)  
+   #embed.add_field(name = 'd?info',value ='Use it like ``d?info @user`` to get some basic info of tagged user',inline = False)
+   #embed.add_field(name = 'd?meme',value ='Use it like ``d?meme`` to get a random meme',inline = False)
+   #embed.add_field(name = 'd?movie',value ='Use it like ``d?movie <any movie name>`` to get some basic info of movie',inline = False)
+   #embed.add_field(name = 'd?joke',value ='Use it like ``d?joke`` to get a random joke',inline = False)
+   #embed.add_field(name = 'd?botinfo',value ='Use it like ``d?botinfo`` to get some basic info of bot',inline = False)
+   #embed.add_field(name = 'Note:', value="***More commands being added soon!***")
+   #embed.set_footer(text="Requested by: " + author.name)
+   #await bot.say(embed=embed)
+   #embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+   #await bot.send_message(channel, embed=embed)
+
+	
+	
+	
+	
+#@bot.command(pass_context=True)
+#async def help_moderations(ctx):
+   #author = ctx.message.author
+   #embed = discord.Embed(title=None, description="***__Moderation Commands..__***", color=0xFFFF)	 
+   #embed.add_field(name = 'd?kick(Kick members Permission Required)',value ='Use it like ``d?kick @user`` to kick any user',inline = False)
+   #embed.add_field(name = 'd?mute(Mute members Permission Required)',value ='Use it like ``d?mute @user <time>`` to mute any user',inline = False)
+   #embed.add_field(name = 'd?unmute(Mute members Permission Required)',value ='Use it like ``d?unmute @user`` to unmute anyone',inline = False)
+   #embed.add_field(name = 'd?ban(Ban members Permission Required)',value ='Use it like ``d?ban @user`` to ban any user',inline = False)
+   #embed.add_field(name = 'd?unban(Ban members Permission Required)', value="Use it liked ``?unban user.id`` | for example d!unban 277983178914922497",inline = False)
+   #embed.add_field(name = 'd?setupwelcomer(Admin Permission required)',value ='Simply use it to make a channel named welcome so that bot will send welcome and leaves logs in that channel.',inline = False)
+   #embed.add_field(name = 'd?setuplog(Admin Permission required)',value ='Simply use it to make a channel named logs so that bot will send logs in that channel.',inline = False)
+   #embed.add_field(name = 'd?Dm(Admin Permission required)', value="Use it like ``d?dm @user <text>`` to send dm any one",inline = False)
+   #embed.add_field(name = 'd?say(Admin permission required)',value ='Use it like ``d?say <text>``',inline = False)
+   #embed.add_field(name = 'd?announce(Admin permission required)', value="Use it like ``d?announce #channel <text>``",inline = False)
+   #embed.add_field(name = 'd?prefix(Admin permission required)', value="Use it like ``d?prefix ?``",inline = False)
+   #embed.add_field(name = 'd?serverinfo(Kick members Permission Required) ',value ='Use it like ``d?serverinfo`` to get server info',inline = False)
+
+   #embed.add_field(name = 'Note:', value="***More commands being added soon!***")
+   #embed.set_footer(text="Requested by: " + author.name)
+   #await bot.say(embed=embed)
+   #embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+   #await bot.send_message(channel, embed=embed)
+	
+	
+#@bot.command(pass_context=True)
+#async def help_economy(ctx):
+    #author = ctx.message.author
+    #embed = discord.Embed(title=None, description="***__Economy Commands..__***", color=0xFFFF)
+    #embed.add_field(name = "Daily", value="Use it like ``d?daily``",inline = False)
+    #embed.add_field(name = "Leaderboard", value="Use it like ``d?lb``",inline = False)
+    #embed.add_field(name = "Balance", value="Use it like ``d?bal``",inline = False)
+    #embed.add_field(name = "Work", value="Use it like ``d?work``",inline = False)
+    #embed.add_field(name = "Coinflip", value="Use it like ``d?coinflip heads/tails <your amount>``",inline = False)
+    #embed.add_field(name = "Dice", value="Use it like ``d?dice <your No between 1-6> <your  amount>``",inline = False)
+    #embed.add_field(name = 'Note:', value="***More commands being added soon!***")
+    #embed.set_footer(text="Requested by: " + author.name)
+    #await bot.say(embed=embed)
+    #embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
+    #await bot.send_message(channel, embed=embed)
+
+@bot.command(pass_context = True)
 async def help(ctx):
     server = ctx.message.server
     author = ctx.message.author
-    embed = discord.Embed(title=None, description="**Help command for devil**", color=0xff00f6)
-    embed.add_field(name='Help Server',value='https://discord.gg/cQZBYFV', inline=True)
-    embed.add_field(name="♏Moderations Commands", value="__**Use it like**__ ``d?help_moderations`` __**- to get list of moderations**__")
-    embed.add_field(name="💮Fun Commands", value="__**Use it like**__ ``d?help_fun`` __**- to get list of fun commands**__")
-    embed.add_field(name="💠General Commands", value="__**Use it like**__ ``d?help_general`` __**- to get list of general commands**__")
-    embed.add_field(name="ⓂMusic Commands", value="__**Use it like**__ ``d?help_music`` __**- to get list of music commands**__")
-    embed.add_field(name="💸Economy Commands", value="__**Use it like**__ ``d?help_economy`` __**- to get list of economy commands**__")
-    embed.add_field(name='Note:', value="**More commands being added soon!**")
+    embed = discord.Embed(title=None, description="**Help command for devil**", color=0xff00f6)		
+    embed.add_field(name="Moderations Commands:", value="``kick`` ``ban`` ``mute`` ``unmute`` ``warn`` ``clear`` ``say`` ``dm`` ``unban`` ``setupwelcomer`` ``setuplog`` ``announce`` ``embed`` ``stats``",inline = False)
+    embed.add_field(name="Action Commands:", value="``poke`` ``kiss`` ``slap`` ``hug`` ``bite`` ``pat`` ``bloodsuck`` ``cuddle`` ``thuglife`` ``burned`` ``savage`` ``facedesk`` ``highfive``",inline = False)		      
+    embed.add_field(name="General Commands:", value="``ping`` ``info`` ``serverinfo`` ``membercount`` ``gulidicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined``",inline = False) 		
+    embed.add_field(name="Music Commands:", value="``play`` ``skip`` ``stop`` ``song`` ``resume`` ``pause`` ``queue`` ``volume`` ``mutemusic`` ``unmutemusic``",inline = False) 		
+    embed.add_field(name="Fun Commands:", value=" ``virgin`` ``kiss`` ``meme`` ``slap`` ``hug`` ``joke`` ``movie`` ``tweet`` ``happybirthday`` ``gender``",inline = False)	
+    embed.add_field(name="Image Commands:", value="``meme`` ``dog`` ``fox`` ``cat`` ``img`` ``randomshow`` ``neko`` ``buddy`` ``duck`` ``bird``",inline = False)	
+    embed.add_field(name="Misc Commands:", value="``tweet`` ``trans`` ``eightball``",inline = False)
+    embed.add_field(name="Game Commands:", value="``flipcoin`` ``rolldice`` ``guess``",inline = False)
+    embed.add_field(name="Game Commands:", value="``daily`` ``dice`` ``coinflip`` ``bal`` ``work`` ``lb``",inline = False)
+    embed.add_field(name='Need more help?', value="Join our support server at https://discord.gg/Eagbjbj")  
     embed.set_thumbnail(url=server.icon_url)
     embed.set_footer(text="Requested by: " + author.name)
+    await bot.say(embed=embed)		
+
+@bot.command(pass_context=True)
+async def duck(ctx):
+        """
+        Function: Send random duck picture
+        Command: `>duck`
+        Usage Example: `>duck`
+        """
+
+        emb = discord.Embed(title=None)
+        r = rq.Session().get('https://random-d.uk/api/v1/random')
+        if r.status_code == 200:
+            emb.set_image(url=r.json()['url'])
+            await bot.say(embed=emb)
+        if r.status_code != 200:
+            emb = discord.Embed(title="Error {}".format(r.status_code))
+            emb.set_image(url='https://http.cat/{}'.format(r.status_code))
+            await bot.say(embed=emb)
+
+
+@bot.command(pass_context=True)
+async def bird(ctx):
+        """Shows a random birb"""
+        url = "http://random.birb.pw/tweet.json/"
+        request = Request(url)
+        request.add_header('User-Agent', 'Mozilla/5.0')
+        data = json.loads(urlopen(request).read().decode())
+        emb=discord.Embed(description=":bird:", colour=ctx.message.author.colour)
+        emb.set_image(url="http://random.birb.pw/img/" + data["file"])
+        try:
+            await bot.say(embed=emb)
+        except:
+            await bot.say("The birb didn't make it, sorry :no_entry:")		
+
+@bot.command(pass_context=True)
+async def trans(ctx, *args):
+    """Ex: '>trans en->de example' OR '>trans de Beispiel'"""
+    if "bugs" in args[0]:
+        await client.say("Wraith... bugs is not a language.")
+        return
+
+    if len(args[0]) == 2:
+        arr = [args[0], "en"]
+    else: arr = '{}'.format(args[0]).split('->')
+    t = Translator(from_lang=arr[0],to_lang=arr[1])
+    await bot.say('```' + t.translate(" ".join(args[1:])) + '```')
+	
+@bot.command(pass_context=True, hidden=True, enabled=True)
+async def neko(ctx, nsfw:str="false"):
+        """
+        Function: Send random neko picture, adding nsfw will send nsfw ones
+        Command: `d?neko`
+        Usage Example: `d?neko` or `d?neko nsfw`
+        """
+        if nsfw.lower() == 'nsfw':
+            nsfw = 'true'
+        else:
+            nsfw = 'false'
+        img = rq.get(
+            'https://nekos.moe/api/v1/random/image?count=1&nsfw={}'.format(nsfw)).json()
+        url = 'https://http.cat/200'
+        emb = discord.Embed(title='Neko')
+        emb.set_image(
+            url='https://nekos.moe/image/{}'.format(img['images'][0]['id']))
+        await bot.say(embed=emb)	
+
+@bot.command(pass_context=True)
+async def img(ctx):
+    """FAILED IMAGE GENERATOR BY KEYWORDS s.img dog"""
+    img_api = '142cd7a6-ce58-4647-a81d-8b82f9668b75'
+
+    query = ctx.message.content[5:]
+    url = 'http://version1.api.memegenerator.net//Generators_Search?q={}&apiKey={}'.format(
+        query, img_api)
+    rq_link = rq.get(url).text
+    rq_json = json.loads(rq_link)
+    await bot.say(rq_json['result'][0]['imageUrl'])
+	
+@bot.command(pass_context=True)
+async def facedesk(ctx):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    gifs = ["https://gifimage.net/wp-content/uploads/2018/11/face-desk-gif-1.gif", "https://media.giphy.com/media/1cXN3ppw2lC0M/giphy.gif", "https://image.myanimelist.net/ui/OK6W_koKDTOqqqLDbIoPArtgSjP1eqJCWy7SnEQyZ8A", "http://i.imgur.com/tnBGkwT.gif", "https://media1.tenor.com/images/3eeb3943b8ecab2617d26f4b36f7f9a3/tenor.gif"]
+    embed = discord.Embed(color = discord.Color((r << 16) + (g << 8) + b))
+    embed.set_image(url=random.choice(gifs))
     await bot.say(embed=embed)
-    
-@bot.command(pass_context=True)
-async def help_fun(ctx):
-	author = ctx.message.author
-	embed = discord.Embed(title=None, description="***__Fun Commands..__***", color=0xFFFF)
-	embed.add_field(name = "kiss", value="Use it like ``d?kiss @user``",inline = False)
-	embed.add_field(name = "hug", value="Use it like ``d?hug @user``",inline = False)
-	embed.add_field(name = "slap", value="Use it like ``d?slap @user``",inline = False)
-	embed.add_field(name = "thuglife", value="Use it like ``d?thuglife``",inline = False)
-	embed.add_field(name = "burned", value="Use it like ``d?burned``",inline = False)
-	embed.add_field(name = "rolldice", value="Use it like ``d?rolldice`` [fun command]",inline = False)
-	embed.add_field(name = "filpcoin", value="Use it like ``d?flipcoin`` [50 50 chance]",inline = False)
-	embed.add_field(name = "meme", value="Use it like ``d?meme``",inline = False)
-	embed.add_field(name = "Movie", value="Use it like ``d?movie <any movie name>``",inline = False)
-	embed.add_field(name = "Guess", value="Use it like ``d?guess [1-10]``",inline = False)
-	embed.add_field(name = "Virgin", value="Use it like ``d?virgin @user``",inline = False)
-	embed.add_field(name = "Gender", value="Use it like ``d?gender @user``",inline = False)
-	embed.add_field(name = "Damn", value="Use it like ``d?damn``",inline = False)
-	embed.add_field(name = "happybirthday", value="Use it like ``d?happybirthday @user``",inline = False)
-	embed.add_field(name = "Randomshow", value="Use it like ``d?randomshow``",inline = False)
-	embed.add_field(name = "Tweet", value="Use it like ``d?tweet @user <text>``",inline = False)
-	embed.add_field(name = "Dog", value="Use it like ``d?dog``",inline = False)
-	embed.add_field(name = "cat", value="Use it like ``d?cat``",inline = False)
-	embed.add_field(name = "Fox", value="Use it like ``d?fox``",inline = False)
-	embed.add_field(name = "Eightball", value="Use it like ``d?eigthball <your text>``",inline = False)
-
-	embed.add_field(name = 'Note:', value="**More commands being added soon!**",inline = False)
-
-	embed.set_footer(text="Requested by: " + author.name)
-	await bot.say(embed=embed)
-	embed = discord.Embed(title=f"User: {ctx.message.author.name} have used fun command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
-	await bot.send_message(channel, embed=embed)
-
-
-@bot.command(pass_context=True)
-async def help_general(ctx):
-   author = ctx.message.author
-   embed = discord.Embed(title=None, description="***__General Commands..__***", color=0xFFFF)
-   embed.add_field(name = 'd?happybirthday @user ',value ='To wish someone happy birthday',inline = False)
-   embed.add_field(name = 'd?joined @user ', value='Says when a member joined.', inline = False)		
-   embed.add_field(name = 'd?repeat', value='Use it like ``d?repeat 5``', inline = False)
-   embed.add_field(name = 'd?online', value='Use it like ``d?online``  Members Online.', inline = False)
-   embed.add_field(name = 'd?offline', value='Use it like ``d?offline``  Members Offline.', inline = False)
-   embed.add_field(name = 'd?membercount', value='Use it like ``d?membercount`` to see how many members are in the server.', inline = False)
-   embed.add_field(name = 'd?invite',value ='Use it to invite our bot to your server',inline = False)
-   embed.add_field(name = 'd?avatar', value='Use it like ``d?avatar @user`` show user avatar', inline = False)  
-   embed.add_field(name = 'd?info',value ='Use it like ``d?info @user`` to get some basic info of tagged user',inline = False)
-   embed.add_field(name = 'd?meme',value ='Use it like ``d?meme`` to get a random meme',inline = False)
-   embed.add_field(name = 'd?movie',value ='Use it like ``d?movie <any movie name>`` to get some basic info of movie',inline = False)
-   embed.add_field(name = 'd?joke',value ='Use it like ``d?joke`` to get a random joke',inline = False)
-   embed.add_field(name = 'd?botinfo',value ='Use it like ``d?botinfo`` to get some basic info of bot',inline = False)
-   embed.add_field(name = 'Note:', value="***More commands being added soon!***")
-   embed.set_footer(text="Requested by: " + author.name)
-   await bot.say(embed=embed)
-   embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
-   await bot.send_message(channel, embed=embed)
-
-	
-	
+    await bot.delete_message(ctx.message)
 	
 	
 @bot.command(pass_context=True)
-async def help_moderations(ctx):
-   author = ctx.message.author
-   embed = discord.Embed(title=None, description="***__Moderation Commands..__***", color=0xFFFF)	 
-   embed.add_field(name = 'd?kick(Kick members Permission Required)',value ='Use it like ``d?kick @user`` to kick any user',inline = False)
-   embed.add_field(name = 'd?mute(Mute members Permission Required)',value ='Use it like ``d?mute @user <time>`` to mute any user',inline = False)
-   embed.add_field(name = 'd?unmute(Mute members Permission Required)',value ='Use it like ``d?unmute @user`` to unmute anyone',inline = False)
-   embed.add_field(name = 'd?ban(Ban members Permission Required)',value ='Use it like ``d?ban @user`` to ban any user',inline = False)
-   embed.add_field(name = 'd?unban(Ban members Permission Required)', value="Use it liked ``?unban user.id`` | for example d!unban 277983178914922497",inline = False)
-   embed.add_field(name = 'd?setupwelcomer(Admin Permission required)',value ='Simply use it to make a channel named welcome so that bot will send welcome and leaves logs in that channel.',inline = False)
-   embed.add_field(name = 'd?setuplog(Admin Permission required)',value ='Simply use it to make a channel named logs so that bot will send logs in that channel.',inline = False)
-   embed.add_field(name = 'd?Dm(Admin Permission required)', value="Use it like ``d?dm @user <text>`` to send dm any one",inline = False)
-   embed.add_field(name = 'd?say(Admin permission required)',value ='Use it like ``d?say <text>``',inline = False)
-   embed.add_field(name = 'd?announce(Admin permission required)', value="Use it like ``d?announce #channel <text>``",inline = False)
-   embed.add_field(name = 'd?prefix(Admin permission required)', value="Use it like ``d?prefix ?``",inline = False)
-   embed.add_field(name = 'd?serverinfo(Kick members Permission Required) ',value ='Use it like ``d?serverinfo`` to get server info',inline = False)
-
-   embed.add_field(name = 'Note:', value="***More commands being added soon!***")
-   embed.set_footer(text="Requested by: " + author.name)
-   await bot.say(embed=embed)
-   embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
-   await bot.send_message(channel, embed=embed)
+async def highfive(ctx, user: discord.Member = None):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    if user == None:
+        await bot.say(f"{ctx.message.author.mention} ```Proper usage is\n\n>highfive <mention a user>```")
+    else:
+        randomurl = ["http://rs584.pbsrc.com/albums/ss289/vampgirl17/Danny%20Phantom/hifive.gif", "https://thumbs.gfycat.com/ActualWarmheartedDungbeetle-small.gif", "https://media1.tenor.com/images/aed08ae3d802b0de9791057e2dadf7a6/tenor.gif", "https://i.pinimg.com/originals/d2/b2/7c/d2b27cdf7a0d320e18efbe21dfca9a50.gif", "https://media1.tenor.com/images/9730876547cb3939388cf79b8a641da9/tenor.gif"]
+        embed = discord.Embed(title=f"{user.name} highfives {ctx.message.author.name}", color = discord.Color((r << 16) + (g << 8) + b))
+        embed.set_image(url=random.choice(randomurl))
+        await bot.say(embed=embed)
+	
+@bot.command(pass_context=True)
+async def pat(ctx, user: discord.Member = None):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    if user == None:
+        await bot.say(f"{ctx.message.author.mention} ```Proper usage is\n\n>pat <mention a user>```")
+    else:
+        randomurl = ["https://thumbs.gfycat.com/ImpurePleasantArthropods-small.gif", "https://i.imgur.com/4ssddEQ.gif", "https://thumbs.gfycat.com/ShockingFaroffJavalina-size_restricted.gif", "http://i.imgur.com/laEy6LU.gif", "https://i.imgur.com/NNOz81F.gif"]
+        embed = discord.Embed(title=f"{user.name} You just got a patted from {ctx.message.author.name}", color = discord.Color((r << 16) + (g << 8) + b))
+        embed.set_image(url=random.choice(randomurl))
+        await bot.say(embed=embed)		
 	
 	
 @bot.command(pass_context=True)
-async def help_economy(ctx):
-    author = ctx.message.author
-    embed = discord.Embed(title=None, description="***__Economy Commands..__***", color=0xFFFF)
-    embed.add_field(name = "Daily", value="Use it like ``d?daily``",inline = False)
-    embed.add_field(name = "Leaderboard", value="Use it like ``d?lb``",inline = False)
-    embed.add_field(name = "Balance", value="Use it like ``d?bal``",inline = False)
-    embed.add_field(name = "Work", value="Use it like ``d?work``",inline = False)
-    embed.add_field(name = "Coinflip", value="Use it like ``d?coinflip heads/tails <your amount>``",inline = False)
-    embed.add_field(name = "Dice", value="Use it like ``d?dice <your No between 1-6> <your  amount>``",inline = False)
-    embed.add_field(name = 'Note:', value="***More commands being added soon!***")
-    embed.set_footer(text="Requested by: " + author.name)
-    await bot.say(embed=embed)
-    embed = discord.Embed(title=f"User: {ctx.message.author.name} have used moderations command", description=f"ID: {ctx.message.author.id}", color=0xff9393)
-    await bot.send_message(channel, embed=embed)
+async def bite(ctx, user: discord.Member = None):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    if user == None:
+        await bot.say(f"{ctx.message.author.mention} ```Proper usage is\n\n>bite <mention a user>```")
+    else:
+        randomurl = ["https://media.giphy.com/media/fhkRUj3BWmMnu/giphy.gif", "https://gifimage.net/wp-content/uploads/2017/09/anime-bite-gif-7.gif", "https://toxicmuffin.files.wordpress.com/2013/04/tumblr_mkzqyghtsm1r0rp7xo1_400.gif", "https://78.media.tumblr.com/tumblr_m5vv15KoxB1qklrzno2_500.gif", "https://media1.tenor.com/images/06f88667b86a701b1613bbf5fb9205e9/tenor.gif"]
+        embed = discord.Embed(title=f"{user.name} you have been bitten by {ctx.message.author.name}", color = discord.Color((r << 16) + (g << 8) + b))
+        embed.set_image(url=random.choice(randomurl))
+        await bot.say(embed=embed)	
+	
+@bot.command(pass_context=True)
+async def poke(ctx, user: discord.Member = None):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    if user == None:
+        await bot.say(f"{ctx.message.author.mention} ```Proper usage is\n\n>poke <mention a user>```")
+    else:
+        randomurl = ["https://media.giphy.com/media/WvVzZ9mCyMjsc/giphy.gif", "https://gifimage.net/wp-content/uploads/2017/09/anime-poke-gif-11.gif", "https://media1.tenor.com/images/1a64ac660387543c5b779ba1d7da2c9e/tenor.gif", "https://i.gifer.com/bun.gif", "https://thumbs.gfycat.com/KeyImaginativeBushsqueaker-size_restricted.gif"]
+        embed = discord.Embed(title=f"{user.name} you have been poked by {ctx.message.author.name}", color = discord.Color((r << 16) + (g << 8) + b))
+        embed.set_image(url=random.choice(randomurl))
+        await bot.say(embed=embed)	
+	
+@bot.command(pass_context=True)
+async def bloodsuck(ctx, user: discord.Member = None):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    if user == None:
+        await bot.say(f"{ctx.message.author.mention} ```Proper usage is\n\n>bloodsuck <mention a user>```")
+    else:
+        randomurl = ["https://78.media.tumblr.com/tumblr_m5vv15KoxB1qklrzno2_500.gif", "https://i1.wp.com/24.media.tumblr.com/tumblr_mcj6b5gsSr1riv2oqo1_500.gif", "https://i.imgur.com/UbaeYIq.gif", "https://i.imgur.com/CtwmzpG.gif", "https://images.gr-assets.com/hostedimages/1438121044ra/15667005.gif"]
+        embed = discord.Embed(title=f"{user.name} is sucking the blood of {ctx.message.author.name}", color = discord.Color((r << 16) + (g << 8) + b))
+        embed.set_image(url=random.choice(randomurl))
+        await bot.say(embed=embed)	
 
 	
-    
+@bot.command(pass_context=True)
+async def cuddle(ctx, user: discord.Member = None):
+    r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+    if user == None:
+        await bot.say(f"{ctx.message.author.mention} ```Proper usage is\n\n>cuddle <mention a user>```")
+    else:
+        randomurl = ["https://media.giphy.com/media/143v0Z4767T15e/giphy.gif", "https://i.imgur.com/nrdYNtL.gif", "https://media1.tenor.com/images/8f8ba3baeecdf28f3e0fa7d4ce1a8586/tenor.gif", "https://66.media.tumblr.com/18fdf4adcb5ad89f5469a91e860f80ba/tumblr_oltayyHynP1sy5k7wo1_400.gif", "https://i.imgur.com/wOmoeF8.gif"]
+        embed = discord.Embed(title=f"{user.name} you have been cuddled by {ctx.message.author.name}", color = discord.Color((r << 16) + (g << 8) + b))
+        embed.set_image(url=random.choice(randomurl))
+        await bot.say(embed=embed)	
+	
+
+	
+	
+	
+	
+	
+	
 @bot.command(pass_context=True)
 async def online(con):
     amt = 0
@@ -1363,12 +1440,17 @@ async def eightball(ctx):
 
 		
 @bot.command(pass_context=True)
-async def embed(ctx):
-    embed = discord.Embed(title="test", description="my name imran", color=0x00ff00)
-    embed.set_footer(text="this is a footer")
-    embed.set_author(name="Team Ghost")
-    embed.add_field(name="This is a field", value="no it isn't", inline=True)
-    await bot.say(embed=embed)
+@commands.has_permissions(administrator=True)
+async def embed(ctx, *args):
+    if ctx.message.author.bot:
+      return
+    else:
+      argstr = " ".join(args)
+      r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+      text = argstr
+      color = discord.Color((r << 16) + (g << 8) + b)
+      await bot.send_message(ctx.message.channel, embed=Embed(color = color, description=text))
+      await bot.delete_message(ctx.message)
   
 
 
