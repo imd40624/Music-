@@ -1337,24 +1337,7 @@ async def dog(ctx):
         await bot.say(embed=em.set_image(url=res))	
 	
 	
-@bot.command(pass_context=True, hidden=True, enabled=True)
-async def neko(ctx, nsfw:str="false"):
-        """
-        Function: Send random neko picture, adding nsfw will send nsfw ones
-        Command: `d?neko`
-        Usage Example: `d?neko` or `d?neko nsfw`
-        """
-        if nsfw.lower() == 'nsfw':
-            nsfw = 'true'
-        else:
-            nsfw = 'false'
-        img = rq.get(
-            'https://nekos.moe/api/v1/random/image?count=1&nsfw={}'.format(nsfw)).json()
-        url = 'https://http.cat/200'
-        emb = discord.Embed(title='Neko')
-        emb.set_image(
-            url='https://nekos.moe/image/{}'.format(img['images'][0]['id']))
-        await bot.say(embed=emb)	
+	
 	
 @bot.command(pass_context=True)
 async def fox(ctx):
