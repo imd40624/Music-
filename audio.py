@@ -1400,6 +1400,23 @@ async def eightball(ctx):
         await bot.say(embed=embed)	
 	
 
+	
+@bot.command(pass_context = True)
+async def truthordare(ctx):
+    choices = [':regional_indicator_t: :regional_indicator_t: :regional_indicator_u: :regional_indicator_t: :regional_indicator_h: ', ':regional_indicator_d: :regional_indicator_a: :regional_indicator_r: :regional_indicator_e:', 'Coin self-destructed']
+    color = discord.Color(value=0x00ff00)
+    embed=discord.Embed(color=color, title='Flipped a coin!')
+    embed.description = random.choice(choices)
+    await bot.send_typing(ctx.message.channel)
+    await bot.say(embed=embed)
+	
+	
+	
+	
+	
+	
+	
+	
 		
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
