@@ -19,6 +19,8 @@ from discord.utils import get,find
 from time import localtime, strftime
 import requests as rq
 import random
+from urllib.request import Request, urlopen
+import discord, datetime, time
 
 start_time = time.time()
 
