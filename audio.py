@@ -1411,9 +1411,40 @@ async def truthordare(ctx):
     await bot.say(embed=embed)
 	
 	
+@bot.event	
+async def on_server_role_create(role): 
+    server = role.server
+    user = "Unknown"
+    channel = get(server.channels, name="logs")
+    emb=discord.Embed(description="The role **{}** has been created by **{}**".format(role.name, user), colour=0x5fe468, timestamp=datetime.utcnow())
+    emb.set_author(name=server, icon_url=server.icon_url)
+    await bot.send_message(channel, embed=emb)
 	
-	
-	
+@bot.event	
+async def on_server_role_delete(role):
+    server = role.server
+    channel = get(server.channels, name="logs")
+    emb=discord.Embed(description="The role **{}** has been deleted".format(role.name), colour=0xf84b50, timestamp=datetime.utcnow())
+    emb.set_author(name=server, icon_url=server.icon_url)
+    await bot.send_message(channel, embed=emb)
+  
+@bot.event	
+async def on_server_role_update(before, after):
+    server = before.server	
+    channel = get(server.channels, name="logs")
+    if before.name != after.name:
+        emb=discord.Embed(description="The role **{}** has been renamed".format(before.name), colour=0xe6842b, timestamp=datetime.utcnow())
+        emb.set_author(name=server, icon_url=server.icon_url)
+        emb.add_field(name="Before", value=before)
+        emb.add_field(name="After", value=after)
+    elif before.permissions != after.permissions:
+        permissionadd = list(map(lambda x: "+ " + x[0].replace("_", " ").title(), filter(lambda x: x[0] in map(lambda x: x[0], filter(lambda x: x[1] == True, after.permissions)), filter(lambda x: x[1] == False, before.permissions))))
+        permissionremove = list(map(lambda x: "- " + x[0].replace("_", " ").title(), filter(lambda x: x[0] in map(lambda x: x[0], filter(lambda x: x[1] == False, after.permissions)), filter(lambda x: x[1] == True, before.permissions))))
+        emb=discord.Embed(description="The role **{}** has had permission changes made by **{}**\n```diff\n{}\n{}```".format(before.name, user, "\n".join(permissionadd), "\n".join(permissionremove)), colour=0xe6842b, timestamp=datetime.utcnow())
+        emb.set_author(name=server, icon_url=server.icon_url)
+    else: 
+        return
+    await bot.send_message(channel, embed=emb)
 	
 	
 	
