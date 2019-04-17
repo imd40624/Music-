@@ -1482,7 +1482,36 @@ async def minesweeper(ctx, size: int = 5):
             message += tile
         message += "\n"
     await bot.say(message)	
+
+
+
+@bot.command(pass_context=True)
+async def fact(ctx, *, text: str):
+    if len(text) > 165:
+        return await bot.send("Text too long...")
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get("https://nekobot.xyz/api/imagegen?type=fact"
+                          "&text=%s" % text) as r:
+            data = await r.json()
 	
+    await bot.send_typing(ctx.message.channel)
+    em = discord.Embed(color=0xDEADBF)
+    await bot.say(embed=em.set_image(url=data["message"]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
