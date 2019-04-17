@@ -24,6 +24,18 @@ import discord, datetime, time
 
 start_time = time.time()
 
+m_offets = [
+    (-1, -1),
+    (0, -1),
+    (1, -1),
+    (-1, 0),
+    (1, 0),
+    (-1, 1),
+    (0, 1),
+    (1, 1)
+]
+
+m_numbers = [":one:", ":two:", ":three:", ":four:", ":five:", ":six:"]
 
 with open("prefixes.json") as f:
     prefixes = json.load(f)
@@ -660,9 +672,9 @@ async def help(ctx):
     embed = discord.Embed(title=None, description="**Help command for devil**", color=0xff00f6)		
     embed.add_field(name="Moderations Commands:", value="``kick`` ``ban`` ``mute`` ``unmute`` ``warn`` ``clear`` ``say`` ``dm`` ``unban`` ``setupwelcomer`` ``setuplog`` ``announce`` ``embed`` ``stats``",inline = False)
     embed.add_field(name="Action Commands:", value="``poke`` ``kiss`` ``slap`` ``hug`` ``bite`` ``pat`` ``bloodsuck`` ``cuddle`` ``thuglife`` ``burned`` ``savage`` ``facedesk`` ``highfive``",inline = False)		      
-    embed.add_field(name="General Commands:", value="``ping`` ``info`` ``serverinfo`` ``membercount`` ``gulidicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined``",inline = False) 		
+    embed.add_field(name="General Commands:", value="``ping`` ``info`` ``serverinfo`` ``membercount`` ``guildicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined``",inline = False) 		
     embed.add_field(name="Music Commands:", value="``play`` ``skip`` ``stop`` ``song`` ``resume`` ``pause`` ``queue`` ``volume`` ``mutemusic`` ``unmutemusic``",inline = False) 		
-    embed.add_field(name="Fun Commands:", value=" ``virgin`` ``kiss`` ``meme`` ``slap`` ``hug`` ``joke`` ``movie`` ``tweet`` ``happybirthday`` ``gender``",inline = False)	
+    embed.add_field(name="Fun Commands:", value=" ``virgin`` ``kiss`` ``meme`` ``slap`` ``hug`` ``joke`` ``movie`` ``tweet`` ``happybirthday`` ``gender`` ``minesweeper`` ``guess``",inline = False)	
     embed.add_field(name="Image Commands:", value="``meme`` ``dog`` ``fox`` ``cat`` ``img`` ``randomshow`` ``neko`` ``buddy`` ``duck`` ``bird``",inline = False)	
     embed.add_field(name="Misc Commands:", value="``tweet`` ``trans`` ``eightball``",inline = False)
     embed.add_field(name="Game Commands:", value="``flipcoin`` ``rolldice`` ``guess``",inline = False)
@@ -1448,7 +1460,28 @@ async def on_server_role_update(before, after):
         return
     await bot.send_message(channel, embed=emb)
 	
-	
+@bot.command(pass_context=True)
+async def minesweeper(ctx, size: int = 5):
+    size = max(min(size, 8), 2)
+    bombs = [[random.randint(0, size - 1), random.randint(0, size - 1)] for x in range(int(size - 1))]
+    is_on_board = lambda x, y: 0 <= x < size and 0 <= y < size
+    has_bomb = lambda x, y: [i for i in bombs if i[0] == x and i[1] == y]
+    message = "**Click to play**:\n"
+    for y in range(size):
+        for x in range(size):
+            tile = "||{}||".format(chr(11036))
+            if has_bomb(x, y):
+                tile = "||{}||".format(chr(128163))
+            else:
+                count = 0
+                for xmod, ymod in m_offets:
+                    if is_on_board(x + xmod, y + ymod) and has_bomb(x + xmod, y + ymod):
+                        count += 1
+                if count != 0:
+                    tile = "||{}||".format(m_numbers[count - 1])
+            message += tile
+        message += "\n"
+    await bot.say(message)	
 	
 		
 @bot.command(pass_context=True)
