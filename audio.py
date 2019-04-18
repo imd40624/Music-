@@ -674,11 +674,11 @@ async def help(ctx):
     embed.add_field(name="Action Commands:", value="``poke`` ``kiss`` ``slap`` ``hug`` ``bite`` ``pat`` ``bloodsuck`` ``cuddle`` ``thuglife`` ``burned`` ``savage`` ``facedesk`` ``highfive``",inline = False)		      
     embed.add_field(name="General Commands:", value="``ping`` ``info`` ``serverinfo`` ``membercount`` ``guildicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined``",inline = False) 		
     embed.add_field(name="Music Commands:", value="``play`` ``skip`` ``stop`` ``song`` ``resume`` ``pause`` ``queue`` ``volume`` ``mutemusic`` ``unmutemusic``",inline = False) 		
-    embed.add_field(name="Fun Commands:", value=" ``virgin`` ``kiss`` ``meme`` ``slap`` ``hug`` ``joke`` ``movie`` ``tweet`` ``happybirthday`` ``gender`` ``minesweeper`` ``guess`` ``fact`` ``truthordare``",inline = False)	
-    embed.add_field(name="Image Commands:", value="``meme`` ``dog`` ``fox`` ``cat`` ``img`` ``randomshow`` ``neko`` ``buddy`` ``duck`` ``bird``",inline = False)	
+    embed.add_field(name="Fun Commands:", value=" ``virgin`` ``randommovie`` ``meme`` ``randomanime`` ``bottleflip`` ``joke`` ``movie`` ``tweet`` ``happybirthday`` ``gender`` ``minesweeper`` ``guess`` ``fact`` ``truthordare``",inline = False)	
+    embed.add_field(name="Image Commands:", value="``meme`` ``dog`` ``fox`` ``cat`` ``img`` ``randomshow`` ``neko`` ``buddy`` ``duck`` ``bird`` ``randompic`` ``animepic``",inline = False)	
     embed.add_field(name="Misc Commands:", value="``tweet`` ``trans`` ``eightball``",inline = False)
     embed.add_field(name="Game Commands:", value="``flipcoin`` ``rolldice`` ``guess``",inline = False)
-    embed.add_field(name="Game Commands:", value="``daily`` ``dice`` ``coinflip`` ``bal`` ``work`` ``lb``",inline = False)
+    embed.add_field(name="Economy Commands:", value="``daily`` ``dice`` ``coinflip`` ``bal`` ``work`` ``lb``",inline = False)
     embed.add_field(name='Need more help?', value="Join our support server at https://discord.gg/Eagbjbj")  
     embed.set_thumbnail(url=server.icon_url)
     embed.set_footer(text="Requested by: " + author.name)
@@ -1509,7 +1509,89 @@ async def bottleflip (ctx):
     await bot.say(embed=embed)
 
 
+@bot.command(pass_context=True)
+async def randomanime(ctx):
+  """
+  Function: Send random anime
+  Command: `d?randomanime`
+  Usage Example: `d?randomanime`
+  """
 
+  rData = rq.Session().get('https://tv-v2.api-fetch.website/random/anime')
+  r = rData.json()
+  if rData.status_code == 200:
+      title = r['title']
+      mal_id = r['mal_id']
+      genres = r['genres']
+      url2 = 'https://api.jikan.moe/anime/{}/stats/'.format(mal_id)
+      r2 = rq.Session().get(url2).text
+      r2j = json.loads(r2)
+      summary = r2j['synopsis']
+      emb = discord.Embed(title=None, description="**Here is your randomanime**", color=0xe74c3c)
+      emb.add_field(name = "__Title__", value ="{}".format(title), inline=False)
+      emb.add_field(name = "__Genres__", value ="{}".format(genres), inline=False)
+      emb.add_field(name = "__Synopsis__", value ="{}".format(summary), inline=False)
+      await bot.say(embed=emb)		
+
+  if rData.status_code != 200:
+      emb = discord.Embed(title='Error {}'.format(rData.status_code))
+      emb.set_image(url='https://http.cat/{}'.format(rData.status_code))
+      await bot.say(embed=emb)
+	
+	
+@bot.command(pass_context=True)
+async def randommovie(ctx):
+   """
+   Function: Send a random movie
+   Command: `d?randommovie`
+   Usage Example: `d?randommovie`
+   """
+
+   movie = rq.Session().get('https://tv-v2.api-fetch.website/random/movie')
+   if movie.status_code == 200:
+      rest = movie.text
+      rq_json = json.loads(rest)
+      title = rq_json['title']
+      summary = rq_json['synopsis']
+      runtime = rq_json['runtime']
+      genres = rq_json['genres']
+      img = rq_json['images']['poster']
+      gen = " ".join(genres[1:])
+      emb = discord.Embed(title=None, description="**Here is your randommovie**", color=0xe74c3c)
+      emb.add_field(name = "__Title__", value ="{}".format(title), inline=False)
+      emb.add_field(name = "__Genres__", value ="{}".format(genres), inline=False)
+      emb.add_field(name = "__Runtime__", value ="{} Minutes".format(runtime), inline=False)
+      emb.add_field(name = "__Synopsis__", value ="{}".format(summary), inline=False)
+      await bot.say(embed=emb)	
+	
+   if movie.status_code != 200:
+      emb = discord.Embed(title='Error {}'.format(movie.status_code))
+      emb.set_image(url='https://http.cat/{}'.format(movie.status_code))
+      await bot.say(embed=emb)	
+	
+@bot.command(pass_context=True)
+async def randompic(ctx):
+        """
+        Function: Sends you a random picture
+        Command: `d?randompic`
+        Usage Example: `d?randompic`
+        """
+        image_id = random.randint(1, 1084)
+        emb = discord.Embed(title=None)
+        emb.set_image(
+            url='https://picsum.photos/200/300/?image={}'.format(image_id))
+        await bot.say(embed=emb)	
+	
+	
+@bot.command(pass_context=True)
+async def animepic(ctx):
+        async with aiohttp.ClientSession() as cs:
+            async with cs.get("https://nekobot.xyz/api/v2/image/animepic") as r:
+                date = await r.json()
+        image = date["message"]
+        #color = await helpers.get_dominant_color(self.bot, image, image.rpartition("/")[2], 10000)
+        em = discord.Embed(color=0xDEADBF)
+        await bot.say(embed=em.set_image(url=image))
 
 
 
