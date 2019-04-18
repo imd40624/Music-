@@ -1499,7 +1499,14 @@ async def fact(ctx, *, text: str):
     await bot.say(embed=em.set_image(url=data["message"]))
 
 
-
+@bot.command(pass_context = True)
+async def bottleflip (ctx):
+    choices = ['🍾Your bottle landed', '🍾Your bottle didnt land', '🍾Your bottle broke']
+    color = discord.Color(value=0x00ff00)
+    embed=discord.Embed(color=color, title='Flipped a Bottel!')
+    embed.description = random.choice(choices)
+    await bot.send_typing(ctx.message.channel)
+    await bot.say(embed=embed)
 
 
 
