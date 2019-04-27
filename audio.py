@@ -158,7 +158,7 @@ async def servers(ctx):
 
 
 @bot.command(pass_context=True)
-async def info(ctx, user: discord.Member):
+async def userinfo(ctx, user: discord.Member):
     embed = discord.Embed(title="{}'s info".format(user.name), description="Here's what I could find.", color=0xe67e22)
     embed.add_field(name="Name", value=user.name, inline=True)
     embed.add_field(name="ID", value=user.id, inline=True)
@@ -226,21 +226,21 @@ async def stats():
 	await bot.say(embed=embed) 
 
 @bot.command()
-async def stats2():
+async def info():
    servers = list(bot.servers)
    current_time = time.time()
    difference = int(round(current_time - start_time))
    text = str(datetime.timedelta(seconds=difference))
-   info = discord.Embed(color=0xDEADBF, title="**Info**")
-   info.description = "Servers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 10.50GB / Total: 20.80GB**\n".format(
+   info = discord.Embed(color=0xDEADBF, title="**Devil Bot Info**")
+   info.description = "📃Servers: **{}**\n👤Members: **{}**\n🕛Uptime: **{}**\n💾Memory: **Free: 10.50GB / Total: 20.80GB**\n🤖Bot Commands: **88**\n".format(
        str(len(servers)),
        str(len(set(bot.get_all_members()))),
        text,
    )
    info.add_field(name="Links",
-                  value="[GitHub](https://github.com/rekt4lifecs/NekoBotRewrite/) | "
-                          "[Support Server](https://discord.gg/q98qeYN) | "
-                          "[Patreon](https://www.patreon.com/NekoBot)")
+                  value="[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=501659280680681472&permissions=8&scope=bot) | "
+                          "[Support Server](https://discord.gg/FrgAWZA) | "
+                          "[Vote Me](https://discordbots.org/bot/501659280680681472/vote)")
    info.set_thumbnail(url="https://cdn.discordapp.com/avatars/501659280680681472/6587c3847aafd25f631eaa556a779368.webp?size=1024")
    await bot.say(embed=info)
   
@@ -692,7 +692,7 @@ async def help(ctx):
     embed = discord.Embed(title=None, description="**Help command for devil**", color=0xff00f6)		
     embed.add_field(name="Moderations Commands:", value="``kick`` ``ban`` ``mute`` ``unmute`` ``warn`` ``clear`` ``say`` ``dm`` ``unban`` ``setupwelcomer`` ``setuplog`` ``announce`` ``embed`` ``stats``",inline = False)
     embed.add_field(name="Action Commands:", value="``poke`` ``kiss`` ``slap`` ``hug`` ``bite`` ``pat`` ``bloodsuck`` ``cuddle`` ``thuglife`` ``burned`` ``savage`` ``facedesk`` ``highfive``",inline = False)		      
-    embed.add_field(name="General Commands:", value="``ping`` ``info`` ``serverinfo`` ``membercount`` ``guildicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined``",inline = False) 		
+    embed.add_field(name="General Commands:", value="``ping`` ``info`` ``userinfo`` ``serverinfo`` ``membercount`` ``guildicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined``",inline = False) 		
     embed.add_field(name="Music Commands:", value="``play`` ``skip`` ``stop`` ``song`` ``resume`` ``pause`` ``queue`` ``volume`` ``mutemusic`` ``unmutemusic``",inline = False) 		
     embed.add_field(name="Fun Commands:", value=" ``virgin`` ``randommovie`` ``meme`` ``randomanime`` ``bottleflip`` ``joke`` ``movie`` ``tweet`` ``happybirthday`` ``gender`` ``minesweeper`` ``guess`` ``fact`` ``truthordare``",inline = False)	
     embed.add_field(name="Image Commands:", value="``meme`` ``dog`` ``fox`` ``cat`` ``img`` ``randomshow`` ``neko`` ``buddy`` ``duck`` ``bird`` ``randompic`` ``animepic``",inline = False)	
