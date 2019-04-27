@@ -235,7 +235,6 @@ async def stats2():
    info.description = "Servers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 10.50GB / Total: 20.80GB**\n".format(
        str(len(servers)),
        str(len(set(bot.get_all_members()))),
-       str(len(self.bot.commands)),
        text,
    )
    info.add_field(name="Links",
