@@ -231,8 +231,8 @@ async def info():
    current_time = time.time()
    difference = int(round(current_time - start_time))
    text = str(datetime.timedelta(seconds=difference))
-   info = discord.Embed(color=0xDEADBF, title="**Devil Bot Info**")
-   info.description = "Servers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 10.50GB / Total: 20.80GB**\nBot Commands: **88**\n".format(
+   info = discord.Embed(color=0xDEADBF, title="**Devil Bot Stats**")
+   info.description = "Servers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 10.50GB / Total: 20.80GB**\nBot Commands: **92**\n".format(
        str(len(servers)),
        str(len(set(bot.get_all_members()))),
        text,
@@ -321,7 +321,28 @@ async def botinfo(ctx):
 	embed.add_field(name="Invite link", value="[Click Here!](https://discordapp.com/api/oauth2/authorize?client_id=501659280680681472&permissions=2146958839&scope=bot)")
 	embed.add_field(name="Prefix", value="d?")
 	await bot.say(embed=embed)
-	
+
+@bot.command()
+async def botinfo2():
+   servers = list(bot.servers)
+   current_time = time.time()
+   difference = int(round(current_time - start_time))
+   text = str(datetime.timedelta(seconds=difference))
+   info = discord.Embed(color=0xDEADBF, title="**Devil Bot Info**")
+   info.description = "Bot Name: **Devil**\nCreator: **☠The Invisible Imran☠#4615**\nPrefix: **d?**\nBot Language: **Discord.py**\nServers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 10.50GB / Total: 20.80GB**\nBot Commands: **92**\n".format(
+       str(len(servers)),
+       str(len(set(bot.get_all_members()))),
+       text,
+   )
+   info.add_field(name="Links",
+                  value="[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=501659280680681472&permissions=8&scope=bot) | "
+                          "[Support Server](https://discord.gg/FrgAWZA) | "
+                          "[Vote Me](https://discordbots.org/bot/501659280680681472/vote)")
+   info.set_thumbnail(url="https://cdn.discordapp.com/avatars/501659280680681472/6587c3847aafd25f631eaa556a779368.webp?size=1024")
+   info.set_footer(text=f'Requested by: {ctx.message.author.display_name}', icon_url=f'{ctx.message.author.avatar_url}')
+   info.timestamp = datetime.datetime.utcnow()
+   await bot.send_typing(ctx.message.channel)
+   await bot.say(embed=info)
         
 @bot.command(pass_context = True)
 @commands.has_permissions(administrator=True) 
