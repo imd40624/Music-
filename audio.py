@@ -232,7 +232,7 @@ async def info():
    difference = int(round(current_time - start_time))
    text = str(datetime.timedelta(seconds=difference))
    info = discord.Embed(color=0xDEADBF, title="**Devil Bot Info**")
-   info.description = "📃Servers: **{}**\n👤Members: **{}**\n🕛Uptime: **{}**\n💾Memory: **Free: 10.50GB / Total: 20.80GB**\n🤖Bot Commands: **88**\n".format(
+   info.description = "Servers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 10.50GB / Total: 20.80GB**\nBot Commands: **88**\n".format(
        str(len(servers)),
        str(len(set(bot.get_all_members()))),
        text,
