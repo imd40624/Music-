@@ -242,7 +242,7 @@ async def stats2():
                   value="[GitHub](https://github.com/rekt4lifecs/NekoBotRewrite/) | "
                           "[Support Server](https://discord.gg/q98qeYN) | "
                           "[Patreon](https://www.patreon.com/NekoBot)")
-   info.set_thumbnail(url="https://cdn.discordapp.com/avatars/501659280680681472/6587c3847aafd25f631eaa556a779368.webp?size=1024"))
+   info.set_thumbnail(url="https://cdn.discordapp.com/avatars/501659280680681472/6587c3847aafd25f631eaa556a779368.webp?size=1024")
    await bot.say(embed=info)
   
 
