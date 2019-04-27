@@ -1433,7 +1433,15 @@ async def eightball(ctx):
         embed.add_field(name=header, value=text, inline=True)
         await bot.say(embed=embed)	
 	
-
+@bot.command(name="8ball", pass_context=True)
+async def _8ball(ctx, question):
+    choices = ["Nope","Dont count on it","Sure it will","Unlikely","certain","not today","im certain of it!!","outlook, not so likely","Outlook not so good","As I see it, yes","Yes","Most likely","Ask again later","Very doubtful","My reply is no","My sources say no"]
+    rancoin = random.choice(choices)
+    embed = discord.Embed(title=":regional_indicator_q: __Question:__", description=question, color=0xDEADBF)
+    embed.add_field(name=':regional_indicator_a: __Answer:__', value=rancoin)
+    embed.set_thumbnail(url="https://cdn.emojidex.com/emoji/seal/8ball.png?1417132124")
+    await bot.send_typing(ctx.message.channel)
+    await bot.send_message(ctx.message.channel, embed=embed)
 	
 @bot.command(pass_context = True)
 async def truthordare(ctx):
