@@ -449,7 +449,7 @@ async def unban(con,user:int):
         
 
 @bot.command(pass_context=True)
-async def get_id(ctx):
+async def channel_id(ctx):
     await bot.say("Channel id: {}".format(ctx.message.channel.id))       
 
 
@@ -690,11 +690,11 @@ async def help(ctx):
     server = ctx.message.server
     author = ctx.message.author
     embed = discord.Embed(title=None, description="**Help command for devil**", color=0xff00f6)		
-    embed.add_field(name="Moderations Commands:", value="``kick`` ``ban`` ``mute`` ``unmute`` ``warn`` ``clear`` ``say`` ``dm`` ``unban`` ``setupwelcomer`` ``setuplog`` ``announce`` ``embed`` ``stats``",inline = False)
+    embed.add_field(name="Moderations Commands:", value="``kick`` ``ban`` ``mute`` ``unmute`` ``warn`` ``clear`` ``say`` ``dm`` ``unban`` ``setupwelcomer`` ``setuplog`` ``announce`` ``embed`` ``stats`` ``bans``",inline = False)
     embed.add_field(name="Action Commands:", value="``poke`` ``kiss`` ``slap`` ``hug`` ``bite`` ``pat`` ``bloodsuck`` ``cuddle`` ``thuglife`` ``burned`` ``savage`` ``facedesk`` ``highfive``",inline = False)		      
-    embed.add_field(name="General Commands:", value="``ping`` ``info`` ``userinfo`` ``serverinfo`` ``membercount`` ``guildicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined``",inline = False) 		
+    embed.add_field(name="General Commands:", value="``ping`` ``info`` ``userinfo`` ``serverinfo`` ``membercount`` ``guildicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined`` ``guildid`` ``channel_id``",inline = False) 		
     embed.add_field(name="Music Commands:", value="``play`` ``skip`` ``stop`` ``song`` ``resume`` ``pause`` ``queue`` ``volume`` ``mutemusic`` ``unmutemusic``",inline = False) 		
-    embed.add_field(name="Fun Commands:", value=" ``virgin`` ``randommovie`` ``meme`` ``randomanime`` ``bottleflip`` ``joke`` ``movie`` ``tweet`` ``happybirthday`` ``gender`` ``minesweeper`` ``guess`` ``fact`` ``truthordare``",inline = False)	
+    embed.add_field(name="Fun Commands:", value=" ``virgin`` ``randommovie`` ``meme`` ``randomanime`` ``bottleflip`` ``joke`` ``movie`` ``tweet`` ``happybirthday`` ``gender`` ``minesweeper`` ``guess`` ``fact`` ``truthordare`` ``8ball``",inline = False)	
     embed.add_field(name="Image Commands:", value="``meme`` ``dog`` ``fox`` ``cat`` ``img`` ``randomshow`` ``neko`` ``buddy`` ``duck`` ``bird`` ``randompic`` ``animepic``",inline = False)	
     embed.add_field(name="Misc Commands:", value="``tweet`` ``trans`` ``eightball``",inline = False)
     embed.add_field(name="Game Commands:", value="``flipcoin`` ``rolldice`` ``guess``",inline = False)
@@ -1437,9 +1437,11 @@ async def eightball(ctx):
 async def _8ball(ctx, question):
     choices = ["Nope","Dont count on it","Sure it will","Unlikely","certain","not today","im certain of it!!","outlook, not so likely","Outlook not so good","As I see it, yes","Yes","Most likely","Ask again later","Very doubtful","My reply is no","My sources say no"]
     rancoin = random.choice(choices)
-    embed = discord.Embed(title=":regional_indicator_q: __Question:__", description=question, color=0xDEADBF)
-    embed.add_field(name=':regional_indicator_a: __Answer:__', value=rancoin)
+    embed = discord.Embed(title="__Question:__", description=question, color=0xDEADBF)
+    embed.add_field(name='__Answer:__', value=rancoin)
     embed.set_thumbnail(url="https://cdn.emojidex.com/emoji/seal/8ball.png?1417132124")
+    embed.set_footer(text=f'Requested by: {ctx.message.author.display_name}', icon_url=f'{ctx.message.author.avatar_url}')
+    embed.timestamp = datetime.datetime.utcnow()
     await bot.send_typing(ctx.message.channel)
     await bot.send_message(ctx.message.channel, embed=embed)
 	
