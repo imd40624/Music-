@@ -227,23 +227,23 @@ async def stats():
 
 @bot.command()
 async def stats2():
-	servers = list(bot.servers)
-	current_time = time.time()
-	difference = int(round(current_time - start_time))
-	text = str(datetime.timedelta(seconds=difference))
-        info = discord.Embed(color=0xDEADBF, title="**Info**")
-        info.description = "Servers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 10.50GB / Total: 20.80GB**\n".format(
-            str(len(servers)),
-            str(len(set(bot.get_all_members()))),
-            str(len(self.bot.commands)),
-            text,
-        )
-        info.add_field(name="Links",
-                       value="[GitHub](https://github.com/rekt4lifecs/NekoBotRewrite/) | "
-                               "[Support Server](https://discord.gg/q98qeYN) | "
-                               "[Patreon](https://www.patreon.com/NekoBot)")
-        info.set_thumbnail(url="https://cdn.discordapp.com/avatars/501659280680681472/6587c3847aafd25f631eaa556a779368.webp?size=1024"))
-        await bot.say(embed=info)
+   servers = list(bot.servers)
+   current_time = time.time()
+   difference = int(round(current_time - start_time))
+   text = str(datetime.timedelta(seconds=difference))
+   info = discord.Embed(color=0xDEADBF, title="**Info**")
+   info.description = "Servers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 10.50GB / Total: 20.80GB**\n".format(
+       str(len(servers)),
+       str(len(set(bot.get_all_members()))),
+       str(len(self.bot.commands)),
+       text,
+   )
+   info.add_field(name="Links",
+                  value="[GitHub](https://github.com/rekt4lifecs/NekoBotRewrite/) | "
+                          "[Support Server](https://discord.gg/q98qeYN) | "
+                          "[Patreon](https://www.patreon.com/NekoBot)")
+   info.set_thumbnail(url="https://cdn.discordapp.com/avatars/501659280680681472/6587c3847aafd25f631eaa556a779368.webp?size=1024"))
+   await bot.say(embed=info)
   
 
 @bot.command(pass_context=True)
