@@ -314,16 +314,16 @@ async def unmute_error(error, ctx):
 		
 		
 	
+#@bot.command(pass_context=True)
+#async def botinfo(ctx):
+	#embed=discord.Embed(title="Bot name", description="Devil", color=0xFFFF00)
+	#embed.add_field(name="Creator", value="Imran")
+	#embed.add_field(name="Invite link", value="[Click Here!](https://discordapp.com/api/oauth2/authorize?client_id=501659280680681472&permissions=2146958839&scope=bot)")
+	#embed.add_field(name="Prefix", value="d?")
+	#await bot.say(embed=embed)
+
 @bot.command(pass_context=True)
 async def botinfo(ctx):
-	embed=discord.Embed(title="Bot name", description="Devil", color=0xFFFF00)
-	embed.add_field(name="Creator", value="Imran")
-	embed.add_field(name="Invite link", value="[Click Here!](https://discordapp.com/api/oauth2/authorize?client_id=501659280680681472&permissions=2146958839&scope=bot)")
-	embed.add_field(name="Prefix", value="d?")
-	await bot.say(embed=embed)
-
-@bot.command()
-async def botinfo2():
    servers = list(bot.servers)
    current_time = time.time()
    difference = int(round(current_time - start_time))
