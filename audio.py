@@ -1652,8 +1652,8 @@ async def serveravatar(ctx):
         colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
         colour = int(colour, 16)
         s=discord.Embed(colour=discord.Colour(value=colour))
-        s.set_author(name="{}'s Icon".format(server.name), icon_url=server.icon_url, url=server.icon_url_as(format="png", size=1024))
-        s.set_image(url=server.icon_url_as(format="png", size=1024))
+        s.set_author(name="{}'s Icon".format(server.name), icon_url=server.icon_url, url=server.icon_url(format="png", size=1024))
+        s.set_image(url=server.icon_url(format="png", size=1024))
         await bot.say(embed=s)
 
 
