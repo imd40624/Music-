@@ -713,12 +713,12 @@ async def help(ctx):
     embed = discord.Embed(title=None, description="**Help command for devil**", color=0xff00f6)		
     embed.add_field(name="Moderations Commands:", value="``kick`` ``ban`` ``mute`` ``unmute`` ``warn`` ``clear`` ``say`` ``dm`` ``unban`` ``setupwelcomer`` ``setuplog`` ``announce`` ``embed`` ``stats`` ``bans``",inline = False)
     embed.add_field(name="Action Commands:", value="``poke`` ``kiss`` ``slap`` ``hug`` ``bite`` ``pat`` ``bloodsuck`` ``cuddle`` ``thuglife`` ``burned`` ``savage`` ``facedesk`` ``highfive``",inline = False)		      
-    embed.add_field(name="General Commands:", value="``ping`` ``info`` ``userinfo`` ``serverinfo`` ``membercount`` ``guildicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined`` ``guildid`` ``channel_id``",inline = False) 		
+    embed.add_field(name="General Commands:", value="``ping`` ``info`` ``userinfo`` ``serverinfo`` ``membercount`` ``guildicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined`` ``guildid`` ``channel_id`` ``serveravatar`` ``coolbot`` ``toprole`` ``permissions`` ``mcount`` ``repeat`` ``add``",inline = False) 		
     embed.add_field(name="Music Commands:", value="``play`` ``skip`` ``stop`` ``song`` ``resume`` ``pause`` ``queue`` ``volume`` ``mutemusic`` ``unmutemusic``",inline = False) 		
-    embed.add_field(name="Fun Commands:", value=" ``virgin`` ``randommovie`` ``meme`` ``randomanime`` ``bottleflip`` ``joke`` ``movie`` ``tweet`` ``happybirthday`` ``gender`` ``minesweeper`` ``guess`` ``fact`` ``truthordare`` ``8ball``",inline = False)	
+    embed.add_field(name="Fun Commands:", value="``ship`` ``shitpost`` ``phcomment`` ``clyde`` ``lolice`` ``whowouldwin`` ``nichijou`` ``virgin`` ``randommovie`` ``meme`` ``randomanime`` ``bottleflip`` ``joke`` ``movie`` ``tweet`` ``happybirthday`` ``gender`` ``minesweeper`` ``guess`` ``fact`` ``truthordare`` ``8ball`` ``flipcoin`` ``rolldice``",inline = False)	
     embed.add_field(name="Image Commands:", value="``meme`` ``dog`` ``fox`` ``cat`` ``img`` ``randomshow`` ``neko`` ``buddy`` ``duck`` ``bird`` ``randompic`` ``animepic``",inline = False)	
     embed.add_field(name="Misc Commands:", value="``tweet`` ``trans`` ``eightball``",inline = False)
-    embed.add_field(name="Game Commands:", value="``flipcoin`` ``rolldice`` ``guess``",inline = False)
+    embed.add_field(name="NSFW Commands:", value="``4k`` ``anal`` ``ass`` ``girl`` ``hentai`` ``nsfw`` ``pgif`` ``pussy`` ``thighs`` ``neko nsfw``",inline = False)
     embed.add_field(name="Economy Commands:", value="``daily`` ``dice`` ``coinflip`` ``bal`` ``work`` ``lb``",inline = False)
     embed.add_field(name='Need more help?', value="Join our support server at https://discord.gg/Eagbjbj")  
     embed.set_thumbnail(url=server.icon_url)
@@ -1511,43 +1511,43 @@ async def on_server_role_update(before, after):
         return
     await bot.send_message(channel, embed=emb)
 	
-@bot.command(pass_context=True)
-async def minesweeper(ctx, size: int = 5):
-    size = max(min(size, 8), 2)
-    bombs = [[random.randint(0, size - 1), random.randint(0, size - 1)] for x in range(int(size - 1))]
-    is_on_board = lambda x, y: 0 <= x < size and 0 <= y < size
-    has_bomb = lambda x, y: [i for i in bombs if i[0] == x and i[1] == y]
-    message = "**Click to play**:\n"
-    for y in range(size):
-        for x in range(size):
-            tile = "||{}||".format(chr(11036))
-            if has_bomb(x, y):
-                tile = "||{}||".format(chr(128163))
-            else:
-                count = 0
-                for xmod, ymod in m_offets:
-                    if is_on_board(x + xmod, y + ymod) and has_bomb(x + xmod, y + ymod):
-                        count += 1
-                if count != 0:
-                    tile = "||{}||".format(m_numbers[count - 1])
-            message += tile
-        message += "\n"
-    await bot.say(message)	
+#@bot.command(pass_context=True)
+#async def minesweeper(ctx, size: int = 5):
+    #size = max(min(size, 8), 2)
+    #bombs = [[random.randint(0, size - 1), random.randint(0, size - 1)] for x in range(int(size - 1))]
+    #is_on_board = lambda x, y: 0 <= x < size and 0 <= y < size
+    #has_bomb = lambda x, y: [i for i in bombs if i[0] == x and i[1] == y]
+    #message = "**Click to play**:\n"
+    #for y in range(size):
+        #for x in range(size):
+          #  tile = "||{}||".format(chr(11036))
+           # if has_bomb(x, y):
+              #  tile = "||{}||".format(chr(128163))
+           # else:
+               # count = 0
+               # for xmod, ymod in m_offets:
+                 #   if is_on_board(x + xmod, y + ymod) and has_bomb(x + xmod, y + ymod):
+                 #       count += 1
+               # if count != 0:
+               #     tile = "||{}||".format(m_numbers[count - 1])
+          #  message += tile
+       # message += "\n"
+    #await bot.say(message)	
 
 
 
-@bot.command(pass_context=True)
-async def fact(ctx, *, text: str):
-    if len(text) > 165:
-        return await bot.send("Text too long...")
-    async with aiohttp.ClientSession() as cs:
-        async with cs.get("https://nekobot.xyz/api/imagegen?type=fact"
-                          "&text=%s" % text) as r:
-            data = await r.json()
+#@bot.command(pass_context=True)
+#async def fact(ctx, *, text: str):
+    #if len(text) > 165:
+       # return await bot.send("Text too long...")
+    #async with aiohttp.ClientSession() as cs:
+        #async with cs.get("https://nekobot.xyz/api/imagegen?type=fact"
+                 #         "&text=%s" % text) as r:
+           # data = await r.json()
 	
-    await bot.send_typing(ctx.message.channel)
-    em = discord.Embed(color=0xDEADBF)
-    await bot.say(embed=em.set_image(url=data["message"]))
+   # await bot.send_typing(ctx.message.channel)
+   # em = discord.Embed(color=0xDEADBF)
+   # await bot.say(embed=em.set_image(url=data["message"]))
 
 
 @bot.command(pass_context = True)
@@ -1645,16 +1645,7 @@ async def animepic(ctx):
         await bot.say(embed=em.set_image(url=image))
 
 
-@bot.command(pass_context=True, no_pm=True, aliases=["savatar"])
-async def serveravatar(ctx):
-        """Look at the current server avatar"""
-        server = ctx.message.server
-        colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
-        colour = int(colour, 16)
-        s=discord.Embed(colour=discord.Colour(value=colour))
-        s.set_author(name="{}'s Icon".format(server.name), icon_url=server.icon_url, url=server.icon_url(format="png", size=1024))
-        s.set_image(url=server.icon_url(format="png", size=1024))
-        await bot.say(embed=s)
+
 
 
 
