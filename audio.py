@@ -205,10 +205,10 @@ async def serverinfo(ctx):
 
 
  
-@bot.command(pass_context=True, no_pm=True)
-async def avatar(ctx, member: discord.Member):
-    """User Avatar"""
-    await bot.reply("{}".format(member.avatar_url))
+#@bot.command(pass_context=True, no_pm=True)
+#async def avatar(ctx, member: discord.Member):
+   # """User Avatar"""
+   # await bot.reply("{}".format(member.avatar_url))
 
 @bot.command()
 async def stats():
@@ -221,7 +221,7 @@ async def stats():
 	embed.add_field(name="🕛Uptime:", value=f"{text}")
 	embed.add_field(name="🚨Invite", value=f"[Link](https://discordapp.com/api/oauth2/authorize?client_id=501659280680681472&permissions=8&scope=bot)")
 	embed.add_field(name="🚪Support server", value=f"[Click Here](https://discord.gg/FrgAWZA)")
-	embed.add_field(name="💾Memory", value="Free: 10.50GB / Total: 20.80GB",inline=True)
+	embed.add_field(name="💾Memory", value="Free: 11.30GB / Total: 20.80GB",inline=True)
 	embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/501659280680681472/6587c3847aafd25f631eaa556a779368.webp?size=1024")
 	await bot.say(embed=embed) 
 
@@ -232,7 +232,7 @@ async def info():
    difference = int(round(current_time - start_time))
    text = str(datetime.timedelta(seconds=difference))
    info = discord.Embed(color=0xDEADBF, title="**Devil Bot Stats**")
-   info.description = "Servers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 10.50GB / Total: 20.80GB**\nBot Commands: **92**\n".format(
+   info.description = "Servers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 11.30GB / Total: 20.80GB**\nBot Commands: **114**\n".format(
        str(len(servers)),
        str(len(set(bot.get_all_members()))),
        text,
@@ -329,7 +329,7 @@ async def botinfo(ctx):
    difference = int(round(current_time - start_time))
    text = str(datetime.timedelta(seconds=difference))
    info = discord.Embed(color=0xDEADBF, title="**Devil Bot Info**")
-   info.description = "Bot Name: **Devil**\nCreator: **☠The Invisible Imran☠#4615**\nPrefix: **d?**\nBot Language: **Discord.py**\nServers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 10.50GB / Total: 20.80GB**\nBot Commands: **92**\n".format(
+   info.description = "Bot Name: **Devil**\nCreator: **☠The Invisible Imran☠#4615**\nPrefix: **d?**\nBot Language: **Discord.py**\nServers: **{}**\nMembers: **{}**\nUptime: **{}**\nMemory: **Free: 11.30GB / Total: 20.80GB**\nBot Commands: **114**\n".format(
        str(len(servers)),
        str(len(set(bot.get_all_members()))),
        text,
