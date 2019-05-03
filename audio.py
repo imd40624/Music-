@@ -21,6 +21,7 @@ import requests as rq
 import random
 from urllib.request import Request, urlopen
 import discord, datetime, time
+from urllib.request import Request, urlopen
 
 start_time = time.time()
 
@@ -1645,21 +1646,37 @@ async def animepic(ctx):
         await bot.say(embed=em.set_image(url=image))
 
 
-@bot.command(pass_context=True)
-async def search(ctx, *, search: str):
-        """ Find the 'best' definition to your words """
-            url = f'https://api.urbandictionary.com/v0/define?term={search}'
-            if url is None:
-                return await bot.send("I think the API broke...")
-            if not len(url['list']):
-                return await bot.send("Couldn't find your search in the dictionary...")
-            result = sorted(url['list'], reverse=True, key=lambda g: int(g["thumbs_up"]))[0]
-            definition = result['definition']
-            if len(definition) >= 1000:
-                definition = definition[:1000]
-                definition = definition.rsplit(' ', 1)[0]
-                definition += '...'
-            await bot.send_message(f" Definitions for **{result['word']}**fix\n{definition}")
+@bot.command(pass_context=True, aliases=["ud"])
+async def ur(ctx, search_term, page: int=None):
+        """Look up the definition of a word on the urbandictionary"""
+        if not page:
+            page = 0
+        else:
+            page = page - 1
+        url = "http://api.urbandictionary.com/v0/define?" + urllib.parse.urlencode({"term": search_term})
+        request = Request(url)
+        data = json.loads(urlopen(request).read().decode())
+        if len(data["list"]) == 0:
+            await bot.say("No results :no_entry:")
+            return
+        if len(data["list"]) < page + 1:
+            await bot.say("That is not a valid page :no_entry:")
+            return
+        if len([x for x in str(data["list"][page]["definition"])]) > 900:
+            definition = str(data["list"][page]["definition"])[:900] + '... [Read more]({})'.format(data["list"][page]["permalink"])
+        else:
+            definition = str(data["list"][page]["definition"])
+        if len([x for x in str(data["list"][page]["example"])]) > 900:
+            example = str(data["list"][page]["example"])[:900] + '... [Read more]({})'.format(data["list"][page]["permalink"])
+        else:
+            example = str(data["list"][page]["example"])
+        s=discord.Embed(colour=ctx.message.author.colour)
+        s.set_author(name=data["list"][page]["word"], url=data["list"][page]["permalink"])
+        s.add_field(name="Definition", value=definition, inline=False)
+        if example != "":
+            s.add_field(name="Example", value=example)
+        s.set_footer(text="{} 👍 | {} 👎 | Page {}/{}".format(data["list"][page]["thumbs_up"], data["list"][page]["thumbs_down"], page + 1, len(data["list"])))
+        await bot.say(embed=s)
 
 
 
