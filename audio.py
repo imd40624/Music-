@@ -1645,7 +1645,21 @@ async def animepic(ctx):
         await bot.say(embed=em.set_image(url=image))
 
 
-
+@bot.command(pass_context=True)
+async def search(ctx, *, search: str):
+        """ Find the 'best' definition to your words """
+            url = f'https://api.urbandictionary.com/v0/define?term={search}'
+            if url is None:
+                return await bot.send("I think the API broke...")
+            if not len(url['list']):
+                return await bot.send("Couldn't find your search in the dictionary...")
+            result = sorted(url['list'], reverse=True, key=lambda g: int(g["thumbs_up"]))[0]
+            definition = result['definition']
+            if len(definition) >= 1000:
+                definition = definition[:1000]
+                definition = definition.rsplit(' ', 1)[0]
+                definition += '...'
+            await bot.send_message(f" Definitions for **{result['word']}**fix\n{definition}")
 
 
 
