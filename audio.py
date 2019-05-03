@@ -1456,18 +1456,24 @@ async def eightball(ctx):
         embed.add_field(name=header, value=text, inline=True)
         await bot.say(embed=embed)	
 	
+
+
 @bot.command(name="8ball", pass_context=True)
-async def _8ball(ctx, question):
-    choices = ["Nope","Dont count on it","Sure it will","Unlikely","certain","not today","im certain of it!!","outlook, not so likely","Outlook not so good","As I see it, yes","Yes","Most likely","Ask again later","Very doubtful","My reply is no","My sources say no"]
+async def _8ball(ctx, *args):
+    output = ''
+    for word in args:
+        output += word
+        output += ' '
+    choices = ["Nope","Dont count on it","Sure it will","Unlikely","certain","not today","im certain of it!!","outlook, not so likely","Outlook not so good","As I see it, yes","Yes","Most likely","Ask again later","Very doubtful","My reply is no","My sources say no","Realy"]
     rancoin = random.choice(choices)
-    embed = discord.Embed(title="__Question:__", description=question, color=0xDEADBF)
-    embed.add_field(name='__Answer:__', value=rancoin)
+    embed = discord.Embed(title= "__Question:__", description=output, color=0xDEADBF)
+    embed.set_author(name="8Ball", icon_url="https://cdn.emojidex.com/emoji/seal/8ball.png?1417132124")
     embed.set_thumbnail(url="https://cdn.emojidex.com/emoji/seal/8ball.png?1417132124")
     embed.set_footer(text=f'Requested by: {ctx.message.author.display_name}', icon_url=f'{ctx.message.author.avatar_url}')
-    embed.timestamp = datetime.datetime.utcnow()
+    embed.add_field(name='__Answer:__', value=rancoin)
     await bot.send_typing(ctx.message.channel)
     await bot.send_message(ctx.message.channel, embed=embed)
-	
+
 @bot.command(pass_context = True)
 async def truthordare(ctx):
     choices = [':regional_indicator_t: :regional_indicator_t: :regional_indicator_u: :regional_indicator_t: :regional_indicator_h: ', ':regional_indicator_d: :regional_indicator_a: :regional_indicator_r: :regional_indicator_e:']
