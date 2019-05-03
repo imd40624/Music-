@@ -22,6 +22,7 @@ import random
 from urllib.request import Request, urlopen
 import discord, datetime, time
 from urllib.request import Request, urlopen
+import urllib
 
 start_time = time.time()
 
