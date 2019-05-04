@@ -116,15 +116,15 @@ async def checking_voice(ctx):
 async def status_task():
     while True:
         await bot.change_presence(game=discord.Game(name='d?help', type=2))
-        await asyncio.sleep(5)
+        await asyncio.sleep(15)
         await bot.change_presence(game=discord.Game(name=str(len(set(bot.get_all_members())))+' users', type=3))
-        await asyncio.sleep(5)
+        await asyncio.sleep(15)
         await bot.change_presence(game=discord.Game(name=str(len(bot.servers))+' servers', type=3))
-        await asyncio.sleep(5)
+        await asyncio.sleep(15)
         await bot.change_presence(game=discord.Game(name='music'))
-        await asyncio.sleep(5)
+        await asyncio.sleep(15)
         await bot.change_presence(game=discord.Game(name='I need some upvotes to grow ;('))
-        await asyncio.sleep(5)
+        await asyncio.sleep(15)
 
 
 
@@ -487,11 +487,15 @@ async def repeat(ctx, times : int, content='repeating...'):
 	
 	
    
-@bot.command()
-async def invite():
-  	"""Bot Invite"""
-  	await bot.say("\U0001f44d")
-  	await bot.whisper("Add me with this link {}".format(discord.utils.oauth_url(bot.user.id)))
+@bot.command(Pass_Context=True) 
+async def invite(ctx):
+       server = ctx.message.server
+       embed=discord.Embed(title="Invite Me", description="Invite Devil Bot today!", color=0xff0000)
+       embed.set_author(name="Invite Devil Bot")
+       embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/501659280680681472/6587c3847aafd25f631eaa556a779368.webp?size=1024")
+       embed.set_footer(text="Made By ☠The Invisible Imran☠#4615") 
+       embed.add_field(name="Invite", value=f"[Click here for Link](https://discordapp.com/api/oauth2/authorize?client_id=501659280680681472&permissions=8&scope=bot)")
+       await bot.say(embed=embed) 
 	
 	
 	
