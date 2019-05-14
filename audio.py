@@ -717,7 +717,7 @@ async def help(ctx):
     server = ctx.message.server
     author = ctx.message.author
     embed = discord.Embed(title=None, description="**Help command for devil**", color=0xff00f6)		
-    embed.add_field(name="Moderations Commands:", value="``kick`` ``ban`` ``mute`` ``unmute`` ``warn`` ``clear`` ``say`` ``dm`` ``unban`` ``setupwelcomer`` ``setuplog`` ``announce`` ``embed`` ``stats`` ``bans``",inline = False)
+    embed.add_field(name="Moderations Commands:", value="``kick`` ``ban`` ``mute`` ``unmute`` ``warn`` ``clear`` ``say`` ``unban`` ``setupwelcomer`` ``setuplog`` ``announce`` ``stats`` ``bans``",inline = False)
     embed.add_field(name="Action Commands:", value="``poke`` ``kiss`` ``slap`` ``hug`` ``bite`` ``pat`` ``bloodsuck`` ``cuddle`` ``thuglife`` ``burned`` ``savage`` ``facedesk`` ``highfive``",inline = False)		      
     embed.add_field(name="General Commands:", value="``ping`` ``info`` ``userinfo`` ``serverinfo`` ``membercount`` ``guildicon`` ``guildcount`` ``invite`` ``avatar`` ``online`` ``offline`` ``botinfo`` ``joined`` ``guildid`` ``channel_id`` ``serveravatar`` ``coolbot`` ``toprole`` ``permissions`` ``mcount`` ``repeat`` ``add``",inline = False) 		
     embed.add_field(name="Music Commands:", value="``play`` ``skip`` ``stop`` ``song`` ``resume`` ``pause`` ``queue`` ``volume`` ``mutemusic`` ``unmutemusic``",inline = False) 		
