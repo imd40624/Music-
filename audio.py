@@ -116,15 +116,15 @@ async def checking_voice(ctx):
 async def status_task():
     while True:
         await bot.change_presence(game=discord.Game(name='d?help', type=2))
-        await asyncio.sleep(15)
+        await asyncio.sleep(180)
         await bot.change_presence(game=discord.Game(name=str(len(set(bot.get_all_members())))+' users', type=3))
-        await asyncio.sleep(15)
+        await asyncio.sleep(180)
         await bot.change_presence(game=discord.Game(name=str(len(bot.servers))+' servers', type=3))
-        await asyncio.sleep(15)
+        await asyncio.sleep(180)
         await bot.change_presence(game=discord.Game(name='music'))
-        await asyncio.sleep(15)
+        await asyncio.sleep(180)
         await bot.change_presence(game=discord.Game(name='I need some upvotes to grow ;('))
-        await asyncio.sleep(15)
+        await asyncio.sleep(180)
 
 
 
@@ -726,6 +726,7 @@ async def help(ctx):
     embed.add_field(name="Misc Commands:", value="``tweet`` ``trans`` ``eightball``",inline = False)
     embed.add_field(name="NSFW Commands:", value="``4k`` ``anal`` ``ass`` ``girl`` ``hentai`` ``nsfw`` ``pgif`` ``pussy`` ``thighs`` ``neko nsfw``",inline = False)
     embed.add_field(name="Economy Commands:", value="``daily`` ``dice`` ``coinflip`` ``bal`` ``work`` ``lb``",inline = False)
+    embed.add_field(name="Pokemon Commands:", value="``pokemonrandom/prandom`` ``pokemoninfo/pinfo`` ``pokemonmove/pmove`` ``pokemonfusion/pfusion`` ``pokemontype/ptype``",inline = False)
     embed.add_field(name='Need more help?', value="Join our support server at https://discord.gg/Eagbjbj")  
     embed.set_thumbnail(url=server.icon_url)
     embed.set_footer(text="Requested by: " + author.name)
